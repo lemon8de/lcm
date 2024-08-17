@@ -30,6 +30,11 @@
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
 
+    $sql = "INSERT into m_mmsystem (shipment_details_ref) values (:shipment_details_ref)";
+    $stmt = $conn ->prepare($sql);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+    $stmt -> execute();
+
     //find if a polytainer detail is valid polytainer, plastic pallet, wireharness
     //select commodity from table where ref = ref
     $sql = "SELECT a.commodity, b.polytainer_detail from m_shipment_sea_details as a left join list_commodity as b on a.commodity = b.display_name where shipment_details_ref = :shipment_details_ref";

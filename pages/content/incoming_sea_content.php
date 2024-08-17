@@ -59,7 +59,7 @@
 
 <div class="card card-gray-dark card-outline">
     <div class="card-header collapsed">
-        <h3 class="card-title">View Rest of Data</h3>
+        <h3 class="card-title">View + Edit Rest of Data</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -89,26 +89,10 @@
         </div>
         <?php include '../php_static/content_tables/delivery_plan.php';?>
         <?php include '../php_static/content_tables/completion_details.php';?>
-        <!-- </div> -->
-        <?php include '../php_static/content_tables/incoming_sea_view_all.php';?>
-    </div>
-</div>
-
-<div class="card card-gray-dark card-outline">
-    <div class="card-header collapsed">
-        <h3 class="card-title">Update Data</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body table-responsive">
-        <div class="container">
-            <p>pending</p>
+        <?php include '../php_static/content_tables/polytainer_details.php';?>
+        <?php include '../php_static/content_tables/mm_system.php';?>
+        <div style="max-height: 300px; overflow-y: auto;">
+            <?php include '../php_static/content_tables/history.php';?>
         </div>
     </div>
 </div>
@@ -137,6 +121,24 @@
                     console.log(response)
                 } else {
                     document.getElementById('CompletionContent').innerHTML = "<tr><td colspan='2' class='text-muted text-center'>NO DATA</td></tr>";
+                }
+                if (response.polytainer_details) {
+                    document.getElementById('PolytainerDetailsContent').innerHTML = response.polytainer_details;
+                    console.log(response)
+                } else {
+                    document.getElementById('PolytainerDetailsContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
+                }
+                if (response.mmsystem_details) {
+                    document.getElementById('MMDetailsContent').innerHTML = response.mmsystem_details;
+                    console.log(response)
+                } else {
+                    document.getElementById('MMDetailsContent').innerHTML = "<tr><td colspan='5' class='text-muted text-center'>NO DATA</td></tr>";
+                }
+                if (response.history) {
+                    document.getElementById('HistoryContent').innerHTML = response.history;
+                    console.log(response)
+                } else {
+                    document.getElementById('HistoryContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
                 }
             }
         });
