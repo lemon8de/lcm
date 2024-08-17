@@ -108,9 +108,9 @@
             $shipment_keys = array_keys($shipment);
             $shipment_values = array_values($shipment);
             // make the dates match string wise for proper comparing
-            $shipment_values[1] = substr($shipment_values[1], 0, 10);
-            $shipment_values[2] = substr($shipment_values[2], 0, 10);
-            $shipment_values[3] = substr($shipment_values[3], 0, 10);
+            $shipment_values[1] = $shipment_values[1] == null ? null : substr($shipment_values[1], 0, 10);
+            $shipment_values[2] = $shipment_values[2] == null ? null : substr($shipment_values[2], 0, 10);
+            $shipment_values[3] = $shipment_values[3] == null ? null : substr($shipment_values[3], 0, 10);
         }
 
         // compare_set, shipment_keys and shipment_values all have the same length and data format now, we compare
