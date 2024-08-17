@@ -3,7 +3,7 @@
         <tr style="border-bottom:1px solid black">
             <th>BL NUMBER</th>
             <th>CONTAINER</th>
-            <th colspan="2">ACTION</th>
+            <th colspan="2" class="text-center">ACTION</th>
         </tr>
     </thead>
     <tbody id="ConfirmIncomingSeaTableBody">

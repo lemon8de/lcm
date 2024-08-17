@@ -1,7 +1,5 @@
 <?php 
-    require '../php_static/session_lookup.php';
     require 'db_connection.php';
-    require '../php_static/lookup_column.php';
 
     $type_of_expense = "MASTERLIST FAILURE";
     $commodity = "MASTERLIST FAILURE";
