@@ -45,6 +45,7 @@
             $stmt -> execute();
         }
     }
+    $conn = null;
 
 
     header('location: ../pages/incoming_sea.php');

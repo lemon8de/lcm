@@ -1,16 +1,13 @@
-<?php 
-echo <<<HTML
-    <table id="ConfirmIncomingSeaTable" class="table table-head-fixed text-nowrap table-hover">
-        <thead>
-            <tr style="border-bottom:1px solid black">
-                <th>BL NUMBER</th>
-                <th>CONTAINER</th>
-                <th colspan="2">ACTION</th>
-            </tr>
-        </thead>
-        <tbody id="ConfirmIncomingSeaTableBody">
-HTML;
-
+<table id="ConfirmIncomingSeaTable" class="table table-head-fixed text-nowrap table-hover">
+    <thead>
+        <tr style="border-bottom:1px solid black">
+            <th>BL NUMBER</th>
+            <th>CONTAINER</th>
+            <th colspan="2">ACTION</th>
+        </tr>
+    </thead>
+    <tbody id="ConfirmIncomingSeaTableBody">
+<?php
 $sql = "SELECT shipment_details_ref, bl_number, container from m_shipment_sea_details where confirm_departure = 0 ";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -35,8 +32,6 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         </tr>
     HTML;
 }
-
-echo <<<HTML
-        </tbody>
-    </table>
-HTML;
+?>
+    </tbody>
+</table>

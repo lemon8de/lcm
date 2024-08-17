@@ -12,6 +12,7 @@
     $stmt = $conn->prepare($sql);
     $stmt -> bindValue('shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
+    $conn = null;
 
     header('location: ../pages/incoming_sea.php');
     exit();
