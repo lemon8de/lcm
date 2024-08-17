@@ -9,6 +9,16 @@
     $stmt -> bindValue('shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
 
+    //log this in changes_table
+    $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+    $stmt -> bindValue(':table_name', 'm_shipment_sea_details');
+    $stmt -> bindValue(':column_name', 'confirm_departure');
+    $stmt -> bindValue(':changed_from', 0);
+    $stmt -> bindValue(':changed_to', 1);
+    $stmt -> execute();
+
     //create rows for other tables: delivery plan, completion details, polytainer details
     $sql = "INSERT into m_delivery_plan (shipment_details_ref) values (:shipment_details_ref)";
     $stmt = $conn ->prepare($sql);
