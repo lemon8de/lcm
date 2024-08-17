@@ -18,9 +18,9 @@
     $shipment_status = $_POST['shipment_status'];
     $vessel_name = $_POST['vessel_name'];
 
-    $eta_mnl = $_POST['eta_mnl'] == "" || $_POST['eta_mnl'] == "TBA" ? null : $_POST['eta_mnl'];
-    $ata_mnl = $_POST['ata_mnl'] == "" || $_POST['ata_mnl'] == "TBA" ? null : $_POST['ata_mnl'];
-    $atb = $_POST['atb'] == "" || $_POST['atb'] == "TBA" ? null : $_POST['atb'];
+    $eta_mnl = $_POST['eta_mnl'] == "" ? null : $_POST['eta_mnl'];
+    $ata_mnl = $_POST['ata_mnl'] == "" ? null : $_POST['ata_mnl'];
+    $atb = $_POST['atb'] == "" ? null : $_POST['atb'];
 
     //calculate the type of expense using commodity
     $method = 'sea';
@@ -37,7 +37,7 @@
     }
 
     //check if the bl_number + container combination exists
-    $sql = "SELECT id, shipment_details_ref from m_shipment_sea_details where bl_number = :bl_number and container = :container";
+    $sql = "SELECT shipment_details_ref from m_shipment_sea_details where bl_number = :bl_number and container = :container";
     $stmt = $conn->prepare($sql);
     $stmt -> bindValue(':bl_number', $bl_number);
     $stmt -> bindValue(':container', $container);
@@ -137,19 +137,20 @@
         $stmt -> bindValue(':atb', $atb);
         $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
         $stmt -> execute();
+        $conn = null;
 
         header('location: ../pages/incoming_sea.php');
         exit();
 
     } else {
         //insert into
+
+        $sql = "SELECT COUNT(*) FROM m_shipment_sea_details WHERE shipment_details_ref = :shipment_details_ref";
+        $stmt = $conn->prepare($sql);
         do {
             // Generate a new unique string
             $shipment_details_ref = uniqid('sea_', true);
-
-            $sql = "SELECT COUNT(*) FROM m_shipment_sea_details WHERE shipment_details_ref = :shipment_details_ref";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindValue(':shipment_details_ref', $shipment_details_ref);
+            $stmt->bindParam(':shipment_details_ref', $shipment_details_ref);
             $stmt->execute();
             $count = $stmt->fetchColumn();
         } while ($count > 0);
