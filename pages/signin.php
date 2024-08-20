@@ -1,5 +1,9 @@
 <?php 
 	require '../php_static/session_lookup.php';
+
+	if (isset($_SESSION['username'])) {
+		header('location: dashboard.php');
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,39 +47,16 @@
 </script>
 <!-- handles notification -->
 <?php
-if (isset($_SESSION['notification_login_fail'])) {
+if (isset($_SESSION['notification'])) {
+	$notification = json_decode($_SESSION['notification'], true);
 	echo <<<HTML
 	<script>
 	Toast.fire({
-		icon: "error",
-		title: "{$_SESSION['notification_login_fail']}",
+		icon: "{$notification['icon']}",
+		title: "{$notification['text']}",
 	})
 	</script>
 	HTML;
-	$_SESSION['notification_login_fail'] = null;
-}
-if (isset($_SESSION['notification_login_fail'])) {
-	echo <<<HTML
-	<script>
-	Toast.fire({
-		icon: "error",
-		title: "{$_SESSION['notification_login_fail']}",
-	})
-	</script>
-	HTML;
-	$_SESSION['notification_login_fail'] = null;
-}
-if (isset($_SESSION['notification_logout'])) {
-	echo <<<HTML
-	<script>
-	Toast.fire({
-		icon: "info",
-		title: "{$_SESSION['notification_logout']}",
-	})
-	</script>
-	HTML;
-	$_SESSION['notification_logout'] = null;
-	session_unset();
-    session_destroy();
+	$_SESSION['notification'] = null;
 }
 ?>

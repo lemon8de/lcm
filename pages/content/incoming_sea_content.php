@@ -12,7 +12,21 @@
     </div>
     <div class="card-body">
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
+                        <form id="file_form" enctype="multipart/form-data" action="../../php_api/import_sea_shipment.php" method="POST">
+                            <span><i class="fas fa-upload mr-2"></i>Import Forwarder's File</span><input type="file" name="import_sea_shipment_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
+                        </form>
+                    </button>
+                </div>
+                <div class="col-3">
+                    <a href="../php_api/download_forwarder_sea_template.php">
+                        <button class="btn btn-info btn-block btn-file">
+                            <span><i class="fas fa-download mr-2"></i> Download Template </span>
+                        </button>
+                    </a>
+                </div>
             </div>
             <?php include '../forms/add_shipment_sea_details_form.php';?>
         </div>
@@ -98,6 +112,10 @@
 </div>
 
 <script>
+    function fileexplorer() {
+        document.getElementById("file2").click();
+    }
+
     function loaddata() {
         console.log(this.value);
         var shipment_details_ref = this.value;
@@ -120,7 +138,7 @@
                     document.getElementById('CompletionContent').innerHTML = response.completion_details;
                     console.log(response)
                 } else {
-                    document.getElementById('CompletionContent').innerHTML = "<tr><td colspan='2' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('CompletionContent').innerHTML = "<tr><td colspan='3' class='text-muted text-center'>NO DATA</td></tr>";
                 }
                 if (response.polytainer_details) {
                     document.getElementById('PolytainerDetailsContent').innerHTML = response.polytainer_details;

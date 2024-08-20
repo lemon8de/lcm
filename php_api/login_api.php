@@ -22,11 +22,20 @@
         $_SESSION['username'] = $user['username'];
         $_SESSION['site_role'] = $user['site_role'];
 
-        $_SESSION['notification_login_success'] = 'User ' . $user['username'] . ' logged in';
+        $notification = [
+            "icon" => "success",
+            "text" => "User {$_SESSION['username']} has logged in",
+        ];
+        $_SESSION['notification'] = json_encode($notification);
         header('location: ../pages/dashboard.php');
         exit();
     } else {
-        $_SESSION['notification_login_fail'] = 'Invalid username and password.';
+        $notification = [
+            "icon" => "error",
+            "text" => "Invalid username and password",
+        ];
+        $_SESSION['notification'] = json_encode($notification);
+
         header('location: ../pages/signin.php');
         exit();
     }

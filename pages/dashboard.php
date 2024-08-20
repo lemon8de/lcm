@@ -44,15 +44,16 @@
 </script>
 <!-- handles notification -->
 <?php
-if (isset($_SESSION['notification_login_success'])) {
+if (isset($_SESSION['notification'])) {
+	$notification = json_decode($_SESSION['notification'], true);
 	echo <<<HTML
 	<script>
 	Toast.fire({
-		icon: "success",
-		title: "{$_SESSION['notification_login_success']}",
+		icon: "{$notification['icon']}",
+		title: "{$notification['text']}",
 	})
 	</script>
 	HTML;
-	$_SESSION['notification_login_success'] = null;
+	$_SESSION['notification'] = null;
 }
 ?>

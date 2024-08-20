@@ -1,6 +1,11 @@
 <?php 
     require '../php_static/session_lookup.php';
+    $_SESSION['username'] = null;
 
-    $_SESSION['notification_logout'] = 'User ' . $_SESSION['username'] . ' logged out';
+    $notification = [
+        "icon" => "info",
+        "text" => "User has logged out",
+    ];
+    $_SESSION['notification'] = json_encode($notification);
     header('location: ../pages/signin.php');
     exit();
