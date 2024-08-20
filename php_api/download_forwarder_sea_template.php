@@ -1,4 +1,4 @@
 <?php
-    header('location: ../template/accounts_template.csv');
+    header('location: ../template/sea_forwarder_file.csv');
     exit;
 ?>

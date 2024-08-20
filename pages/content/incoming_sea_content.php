@@ -15,8 +15,8 @@
             <div class="row mb-3">
                 <div class="col-3">
                     <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
-                        <form id="file_form" enctype="multipart/form-data" action="../../php_api/import_sea_shipment.php" method="POST">
-                            <span><i class="fas fa-upload mr-2"></i>Import Forwarder's File</span><input type="file" name="import_sea_shipment_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
+                        <form id="file_form" enctype="multipart/form-data" action="../php_api/import_sea_shipment.php" method="POST">
+                            <span><i class="fas fa-upload mr-2"></i>Import Forwarder's File</span><input type="file" id="import_sea" name="import_sea_shipment_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
                         </form>
                     </button>
                 </div>
@@ -113,7 +113,7 @@
 
 <script>
     function fileexplorer() {
-        document.getElementById("file2").click();
+        document.getElementById("import_sea").click();
     }
 
     function loaddata() {
