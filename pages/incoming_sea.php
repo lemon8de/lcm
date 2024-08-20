@@ -28,4 +28,5 @@
             <?php include '../php_static/web/footer.php'?>
         </div>
     </body>
+    <?php include '../php_static/web/notification_handler.php';?>
 </html>
