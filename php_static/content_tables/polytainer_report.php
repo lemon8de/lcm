@@ -136,6 +136,7 @@
                 $gray_m = $computation_result['RETURNABLE POLYTAINER']['M'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['M'] / 2754;
                 $gray_l = $computation_result['RETURNABLE POLYTAINER']['L'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['L'] / 2754;
                 $gray_xl = $computation_result['RETURNABLE POLYTAINER']['XL'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['XL'] / 2754;
+                $total = $gray_m + $gray_l + $gray_xl + $computation_result['WIREHARNESS']['count'] + $computation_result['PLASTIC PALLET']['count'];
                 echo <<<HTML
                     <td>{$computation_result['GREEN POLYTAINER']['count']}</td>
                     <td>{$computation_result['GREEN POLYTAINER']['M']}</td>
@@ -154,7 +155,7 @@
                     <td>{$computation_result['PLASTIC PALLET']['count']}</td>
                     <td>{$computation_result['PLASTIC PALLET']['quantity']}</td>
 
-                    <td>{$computation_result['TOTAL CONTAINER']}</td>
+                    <td>$total</td>
                 HTML;
 
                 $row['deliver_plan'] = $row['deliver_plan'] == null ? 'TBA' : date('Y/m/d', strtotime($row['deliver_plan']));
