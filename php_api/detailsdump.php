@@ -11,6 +11,8 @@
     $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($shipment) {
+        $shipment['required_delivery_sched'] = $shipment['required_delivery_sched'] == null ? null : substr($shipment['required_delivery_sched'], 0, 10);
+        $shipment['deliver_plan'] = $shipment['deliver_plan'] == null ? null : substr($shipment['deliver_plan'], 0, 10);
         $return_body['delivery_plan'] = <<<HTML
             <tr>
                 <td style="display: none;">
@@ -68,6 +70,7 @@
     $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($shipment) {
+        $shipment['etd'] = $shipment['etd'] == null ? null : substr($shipment['etd'], 0, 10);
         $return_body['polytainer_details'] = <<<HTML
             <tr>
                 <td style="display: none;">
