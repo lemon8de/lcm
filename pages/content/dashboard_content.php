@@ -1,17 +1,10 @@
-<h1>content</h1>
 <?php
-
 require '../php_api/db_connection.php';
-//functions: the database connection $conn
-require '../php_static/lookup_column.php';
 //functions: the function get_columns
-
-$column_names = get_columns('m_shipment_sea_details', $conn);
-
-foreach ($column_names as $col) {
-    echo <<<HTML
-        <p>$col</p>
-    HTML;
-}
-
-$conn = null;
+?>
+<div class="row">
+    <div class="col-4 mx-auto">
+        <img src="../static/img/digger.png" style="width:100%;">
+    </div>
+</div>
+<h3 class="text-center">Still working on it</h3>
