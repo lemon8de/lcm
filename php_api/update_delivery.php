@@ -1,9 +1,9 @@
 <?php
     require 'db_connection.php';
 
-    $required_delivery_sched = $_POST['required_delivery_sched'];
+    $required_delivery_sched = $_POST['required_delivery_sched'] == "" ? null : $_POST['required_delivery_sched'];
     $shipment_details_ref = $_POST['shipment_details_ref'];
-    $deliver_plan = $_POST['deliver_plan'];
+    $deliver_plan = $_POST['deliver_plan'] == "" ? null : $_POST['deliver_plan'];
     $tabs = $_POST['tabs'];
 
     //update block for updating the main table
@@ -17,6 +17,8 @@
     if ($shipment) {
         $shipment_keys = array_keys($shipment);
         $shipment_values = array_values($shipment);
+        $shipment_values[0] = $shipment_values[0] == null ? null : substr($shipment_values[0], 0, 10);
+        $shipment_values[1] = $shipment_values[1] == null ? null : substr($shipment_values[1], 0, 10);
     }
 
     // compare_set, shipment_keys and shipment_values all have the same length and data format now, we compare

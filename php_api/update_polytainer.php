@@ -4,7 +4,7 @@
     $shipment_details_ref = $_POST['shipment_details_ref'];
     $polytainer_size = $_POST['polytainer_size'];
     $polytainer_quantity = $_POST['polytainer_quantity'];
-    $etd = $_POST['etd'];
+    $etd = $_POST['etd'] == "" ? null : $_POST['etd'];
 
     //update block for updating the main table
     $sql = "SELECT polytainer_size, polytainer_quantity, etd from m_polytainer_details where shipment_details_ref = :shipment_details_ref";
@@ -17,6 +17,7 @@
     if ($shipment) {
         $shipment_keys = array_keys($shipment);
         $shipment_values = array_values($shipment);
+        $shipment_values[2] = $shipment_values[2] == null ? null : substr($shipment_values[2], 0, 10);
     }
 
     // compare_set, shipment_keys and shipment_values all have the same length and data format now, we compare

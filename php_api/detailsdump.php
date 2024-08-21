@@ -80,7 +80,7 @@
                     <input value="{$shipment['polytainer_quantity']}" type="text" class="form-control" name="polytainer_quantity">
                 </td>
                 <td>
-                    <input value="{$shipment['etd']}" type="text" class="form-control" name="etd">
+                    <input value="{$shipment['etd']}" type="date" class="form-control" name="etd">
                 </td>
                 <td>
                     <button type="submit" class="btn bg-primary btn-block">Update Polytainer Details</button>
