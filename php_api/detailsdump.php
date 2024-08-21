@@ -17,10 +17,10 @@
                     <input readonly value="$shipment_details_ref" type="text" class="form-control" name="shipment_details_ref">
                 </td>
                 <td>
-                    <input value="{$shipment['required_delivery_sched']}" type="text" class="form-control" name="required_delivery_sched">
+                    <input value="{$shipment['required_delivery_sched']}" type="date" class="form-control" name="required_delivery_sched">
                 </td>
                 <td>
-                    <input value="{$shipment['deliver_plan']}" type="text" class="form-control" name="deliver_plan">
+                    <input value="{$shipment['deliver_plan']}" type="date" class="form-control" name="deliver_plan">
                 </td>
                 <td>
                     <input value="{$shipment['tabs']}" type="text" class="form-control" name="tabs">
