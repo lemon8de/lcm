@@ -67,12 +67,11 @@
             $stmt_main = $conn -> prepare($sql_main);
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
+                $row['etd'] = $row['etd'] == null ? 'TBA' : date('Y/m/d', strtotime($row['etd']));
+                $row['eta_mnl'] = $row['eta_mnl'] == null ? 'TBA' : date('Y/m/d', strtotime($row['eta_mnl']));
                 $transit_start = strtotime($row['eta_mnl']);
                 $transit_end = strtotime($row['etd']);
 
-                $row['etd'] = $row['etd'] == null ? 'TBA' : date('Y/m/d', strtotime($row['etd']));
-                $row['eta_mnl'] = $row['eta_mnl'] == null ? 'TBA' : date('Y/m/d', strtotime($row['eta_mnl']));
                 echo <<<HTML
                     <tr>
                 HTML;
