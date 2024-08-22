@@ -50,8 +50,39 @@
             $stmt -> execute();
         }
     }
+
+    //invoice table creation
+    $sql = "SELECT commercial_invoice from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+    $stmt -> execute();
+
+    $sql_duplicate = "SELECT id from import_data where shipping_invoice = :shipping_invoice";
+    $stmt_duplicate = $conn -> prepare($sql_duplicate);
+
+    $sql_invoice = "INSERT into import_data (shipment_details_ref, shipping_invoice) values (:shipment_details_ref, :shipping_invoice)";
+    $stmt_invoice = $conn -> prepare($sql_invoice);
+
+    $invoices  = $stmt -> fetch(PDO::FETCH_COLUMN);
+    if ($invoices) {
+        $pattern = '/([A-Za-z0-9-]+(?:_[A-Z])?)/';
+
+        if (preg_match_all($pattern, $invoices, $matches)) {
+            foreach ($matches[0] as $match) {
+
+                $stmt_duplicate -> bindParam(':shipping_invoice', $match);
+                $stmt_duplicate -> execute();
+                $duplicate = $stmt_duplicate -> fetch(PDO::FETCH_ASSOC);
+
+                if (!$duplicate) {
+                    $stmt_invoice -> bindParam(':shipment_details_ref', $shipment_details_ref);
+                    $stmt_invoice -> bindParam(':shipping_invoice', $match);
+                    $stmt_invoice -> execute();
+                }
+            }
+        } 
+    }
+
     $conn = null;
-
-
     header('location: ../pages/incoming_sea.php');
     exit();

@@ -1,7 +1,7 @@
 <?php
     require '../php_static/session_lookup.php';
-    $directory = " / Incoming Delivery / Sea Shipments / Polytainer Report Generation";
-    $bar_whois_active = "sea_details";
+    $directory = " / Incoming Delivery / Sea Shipments / Import Data Report Generation";
+    $bar_whois_active = "sea_import_details";
     require '../php_static/block_urlcreep.php';
     require '../php_api/db_connection.php';
 ?>
@@ -21,7 +21,7 @@
             <div class="content-wrapper">
                 <div class="content-header">
                     <div class="container-fluid">
-                        <?php include 'content/sea_details_content.php'?>
+                        <?php include 'content/sea_import_details_content.php'?>
                     </div>
                 </div>
             </div>
