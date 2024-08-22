@@ -57,7 +57,7 @@
             $stmt = $conn -> prepare($sql);
             $stmt -> execute();
 
-            $sql_main = "SELECT a.shipment_details_ref, a.commodity, c.polytainer_size, c.polytainer_quantity from m_shipment_sea_details as a join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref where b.vessel_name = :vessel_name and b.eta_mnl = :eta_mnl and c.etd = :etd";
+            $sql_main = "SELECT a.shipment_details_ref, a.commodity, c.polytainer_size, c.polytainer_quantity from m_shipment_sea_details as a join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref where b.vessel_name = :vessel_name and (b.eta_mnl = :eta_mnl or b.eta_mnl is null) and (c.etd = :etd or c.etd is null)";
             $stmt_main = $conn -> prepare($sql_main);
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -134,7 +134,7 @@
                 $gray_m = $computation_result['RETURNABLE POLYTAINER']['M'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['M'] / 2754;
                 $gray_l = $computation_result['RETURNABLE POLYTAINER']['L'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['L'] / 2754;
                 $gray_xl = $computation_result['RETURNABLE POLYTAINER']['XL'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['XL'] / 2754;
-                $total = $gray_m + $gray_l + $gray_xl + $computation_result['WIREHARNESS']['count'] + $computation_result['PLASTIC PALLET']['count'];
+                $total = $gray_m + $gray_l + $gray_xl + $computation_result['WIREHARNESS']['count'] + $computation_result['PLASTIC PALLET']['count'] + $computation_result['GREEN POLYTAINER']['count'];
                 echo <<<HTML
                     <td>{$computation_result['GREEN POLYTAINER']['count']}</td>
                     <td>{$computation_result['GREEN POLYTAINER']['M']}</td>
