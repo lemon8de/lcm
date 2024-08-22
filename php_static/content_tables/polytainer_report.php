@@ -1,4 +1,3 @@
-<form action="../php_api/update_polytainer.php" method="POST">
 <table id="" class="table table-head-fixed text-nowrap table-hover mb-4">
     <thead>
         <tr>
@@ -58,15 +57,12 @@
             $stmt = $conn -> prepare($sql);
             $stmt -> execute();
 
-            $sql_vessel_names = "SELECT distinct vessel_name from m_vessel_details";
-            $stmt_vnames = $conn -> prepare($sql_vessel_names);
-            $stmt_vnames -> execute();
-            $vessel_names = $stmt_vnames->fetchAll(PDO::FETCH_COLUMN);
-
-            $sql_main = "SELECT a.shipment_details_ref, a.commodity, c.polytainer_size, c.polytainer_quantity from m_shipment_sea_details as a join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref where vessel_name = :vessel_name";
+            $sql_main = "SELECT a.shipment_details_ref, a.commodity, c.polytainer_size, c.polytainer_quantity from m_shipment_sea_details as a join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref where b.vessel_name = :vessel_name and b.eta_mnl = :eta_mnl and c.etd = :etd";
             $stmt_main = $conn -> prepare($sql_main);
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $q_eta_mnl = $row['eta_mnl']; //save this for the query below, the TBA change should be done for the displaying only
+                $q_etd = $row['etd']; //save this for the query below, the TBA change should be done for the displaying only
                 $row['etd'] = $row['etd'] == null ? 'TBA' : date('Y/m/d', strtotime($row['etd']));
                 $row['eta_mnl'] = $row['eta_mnl'] == null ? 'TBA' : date('Y/m/d', strtotime($row['eta_mnl']));
                 $transit_start = strtotime($row['eta_mnl']);
@@ -115,6 +111,8 @@
                 ];
 
                 $stmt_main -> bindParam(':vessel_name', $row['vessel_name']);
+                $stmt_main -> bindParam(':eta_mnl', $q_eta_mnl);
+                $stmt_main -> bindParam(':etd', $q_etd);
                 $stmt_main -> execute();
                 while ($computation_q = $stmt_main->fetch(PDO::FETCH_ASSOC)) {
                     $polytainer_size = $computation_q['polytainer_size'];
@@ -169,4 +167,3 @@
         ?>
     </tbody>
 </table>
-</form>
