@@ -12,4 +12,3 @@ try {
     echo 'NO CONNECTION'.$e->getMessage();
 }
 //end database
-?>
