@@ -4,7 +4,7 @@
     $required_delivery_sched = $_POST['required_delivery_sched'] == "" ? null : $_POST['required_delivery_sched'];
     $shipment_details_ref = $_POST['shipment_details_ref'];
     $deliver_plan = $_POST['deliver_plan'] == "" ? null : $_POST['deliver_plan'];
-    $tabs = $_POST['tabs'];
+    $tabs = $_POST['tabs'] == '' ? null : $_POST['tabs'];
 
     //update block for updating the main table
     $sql = "SELECT required_delivery_sched, deliver_plan, tabs from m_delivery_plan where shipment_details_ref = :shipment_details_ref";

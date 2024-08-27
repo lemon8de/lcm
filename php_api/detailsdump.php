@@ -13,6 +13,7 @@
     if ($shipment) {
         $shipment['required_delivery_sched'] = $shipment['required_delivery_sched'] == null ? null : substr($shipment['required_delivery_sched'], 0, 10);
         $shipment['deliver_plan'] = $shipment['deliver_plan'] == null ? null : substr($shipment['deliver_plan'], 0, 10);
+        $shipment['tabs'] = $shipment['tabs'] == null ? null : substr($shipment['tabs'], 0, 5);
         $return_body['delivery_plan'] = <<<HTML
             <tr>
                 <td style="display: none;">
@@ -25,7 +26,7 @@
                     <input value="{$shipment['deliver_plan']}" type="date" class="form-control" name="deliver_plan">
                 </td>
                 <td>
-                    <input value="{$shipment['tabs']}" type="text" class="form-control" name="tabs">
+                    <input value="{$shipment['tabs']}" type="time" class="form-control" name="tabs">
                 </td>
                 <td>
                     <button type="submit" class="btn bg-primary btn-block">Update Delivery Details</button>
