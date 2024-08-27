@@ -131,9 +131,9 @@
 
                     $computation_result["TOTAL CONTAINER"]++;
                 }
-                $gray_m = $computation_result['RETURNABLE POLYTAINER']['M'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['M'] / 2754;
-                $gray_l = $computation_result['RETURNABLE POLYTAINER']['L'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['L'] / 2754;
-                $gray_xl = $computation_result['RETURNABLE POLYTAINER']['XL'] == 0 ? 0 : $computation_result['RETURNABLE POLYTAINER']['XL'] / 2754;
+                $gray_m = $computation_result['RETURNABLE POLYTAINER']['M'] == 0 ? 0 : ceil($computation_result['RETURNABLE POLYTAINER']['M'] / 2754);
+                $gray_l = $computation_result['RETURNABLE POLYTAINER']['L'] == 0 ? 0 : ceil($computation_result['RETURNABLE POLYTAINER']['L'] / 2754);
+                $gray_xl = $computation_result['RETURNABLE POLYTAINER']['XL'] == 0 ? 0 : ceil($computation_result['RETURNABLE POLYTAINER']['XL'] / 2754);
                 $total = $gray_m + $gray_l + $gray_xl + $computation_result['WIREHARNESS']['count'] + $computation_result['PLASTIC PALLET']['count'] + $computation_result['GREEN POLYTAINER']['count'];
                 echo <<<HTML
                     <td>{$computation_result['GREEN POLYTAINER']['count']}</td>

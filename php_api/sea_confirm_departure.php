@@ -65,7 +65,7 @@
 
     $invoices  = $stmt -> fetch(PDO::FETCH_COLUMN);
     if ($invoices) {
-        $pattern = '/([A-Za-z0-9-]+(?:_[A-Z])?)/';
+        $pattern = '/([A-Za-z0-9-_]+)/';
 
         if (preg_match_all($pattern, $invoices, $matches)) {
             foreach ($matches[0] as $match) {

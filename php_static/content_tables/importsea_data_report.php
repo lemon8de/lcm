@@ -36,7 +36,6 @@
             <th>NO OF DAYS AT PORT</th>
             <th>NO OF DAYS AT FALP</th>
             <th>TYPE OF EXPENSE</th>
-            <th>ETD</th>
             <th>IP NUMBER</th>
             <th>DR NUMBER</th>
             <th>RECEIVED BY</th>
@@ -57,7 +56,7 @@
     </thead>
     <tbody id="">
         <?php
-            $sql = "SELECT a.*, b.*, c.*, d.*, e.*, f.*, g.*, f.etd as etd_1, a.etd as etd_2, a.incoterm as import_incoterm from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref";
+            $sql = "SELECT a.*, b.*, c.*, d.*, e.*, f.*, g.* from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref";
             $stmt = $conn -> prepare($sql);
             $stmt -> execute();
 
@@ -74,7 +73,7 @@
                         <td>{$row['commodity_uo']}</td>
                         <td>{$row['commercial_invoice_currency']}</td>
                         <td>{$row['commercial_invoice_amount']}</td>
-                        <td>{$row['import_incoterm']}</td>
+                        <td>{$row['incoterm']}</td>
                         <td>{$row['gross_weight']}</td>
                         <td>{$row['forwarder_name']}</td>
                         <td>{$row['bl_number']}</td>
@@ -93,13 +92,12 @@
                         <td>{$row['actual_received_at_falp']}</td>
                         <td>{$row['polytainer_size']}</td>
                         <td>{$row['polytainer_quantity']}</td>
-                        <td>{$row['etd_1']}</td>
+                        <td>{$row['etd']}</td>
                         <td>{$row['container_status']}</td>
                         <td>{$row['date_return_reused']}</td>
                         <td>{$row['no_days_port']}</td>
                         <td>{$row['no_days_falp']}</td>
                         <td>{$row['type_of_expense']}</td>
-                        <td>{$row['etd_2']}</td>
                         <td>{$row['ip_number']}</td>
                         <td>{$row['dr_number']}</td>
                         <td>{$row['received_by']}</td>

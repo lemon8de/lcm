@@ -36,11 +36,12 @@
         }
     }
 
-    $sql = "UPDATE m_polytainer_details set polytainer_size = :polytainer_size, polytainer_quantity = :polytainer_quantity, etd = :etd";
+    $sql = "UPDATE m_polytainer_details set polytainer_size = :polytainer_size, polytainer_quantity = :polytainer_quantity, etd = :etd where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':polytainer_size', $polytainer_size);
     $stmt -> bindValue(':polytainer_quantity', $polytainer_quantity);
     $stmt -> bindValue(':etd', $etd);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
 
     $conn = null;
