@@ -114,6 +114,11 @@
                     document.getElementById('VesselDetailsATB').value = response.atb;
                     document.getElementById('VesselDetailsToolTip').style.display = 'block';
                     document.getElementById('ToolTipInfo').innerHTML = response.info_html;
+                } else {
+                    document.getElementById('VesselDetailsToolTip').style.display = 'none';
+                    document.getElementById('VesselDetailsETA').value = '';
+                    document.getElementById('VesselDetailsATA').value = '';
+                    document.getElementById('VesselDetailsATB').value = '';
                 }
             }
         });

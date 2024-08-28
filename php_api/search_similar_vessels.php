@@ -9,7 +9,7 @@ $stmt -> bindParam(':vessel_name', $vessel_name);
 $stmt -> execute();
 $data = $stmt -> fetch(PDO::FETCH_ASSOC);
 
-$sql_ref = "SELECT shipment_details_ref, vessel_name from m_vessel_details where vessel_name = :vessel_name order by id desc";
+$sql_ref = "SELECT shipment_details_ref, vessel_name from m_vessel_details where vessel_name = :vessel_name and (eta_mnl = :eta_mnl or eta_mnl is null) and (ata_mnl = :ata_mnl or ata_mnl is null) and (atb = :atb or atb is null) order by id desc";
 $stmt_ref = $conn -> prepare($sql_ref);
 $sql_container = "SELECT container from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
 $stmt_container = $conn -> prepare($sql_container);
@@ -21,9 +21,11 @@ if ($data) {
     $return_body['atb'] = !isset($data['atb']) ? null : date('Y-m-d', strtotime($data['atb']));
 
     $stmt_ref -> bindParam(':vessel_name', $data['vessel_name']);
+    $stmt_ref -> bindParam(':eta_mnl', $data['eta_mnl']);
+    $stmt_ref -> bindParam(':ata_mnl', $data['ata_mnl']);
+    $stmt_ref -> bindParam(':atb', $data['atb']);
     $stmt_ref -> execute();
     $info_html = "<i class='icon fas fa-info'></i>This entry shares vessel details with: ";
-
     while ($shipment = $stmt_ref -> fetch(PDO::FETCH_ASSOC)) {
         $stmt_container -> bindParam(':shipment_details_ref', $shipment['shipment_details_ref']);
         $stmt_container -> execute();
