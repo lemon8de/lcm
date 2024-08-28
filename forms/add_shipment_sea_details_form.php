@@ -58,24 +58,30 @@
         </div>
     </div>
     <div class="row mb-1">
-        <h3>Vessel Details</h3>
+        <div class="col-3">
+            <h3>Vessel Details</h3>
+        </div>
+        <div class="col-9" id="VesselDetailsToolTip" style="display:none;">
+            <div class="alert alert-info" id="ToolTipInfo">
+            </div>
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col-3">
             <label>VESSEL NAME</label>
-            <input type="text" class="form-control" name="vessel_name" required>
+            <input type="text" id="VesselDetailsName" class="form-control" name="vessel_name" required onkeyup="debounce(find_similar, 150)">
         </div>
         <div class="col-3">
             <label>ETA MNL (YYY/MM/DD)</label>
-            <input type="date" class="form-control" name="eta_mnl">
+            <input type="date" id="VesselDetailsETA" class="form-control" name="eta_mnl">
         </div>
         <div class="col-3">
             <label>ATA MNL (YYYY/MM/DD)</label>
-            <input type="date" class="form-control" name="ata_mnl">
+            <input type="date" id="VesselDetailsATA" class="form-control" name="ata_mnl">
         </div>
         <div class="col-3">
             <label>ATB(YYYY/MM/DD)</label>
-            <input type="date" class="form-control" name="atb">
+            <input type="date" id="VesselDetailsATB" class="form-control" name="atb">
         </div>
     </div>
     <div class="row">
@@ -84,3 +90,32 @@
         </div>
     </div>
 </form>
+
+<script>
+    function debounce(method, delay) {
+        clearTimeout(method._tId);
+        method._tId = setTimeout(function() {
+            method();
+        }, delay);
+    }
+    function find_similar() {
+        $.ajax({
+            url: '../php_api/search_similar_vessels.php',
+            type: 'GET',
+            data: {
+                'vessel_name' : document.getElementById('VesselDetailsName').value,
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if (response.exists) {
+                    document.getElementById('VesselDetailsETA').value = response.eta_mnl;
+                    document.getElementById('VesselDetailsATA').value = response.ata_mnl;
+                    document.getElementById('VesselDetailsATB').value = response.atb;
+                    document.getElementById('VesselDetailsToolTip').style.display = 'block';
+                    document.getElementById('ToolTipInfo').innerHTML = response.info_html;
+                }
+            }
+        });
+    }
+</script>
