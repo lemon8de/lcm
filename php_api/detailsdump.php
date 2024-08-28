@@ -26,7 +26,7 @@
                     <input value="{$shipment['deliver_plan']}" type="date" class="form-control" name="deliver_plan">
                 </td>
                 <td>
-                    <input value="{$shipment['tabs']}" type="time" class="form-control" name="tabs">
+                    <input value="{$shipment['tabs']}" type="text" class="form-control" name="tabs">
                 </td>
                 <td>
                     <button type="submit" class="btn bg-primary btn-block">Update Delivery Details</button>

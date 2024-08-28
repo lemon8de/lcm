@@ -13,7 +13,6 @@
     $commercial_invoice_amount = convert_empty_tonull($_POST['commercial_invoice_amount']);
     $gross_weight = convert_empty_tonull($_POST['gross_weight']);
     $incoterm = convert_empty_tonull($_POST['incoterm']);
-    $etd = convert_empty_tonull($_POST['etd']);
     $ip_number = convert_empty_tonull($_POST['ip_number']);
     $dr_number = convert_empty_tonull($_POST['dr_number']);
     $received_by = convert_empty_tonull($_POST['received_by']);
@@ -32,13 +31,13 @@
     $assessment_date = convert_empty_tonull($_POST['assessment_date']);
 
     //update block for updating the main table
-    $sql = "SELECT shipper, port, commodity_quantity, commodity_uo, commercial_invoice_currency, commercial_invoice_amount, gross_weight, incoterm, etd, ip_number, dr_number, received_by, time_received, total_custom_value, duitable_value, rate, customs_duty, landed_cost, vat, bank_charges, wharfage, arrastre_charges, entry_no, or_number, assessment_date from import_data where shipping_invoice = :shipping_invoice";
+    $sql = "SELECT shipper, port, commodity_quantity, commodity_uo, commercial_invoice_currency, commercial_invoice_amount, gross_weight, incoterm, ip_number, dr_number, received_by, time_received, total_custom_value, duitable_value, rate, customs_duty, landed_cost, vat, bank_charges, wharfage, arrastre_charges, entry_no, or_number, assessment_date from import_data where shipping_invoice = :shipping_invoice";
     $stmt = $conn-> prepare($sql);
     $stmt -> bindValue(':shipping_invoice', $shipping_invoice);
     $stmt -> execute();
     $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $compare_set = array($shipper, $port, $commodity_quantity, $commodity_uo, $commercial_invoice_currency, $commercial_invoice_amount, $gross_weight, $incoterm, $etd, $ip_number, $dr_number, $received_by, $time_received, $total_custom_value, $duitable_value, $rate, $customs_duty, $landed_cost, $vat, $bank_charges, $wharfage, $arrastre_charges, $entry_no, $or_number, $assessment_date);
+    $compare_set = array($shipper, $port, $commodity_quantity, $commodity_uo, $commercial_invoice_currency, $commercial_invoice_amount, $gross_weight, $incoterm, $ip_number, $dr_number, $received_by, $time_received, $total_custom_value, $duitable_value, $rate, $customs_duty, $landed_cost, $vat, $bank_charges, $wharfage, $arrastre_charges, $entry_no, $or_number, $assessment_date);
     if ($shipment) {
         $shipment_keys = array_keys($shipment);
         $shipment_values = array_values($shipment);
@@ -60,7 +59,7 @@
         }
     }
 
-    $sql = "UPDATE import_data SET shipper = :shipper, port = :port, commodity_quantity = :commodity_quantity, commodity_uo = :commodity_uo, commercial_invoice_currency = :commercial_invoice_currency, commercial_invoice_amount = :commercial_invoice_amount, gross_weight = :gross_weight, incoterm = :incoterm, etd = :etd, ip_number = :ip_number, dr_number = :dr_number, received_by = :received_by, time_received = :time_received, total_custom_value = :total_custom_value, duitable_value = :duitable_value, rate = :rate, customs_duty = :customs_duty, landed_cost = :landed_cost, vat = :vat, bank_charges = :bank_charges, wharfage = :wharfage, arrastre_charges = :arrastre_charges, entry_no = :entry_no, or_number = :or_number, assessment_date = :assessment_date WHERE shipping_invoice = :shipping_invoice";
+    $sql = "UPDATE import_data SET shipper = :shipper, port = :port, commodity_quantity = :commodity_quantity, commodity_uo = :commodity_uo, commercial_invoice_currency = :commercial_invoice_currency, commercial_invoice_amount = :commercial_invoice_amount, gross_weight = :gross_weight, incoterm = :incoterm, ip_number = :ip_number, dr_number = :dr_number, received_by = :received_by, time_received = :time_received, total_custom_value = :total_custom_value, duitable_value = :duitable_value, rate = :rate, customs_duty = :customs_duty, landed_cost = :landed_cost, vat = :vat, bank_charges = :bank_charges, wharfage = :wharfage, arrastre_charges = :arrastre_charges, entry_no = :entry_no, or_number = :or_number, assessment_date = :assessment_date WHERE shipping_invoice = :shipping_invoice";
     $stmt = $conn -> prepare($sql);
     $stmt->bindValue(':shipper', $shipper);
     $stmt->bindValue(':port', $port);
@@ -70,7 +69,6 @@
     $stmt->bindValue(':commercial_invoice_amount', $commercial_invoice_amount);
     $stmt->bindValue(':gross_weight', $gross_weight);
     $stmt->bindValue(':incoterm', $incoterm);
-    $stmt->bindValue(':etd', $etd);
     $stmt->bindValue(':ip_number', $ip_number);
     $stmt->bindValue(':dr_number', $dr_number);
     $stmt->bindValue(':received_by', $received_by);

@@ -16,6 +16,32 @@
     $html = "";
     $forbidden = ["id", "shipment_details_ref"];
     $hidden = ["shipping_invoice"];
+    $type = [
+        'shipper' => 'text',
+        'port' => 'text',
+        'commodity_quantity' => 'number',
+        'commodity_uo' => 'number',
+        'commercial_invoice_currency' => 'text',
+        'commercial_invoice_amount' => 'number',
+        'gross_weight' => 'number',
+        'incoterm' => 'text',
+        'ip_number' => 'text',
+        'dr_number' => 'text',
+        'received_by' => 'text',
+        'time_received' => 'text',
+        'total_custom_value' => 'number',
+        'duitable_value' => 'number',
+        'rate' => 'number',
+        'customs_duty' => 'number',
+        'landed_cost' => 'number',
+        'vat' => 'number',
+        'bank_charges' => 'number',
+        'wharfage' => 'number',
+        'arrastre_charges' => 'number',
+        'entry_no' => 'text',
+        'or_number' => 'text',
+        'assessment_date' => 'date',
+    ];
     for ($i = 0; $i < count($keys); $i++) {
         if (in_array($keys[$i], $forbidden)) {
             continue;
@@ -27,13 +53,17 @@
             continue;
         }
         $label = strtoupper(str_replace('_', ' ', $keys[$i]));
+        $step = $type[$keys[$i]] == 'number' ? 'step="0.01"' : '';
+        if (is_numeric($values[$i])) {
+            $values[$i] = round((float)$values[$i], 2);
+        }
         $html .= <<<HTML
             <div class="row mt-2 justify-content-center">
                 <div class="col-5">
                     <label>{$label}</label>
                 </div>
                 <div class="col-4">
-                    <input class="form-control" type="text" name="$keys[$i]" value="$values[$i]">
+                    <input class="form-control" type="{$type[$keys[$i]]}" {$step} name="$keys[$i]" value="$values[$i]">
                 </div>
             </div>
         HTML;

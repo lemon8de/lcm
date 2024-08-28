@@ -11,6 +11,13 @@
         </div>
     </div>
     <div class="card-body table-responsive">
+        <div class="col-3 mb-3">
+            <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
+                <form id="file_form" enctype="multipart/form-data" action="../php_api/import_sea_peza.php" method="POST">
+                    <span><i class="fas fa-upload mr-2"></i>PEZA Import</span><input type="file" id="import_sea" name="import_sea_shipment_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
+                </form>
+            </button>
+        </div>
         <!-- <div class="container"> -->
             <?php include '../php_static/content_tables/importsea_data_report.php';?>
         <!-- </div> -->
@@ -52,6 +59,9 @@
 </div>
 
 <script>
+    function fileexplorer() {
+        document.getElementById("import_sea").click();
+    }
     function loaddata() {
         console.log(this.value);
         $.ajax({
