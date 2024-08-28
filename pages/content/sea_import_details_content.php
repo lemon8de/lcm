@@ -14,7 +14,7 @@
         <div class="col-3 mb-3">
             <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
                 <form id="file_form" enctype="multipart/form-data" action="../php_api/import_sea_peza.php" method="POST">
-                    <span><i class="fas fa-upload mr-2"></i>PEZA Import</span><input type="file" id="import_sea" name="import_sea_shipment_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
+                    <span><i class="fas fa-upload mr-2"></i>PEZA Import</span><input type="file" id="peza_import_sea" name="import_sea_peza_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
                 </form>
             </button>
         </div>
@@ -60,7 +60,7 @@
 
 <script>
     function fileexplorer() {
-        document.getElementById("import_sea").click();
+        document.getElementById("peza_import_sea").click();
     }
     function loaddata() {
         console.log(this.value);

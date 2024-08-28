@@ -13,6 +13,8 @@
 
             $created = 0;
             $updated = 0;
+
+            //TODO move the sql and the prepare out of the loop for optimization, when? never lol i'm bored
             while (($line = fgetcsv($csvFile)) !== false) {
                 // Check if the row is blank or consists only of whitespace
                 if (empty(implode('', $line))) {
