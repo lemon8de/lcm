@@ -35,7 +35,7 @@
 
 <div class="card card-gray-dark card-outline">
     <div class="card-header collapsed">
-        <h3 class="card-title">Confirm Shipment</h3>
+        <h3 class="card-title">Shipment Documentation</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -86,7 +86,7 @@
     <div class="card-body table-responsive">
         <!-- <div class="container"> -->
         <div class="row mb-4">
-            <select id="shipment_details_ref_select" class="form-control" required onchange="loaddata.call(this)">
+            <!-- <select id="shipment_details_ref_select" class="form-control" required onchange="loaddata.call(this)">
                 <option value="" disabled selected>Select BL  |  CONTAINER</option>
                 <?php 
                     $sql = "SELECT shipment_details_ref, bl_number, container from m_shipment_sea_details";
@@ -99,8 +99,28 @@
                         HTML;
                     }
                 ?>
-            </select>
+            </select> -->
+            <div class="col-5 mx-auto">
+                <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)">
+            </div>
         </div>
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <table class="table table-head-fixed text-nowrap table-hover mb-4">
+                    <thead>
+                        <tr>
+                            <th>BL NUMBER</th>
+                            <th>CONTAINER</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ContainerSearch">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php include '../php_static/content_tables/shipment_details.php';?>
+        <?php include '../php_static/content_tables/vessel_details.php';?>
+
         <?php include '../php_static/content_tables/delivery_plan.php';?>
         <?php include '../php_static/content_tables/completion_details.php';?>
         <?php include '../php_static/content_tables/polytainer_details.php';?>
@@ -112,13 +132,41 @@
 </div>
 
 <script>
+
+    function debounce(method, delay) {
+        clearTimeout(method._tId);
+        method._tId = setTimeout(function() {
+            method();
+        }, delay);
+    }
+
+    function searchContainer() {
+        console.log('started');
+
+        console.log(document.getElementById('ContainerInput').value);
+        $.ajax({
+            url: '../php_api/search_container.php',
+            type: 'GET',
+            data: {
+                'container' : document.getElementById('ContainerInput').value,
+            },
+            dataType: 'json',
+            success: function (response) {
+                document.getElementById('ContainerSearch').innerHTML = response.inner_html;
+            }
+        });
+        console.log('finished');
+    }
+
     function fileexplorer() {
         document.getElementById("import_sea").click();
     }
 
-    function loaddata() {
-        console.log(this.value);
-        var shipment_details_ref = this.value;
+    //function loaddata() {
+    function loaddata(row) {
+        //console.log(this.value);
+        var value = row.getAttribute('data-value');
+        var shipment_details_ref = value;
 
         $.ajax({
             url: '../php_api/detailsdump.php',
