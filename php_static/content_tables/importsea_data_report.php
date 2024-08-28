@@ -61,6 +61,11 @@
             $stmt -> execute();
 
             while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+                foreach ($row as $key => $value) {
+                    if (is_numeric($value)) {
+                        $row[$key] = round((float)$value, 2);
+                    }
+                }
                 echo <<<HTML
                     <tr>
                         <td>{$row['shipper']}</td>
