@@ -133,6 +133,7 @@
                             <?php include '../php_static/content_tables/polytainer_details.php';?>
                         </div>
                         <div class="tab-pane fade" id="MMTabDiv" role="tabpanel">
+                            <span class="text-danger">Dev Note: Days won't automatically update.</span>
                             <?php include '../php_static/content_tables/mm_system.php';?>
                         </div>
                         <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
