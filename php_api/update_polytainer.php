@@ -45,5 +45,12 @@
     $stmt -> execute();
 
     $conn = null;
-    header('location: ../pages/incoming_sea.php');
-    exit();
+    //header('location: ../pages/incoming_sea.php');
+    //exit();
+    $notification = [
+        "icon" => "success",
+        "text" => "Details Updated",
+    ];
+    $return_body = [];
+    $return_body['notification'] = $notification;
+    echo json_encode($return_body);

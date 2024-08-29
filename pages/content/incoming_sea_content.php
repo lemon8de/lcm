@@ -69,7 +69,7 @@
             <div class="col-2">
                 <div class="row">
                     <div class="col-12">
-                    <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)">
+                    <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)" autocomplete="off">
                     </div>
                 </div>
                 <div class="row">
@@ -151,7 +151,7 @@
 
 <div class="card card-gray-dark card-outline">
     <div class="card-header collapsed">
-        <h3 class="card-title">View Data from Forwarder's File</h3>
+        <h3 class="card-title">View Data from Forwarder's File<br><span class="text-danger">Dev Note: This won't update when we click update on the new UI above, a refresh is needed. This is not a priority to fix</span></h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -211,31 +211,31 @@
             success: function (response) {
                 if (response.delivery_plan) {
                     document.getElementById('DeliveryPlanContent').innerHTML = response.delivery_plan;
-                    console.log(response)
+                    //console.log(response)
                 } else {
                     document.getElementById('DeliveryPlanContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
                 }
                 if (response.completion_details) {
                     document.getElementById('CompletionContent').innerHTML = response.completion_details;
-                    console.log(response)
+                    //console.log(response)
                 } else {
                     document.getElementById('CompletionContent').innerHTML = "<tr><td colspan='3' class='text-muted text-center'>NO DATA</td></tr>";
                 }
                 if (response.polytainer_details) {
                     document.getElementById('PolytainerDetailsContent').innerHTML = response.polytainer_details;
-                    console.log(response)
+                    //console.log(response)
                 } else {
                     document.getElementById('PolytainerDetailsContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
                 }
                 if (response.mmsystem_details) {
                     document.getElementById('MMDetailsContent').innerHTML = response.mmsystem_details;
-                    console.log(response)
+                    //console.log(response)
                 } else {
                     document.getElementById('MMDetailsContent').innerHTML = "<tr><td colspan='5' class='text-muted text-center'>NO DATA</td></tr>";
                 }
                 if (response.history) {
                     document.getElementById('HistoryContent').innerHTML = response.history;
-                    console.log(response)
+                    //console.log(response)
                 } else {
                     document.getElementById('HistoryContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
                 }

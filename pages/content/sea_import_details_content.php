@@ -63,7 +63,7 @@
         document.getElementById("peza_import_sea").click();
     }
     function loaddata() {
-        console.log(this.value);
+        //console.log(this.value);
         $.ajax({
             url: '../php_api/get_import_data.php',
             type: 'GET',
@@ -72,7 +72,7 @@
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 document.getElementById('ImportInformation').innerHTML = response.html;
             }
         });
