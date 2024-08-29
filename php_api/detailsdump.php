@@ -147,6 +147,167 @@
         HTML;
     }
 
+
+    //shipment details
+    $sql = "SELECT shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+    $stmt -> execute();
+    $shipment = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($shipment) {
+        $return_body['shipment'] = <<<HTML
+            <input readonly style="display:none;" value="{$shipment['shipment_details_ref']}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>BL NUMBER</label>
+                    <input type="text" class="form-control" value="{$shipment['bl_number']}" name="bl_number" required>
+                </div>
+                <div class="col-6">
+                    <label>CONTAINER</label>
+                    <input type="text" class="form-control" value="{$shipment['container']}" name="container" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>CONTAINER SIZE</label>
+                    <input type="text" class="form-control" value="{$shipment['container_size']}" name="container_size" required>
+                </div>
+                <div class="col-6">
+                    <label>COMMERCIAL INVOICE</label>
+                    <input type="text" class="form-control" value="{$shipment['commercial_invoice']}" name="commercial_invoice" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>COMMODITY</label>
+                    <select name="commodity" class="form-control" required>
+                        <option value="" disabled selected>Select Commodity</option>
+        HTML;
+
+        $sql = "SELECT method, value, display_name from list_commodity where method = 'sea' order by display_name asc";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $return_body['shipment'] .= <<<HTML
+                <option value="{$row['value']}">{$row['display_name']}</option>
+            HTML;
+        }
+
+        $return_body['shipment'] .= <<<HTML
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label>SHIPPING LINES</label>
+                    <input type="text" class="form-control" value="{$shipment['shipping_lines']}" name="shipping_lines" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>FORWARDER NAME</label>
+                    <input type="text" class="form-control" value="{$shipment['forwarder_name']}" name="forwarder_name" required>
+                </div>
+                <div class="col-6">
+                    <label>ORIGIN PORT</label>
+                    <input type="text" class="form-control" value="{$shipment['origin_port']}" name="origin_port" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>SHIPMENT STATUS</label>
+                    <input type="text" class="form-control" value="{$shipment['shipment_status']}" name="shipment_status" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3 ml-auto">
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
+                </div>
+            </div>
+        HTML;
+    }
+
+    //vessel_details
+    $sql = "SELECT shipment_details_ref, vessel_name, eta_mnl, ata_mnl, atb from m_vessel_details where shipment_details_ref = :shipment_details_ref";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+    $stmt -> execute();
+    $shipment = $stmt -> fetch(PDO::FETCH_ASSOC);
+    //need to get this quickly for the other query,
+    if ($shipment) {
+        $vessel_name = $shipment['vessel_name'];
+        $eta = !isset($shipment['eta_mnl']) ? null : date('Y-m-d', strtotime($shipment['eta_mnl']));
+        $ata = !isset($shipment['ata_mnl']) ? null : date('Y-m-d', strtotime($shipment['ata_mnl']));
+        $atb = !isset($shipment['atb']) ? null : date('Y-m-d', strtotime($shipment['atb']));
+    }
+
+    //takes all the shipment_details_ref codes that carries the same information
+    $sql_ref = "SELECT shipment_details_ref, vessel_name from m_vessel_details where vessel_name = :vessel_name and (eta_mnl = :eta_mnl or eta_mnl is null) and (ata_mnl = :ata_mnl or ata_mnl is null) and (atb = :atb or atb is null) order by id desc";
+    $stmt_ref = $conn -> prepare($sql_ref);
+    $stmt_ref -> bindParam(':vessel_name', $vessel_name);
+    $stmt_ref -> bindParam(':eta_mnl', $eta);
+    $stmt_ref -> bindParam(':ata_mnl', $ata);
+    $stmt_ref -> bindParam(':atb', $atb);
+    $stmt_ref -> execute();
+
+    //we have shipment_details_ref of all matching, all we need to do is to get their name and append to the info html
+    $sql_container = "SELECT container from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+    $stmt_container = $conn -> prepare($sql_container);
+    $info_html = "<i class='icon fas fa-info'></i>Changes will apply on containers: ";
+    while ($info = $stmt_ref -> fetch(PDO::FETCH_ASSOC)) {
+        $stmt_container -> bindParam(':shipment_details_ref', $info['shipment_details_ref']);
+        $stmt_container -> execute();
+        if ($shipment_data = $stmt_container -> fetch(PDO::FETCH_ASSOC)) {
+            $info_html .= $shipment_data['container'] . ", ";
+        }
+    }
+
+    if ($shipment) {
+        $shipment['eta_mnl'] = $shipment['eta_mnl'] == null ? null : substr($shipment['eta_mnl'], 0, 10);
+        $shipment['ata_mnl'] = $shipment['ata_mnl'] == null ? null : substr($shipment['ata_mnl'], 0, 10);
+        $shipment['atb'] = $shipment['atb'] == null ? null : substr($shipment['atb'], 0, 10);
+        $return_body['vessel'] = <<<HTML
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info" id="VesselDetailsEditToolTipInfo">
+                       {$info_html} 
+                    </div>
+                </div>
+            </div>
+            <input readonly style="display:none;" value="{$shipment['shipment_details_ref']}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>VESSEL NAME</label><span class="text-danger">&nbsp;Editing this might break the system</span>
+                    <input type="text" class="form-control" id="VesselDetailsEditName" value="{$shipment['vessel_name']}" name="vessel_name" required onkeyup="debounce(edit_find_similar, 150)">
+                </div>
+                <div class="col-6">
+                    <label>ETA MNL (YYYY/MM/DD)</label>
+                    <input type="date" class="form-control" id="VesselDetailsEditETA" value="{$shipment['eta_mnl']}" name="eta_mnl">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>ATA MNL (YYYY/MM/DD)</label>
+                    <input type="date" class="form-control" id="VesselDetailsEditATA" value="{$shipment['ata_mnl']}" name="ata_mnl">
+                </div>
+                <div class="col-6">
+                    <label>ATB</label>
+                    <input type="date" class="form-control" id="VesselDetailsEditATB" value="{$shipment['atb']}" name="atb">
+                </div>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+                <div class="col-9">
+                    <div class="bg-warning ml-auto">
+                        <i class="icon fas fa-exclamation-triangle"></i>Changing Vessel Name will only apply changes to this one entry
+                    </div>
+                </div>
+                <div class="col-3">
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
+                </div>
+            </div>
+        HTML;
+    }
+
     $return_body['success'] = true;
     $return_body['shipment_details_ref'] = $shipment_details_ref;
     echo json_encode($return_body);

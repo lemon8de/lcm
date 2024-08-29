@@ -90,7 +90,7 @@
             <div class="card card-secondary card-tabs">
                 <div class="card-header p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                        <li class="pt-2 px-3"><h3 class="card-title text-primary bg-warning" id="TabTitle">Container</h3></li>
+                        <li class="pt-2 px-3"><h3 class="card-title text-primary bg-warning" id="TabTitle">&nbsp;Container&nbsp;</h3></li>
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="pill" href="#ShipmentTabDiv" role="tab">Shipment</a>
                         </li>
@@ -118,10 +118,10 @@
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-one-tabContent">
                         <div class="tab-pane fade active show" id="ShipmentTabDiv" role="tabpanel">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                            <?php include '../php_static/content_tables/shipment_details.php';?>
                         </div>
                         <div class="tab-pane fade" id="VesselTabDiv" role="tabpanel">
-                            Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                            <?php include '../php_static/content_tables/vessel_details.php';?>
                         </div>
                         <div class="tab-pane fade" id="DeliveryTabDiv" role="tabpanel">
                             <?php include '../php_static/content_tables/delivery_plan.php';?>
@@ -201,7 +201,7 @@
         //console.log(this.value);
         var value = row.getAttribute('data-value');
         var shipment_details_ref = value;
-        document.getElementById('TabTitle').innerHTML = row.getAttribute('id');
+        document.getElementById('TabTitle').innerHTML = "&nbsp;" + row.getAttribute('id') + "&nbsp;";
 
         $.ajax({
             url: '../php_api/detailsdump.php',
@@ -240,6 +240,18 @@
                     //console.log(response)
                 } else {
                     document.getElementById('HistoryContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
+                }
+                if (response.shipment) {
+                    document.getElementById('ShipmentDetailsContent').innerHTML = response.shipment;
+                    //console.log(response)
+                } else {
+                    document.getElementById('ShipmentDetailsContent').innerHTML = '<div class="container" id="ShipmentDetailsContent"> <div class="row"> <div class="col-12 text-center"> <span class="text-muted">Make a selection to view its data.</span></div></div></div>'; 
+                }
+                if (response.vessel) {
+                    document.getElementById('VesselDetailsContent').innerHTML = response.vessel;
+                    //console.log(response)
+                } else {
+                    document.getElementById('VesselDetailsContent').innerHTML = '<div class="container" id="ShipmentDetailsContent"> <div class="row"> <div class="col-12 text-center"> <span class="text-muted">Make a selection to view its data.</span></div></div></div>'; 
                 }
             }
         });
