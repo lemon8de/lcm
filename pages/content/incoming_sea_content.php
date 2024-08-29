@@ -136,6 +136,7 @@
                             <?php include '../php_static/content_tables/mm_system.php';?>
                         </div>
                         <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
+                            <span class="text-danger">Dev Note: This won't update when we modify information, a refresh is needed. This is not a priority</span>
                             <div style="max-height: 300px; overflow-y: auto;">
                                 <?php include '../php_static/content_tables/history.php';?>
                             </div>

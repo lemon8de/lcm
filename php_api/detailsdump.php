@@ -114,10 +114,10 @@
                     <input value="{$shipment['date_return_reused']}" type="date" class="form-control" name="date_return_reused">
                 </td>
                 <td>
-                    <input readonly value="{$shipment['no_days_port']}" type="text" class="form-control" name="no_days_port">
+                    <input readonly value="{$shipment['no_days_port']}" type="number" class="form-control" name="no_days_port">
                 </td>
                 <td>
-                    <input readonly value="{$shipment['no_days_falp']}" type="text" class="form-control" name="no_days_falp">
+                    <input readonly value="{$shipment['no_days_falp']}" type="number" class="form-control" name="no_days_falp">
                 </td>
                 <td>
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
