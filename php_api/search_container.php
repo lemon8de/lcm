@@ -13,8 +13,8 @@ $stmt -> execute();
 $inner_html = "";
 while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     $inner_html .= <<<HTML
-    <tr data-value="{$data['shipment_details_ref']}" onclick="loaddata(this)" style="cursor:pointer;">
-        <td>{$data['bl_number']}</td>
+    <tr data-value="{$data['shipment_details_ref']}" id="{$data['container']}" onclick="loaddata(this)" style="cursor:pointer;">
+        <!--<td>{$data['bl_number']}</td> -->
         <td>{$data['container']}</td>
     </tr>
     HTML;

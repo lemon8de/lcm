@@ -1,5 +1,5 @@
 <form action="../php_api/update_delivery.php" method="POST">
-<table id="" class="table table-head-fixed text-nowrap table-hover mb-4">
+<table id="" class="table table-head-fixed table-hover mb-4">
     <thead>
         <tr>
             <th colspan="4" style="border: 1px solid black; text-align: center;">(3) Delivery Plan</th>

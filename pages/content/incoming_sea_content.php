@@ -54,6 +54,103 @@
 
 <div class="card card-gray-dark card-outline">
     <div class="card-header collapsed">
+        <h3 class="card-title">Tabbed Details Idea</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                    <div class="col-12">
+                    <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="max-height:400px;overflow-y:auto;">
+                        <table class="table table-head-fixed text-nowrap table-hover mb-4">
+                            <thead>
+                                <tr>
+                                    <th>CONTAINER</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ContainerSearch">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div class="col-10">
+            <div class="card card-primary card-tabs">
+                <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                        <li class="pt-2 px-3"><h3 class="card-title" id="TabTitle">Container</h3></li>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="pill" href="#ShipmentTabDiv" role="tab">Shipment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#VesselTabDiv" role="tab">Vessel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#DeliveryTabDiv" role="tab">Delivery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#CompletionTabDiv" role="tab">Completion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#PolytainerTabDiv" role="tab">Polytainer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#MMTabDiv" role="tab">MM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#HistoryTabDiv" role="tab">History</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-one-tabContent">
+                        <div class="tab-pane fade active show" id="ShipmentTabDiv" role="tabpanel">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                        </div>
+                        <div class="tab-pane fade" id="VesselTabDiv" role="tabpanel">
+                            Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                        </div>
+                        <div class="tab-pane fade" id="DeliveryTabDiv" role="tabpanel">
+                            <?php include '../php_static/content_tables/delivery_plan.php';?>
+                        </div>
+                        <div class="tab-pane fade" id="CompletionTabDiv" role="tabpanel">
+                            <?php include '../php_static/content_tables/completion_details.php';?>
+                        </div>
+                        <div class="tab-pane fade" id="PolytainerTabDiv" role="tabpanel">
+                            <?php include '../php_static/content_tables/polytainer_details.php';?>
+                        </div>
+                        <div class="tab-pane fade" id="MMTabDiv" role="tabpanel">
+                            <?php include '../php_static/content_tables/mm_system.php';?>
+                        </div>
+                        <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <?php include '../php_static/content_tables/history.php';?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="card card-gray-dark card-outline">
+    <div class="card-header collapsed">
         <h3 class="card-title">View Data from Forwarder's File</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -70,120 +167,6 @@
         <!-- </div> -->
     </div>
 </div>
-
-<div class="card card-gray-dark card-outline">
-    <div class="card-header collapsed">
-        <h3 class="card-title">Tabbed Details Idea</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body table-responsive">
-        <div class="col-12">
-            <div class="card card-primary card-tabs">
-                <div class="card-header p-0 pt-1">
-                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="false">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Messages</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="true">Settings</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-one-tabContent">
-                        <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                            Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                            Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
-                        </div>
-                        <div class="tab-pane fade active show" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                            Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="card card-gray-dark card-outline">
-    <div class="card-header collapsed">
-        <h3 class="card-title">View + Edit Rest of Data</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body table-responsive">
-        <!-- <div class="container"> -->
-        <div class="row mb-4">
-            <!-- <select id="shipment_details_ref_select" class="form-control" required onchange="loaddata.call(this)">
-                <option value="" disabled selected>Select BL  |  CONTAINER</option>
-                <?php 
-                    $sql = "SELECT shipment_details_ref, bl_number, container from m_shipment_sea_details";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo <<<HTML
-                            <option value="{$row['shipment_details_ref']}">{$row['bl_number']}  |  {$row['container']}</option>
-                        HTML;
-                    }
-                ?>
-            </select> -->
-            <div class="col-5 mx-auto">
-                <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 mx-auto">
-                <table class="table table-head-fixed text-nowrap table-hover mb-4">
-                    <thead>
-                        <tr>
-                            <th>BL NUMBER</th>
-                            <th>CONTAINER</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ContainerSearch">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <?php include '../php_static/content_tables/shipment_details.php';?>
-        <?php include '../php_static/content_tables/vessel_details.php';?>
-
-        <?php include '../php_static/content_tables/delivery_plan.php';?>
-        <?php include '../php_static/content_tables/completion_details.php';?>
-        <?php include '../php_static/content_tables/polytainer_details.php';?>
-        <?php include '../php_static/content_tables/mm_system.php';?>
-        <div style="max-height: 300px; overflow-y: auto;">
-            <?php include '../php_static/content_tables/history.php';?>
-        </div>
-    </div>
-</div>
-
 <script>
 
     function debounce(method, delay) {
@@ -194,9 +177,6 @@
     }
 
     function searchContainer() {
-        console.log('started');
-
-        console.log(document.getElementById('ContainerInput').value);
         $.ajax({
             url: '../php_api/search_container.php',
             type: 'GET',
@@ -208,7 +188,6 @@
                 document.getElementById('ContainerSearch').innerHTML = response.inner_html;
             }
         });
-        console.log('finished');
     }
 
     function fileexplorer() {
@@ -220,6 +199,7 @@
         //console.log(this.value);
         var value = row.getAttribute('data-value');
         var shipment_details_ref = value;
+        document.getElementById('TabTitle').innerHTML = row.getAttribute('id');
 
         $.ajax({
             url: '../php_api/detailsdump.php',
