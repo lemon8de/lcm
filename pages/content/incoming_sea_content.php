@@ -87,10 +87,10 @@
                 </div>
             </div>
         <div class="col-10">
-            <div class="card card-primary card-tabs">
+            <div class="card card-secondary card-tabs">
                 <div class="card-header p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                        <li class="pt-2 px-3"><h3 class="card-title" id="TabTitle">Container</h3></li>
+                        <li class="pt-2 px-3"><h3 class="card-title text-primary bg-warning" id="TabTitle">Container</h3></li>
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="pill" href="#ShipmentTabDiv" role="tab">Shipment</a>
                         </li>

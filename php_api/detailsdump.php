@@ -29,7 +29,7 @@
                     <input value="{$shipment['tabs']}" type="text" class="form-control" name="tabs">
                 </td>
                 <td>
-                    <button type="submit" class="btn bg-primary btn-block">Update Delivery Details</button>
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
                 </td>
             </tr>
         HTML;
@@ -57,7 +57,7 @@
                     <input type="date" value="{$shipment['actual_received_at_falp']}" class="form-control" name="actual_received_at_falp">
                 </td>
                 <td>
-                    <button type="submit" class="btn bg-primary btn-block">Update Completion Details</button>
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
                 </td>
             </tr>
         HTML;
@@ -87,7 +87,7 @@
                     <input value="{$shipment['etd']}" type="date" class="form-control" name="etd">
                 </td>
                 <td>
-                    <button type="submit" class="btn bg-primary btn-block">Update Polytainer Details</button>
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
                 </td>
             </tr>
         HTML;
@@ -120,7 +120,7 @@
                     <input readonly value="{$shipment['no_days_falp']}" type="text" class="form-control" name="no_days_falp">
                 </td>
                 <td>
-                    <button type="submit" class="btn bg-primary btn-block">Update MM System Details</button>
+                    <button type="submit" class="btn bg-primary btn-block">Update</button>
                 </td>
             </tr>
         HTML;
