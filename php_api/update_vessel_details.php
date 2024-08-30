@@ -49,7 +49,7 @@
     $compare_set_database_keys = array_keys($vessel_details);
     $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
     $stmt_history = $conn -> prepare($sql_history);
-            $stmt_history -> bindValue(':table_name', 'm_vessel_details');
+    $stmt_history -> bindValue(':table_name', 'm_vessel_details');
 
     //so we now check for changes here
     for ($i = 0; $i < count($compare_set_database_keys); $i++) {
