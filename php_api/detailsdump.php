@@ -182,7 +182,6 @@
                 <div class="col-6">
                     <label>COMMODITY</label>
                     <select name="commodity" class="form-control" required>
-                        <option value="" disabled selected>Select Commodity</option>
         HTML;
 
         $sql = "SELECT method, value, display_name from list_commodity where method = 'sea' order by display_name asc";
@@ -190,8 +189,12 @@
         $stmt->execute();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $selected = "";
+            if ($shipment['commodity'] == $row['display_name']){
+                $selected = " selected";
+            }
             $return_body['shipment'] .= <<<HTML
-                <option value="{$row['value']}">{$row['display_name']}</option>
+                <option value="{$row['value']}"{$selected}>{$row['display_name']}</option>
             HTML;
         }
 
