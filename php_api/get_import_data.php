@@ -42,6 +42,9 @@
         'or_number' => 'text',
         'assessment_date' => 'date',
     ];
+    $html .= <<<HTML
+        <span class="text-danger">Known bug assessment date does not display correctly, shows as empty. Low priority</span>
+    HTML;
     for ($i = 0; $i < count($keys); $i++) {
         if (in_array($keys[$i], $forbidden)) {
             continue;
