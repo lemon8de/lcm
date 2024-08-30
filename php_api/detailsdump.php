@@ -277,7 +277,7 @@
             <input readonly style="display:none;" value="{$shipment['shipment_details_ref']}" type="text" name="shipment_details_ref">
             <div class="row mb-2">
                 <div class="col-6">
-                    <label>VESSEL NAME</label><span class="text-danger">&nbsp;Editing this might break the system</span>
+                    <label>VESSEL NAME</label>
                     <input type="text" class="form-control" id="VesselDetailsEditName" value="{$shipment['vessel_name']}" name="vessel_name" required onkeyup="debounce(edit_find_similar, 150)">
                 </div>
                 <div class="col-6">
@@ -296,12 +296,7 @@
                 </div>
             </div>
             <div class="row mb-2 d-flex align-items-center">
-                <div class="col-9">
-                    <div class="bg-warning ml-auto">
-                        <i class="icon fas fa-exclamation-triangle"></i>Changing Vessel Name will only apply changes to this one entry
-                    </div>
-                </div>
-                <div class="col-3">
+                <div class="col-3 ml-auto">
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
                 </div>
             </div>
