@@ -157,7 +157,6 @@
         $stmt_insert -> execute();
     }
 
-
     $conn = null;
     //header('location: ../pages/incoming_sea.php');
     //exit();

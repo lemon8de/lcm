@@ -46,6 +46,34 @@
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
 
+    //no of days updating, calculation of days at falp
+    //uses m_completion_details - actual_received_at_falp; m_mmsystem - date_return_reused
+    $sql = "SELECT actual_received_at_falp from m_completion_details where shipment_details_ref = :shipment_details_ref";
+    $stmt_check_days = $conn -> prepare($sql);
+    $stmt_check_days -> bindParam(':shipment_details_ref', $shipment_details_ref);
+    $stmt_check_days -> execute();
+    if ($mm_detail = $stmt_check_days -> fetch(PDO::FETCH_ASSOC)) {
+        //this if statement actually filters for confirmed shipments lol
+        //notes that $atb might be null, the computation is atb - date port out + 1
+        // Create DateTime objects
+        $dateTime1 = $mm_detail['actual_received_at_falp'] == null ? null : new DateTime($mm_detail['actual_received_at_falp']);
+        $dateTime2 = $date_return_reused == null ? null : new DateTime($date_return_reused);
+
+        // Calculate the difference
+        if ($dateTime1 and $dateTime2) {
+            $interval = $dateTime1->diff($dateTime2);
+            $differenceInDays = $interval->days + 1;
+        } else {
+            $differenceInDays = 0;
+        }
+        //insert this bad boy, fuck history we don't need that shit here
+        $sql = "UPDATE m_mmsystem set no_days_falp = :no_days_falp where shipment_details_ref = :shipment_details_ref";
+        $stmt_update_mm = $conn -> prepare($sql);
+        $stmt_update_mm -> bindParam(':no_days_falp', $differenceInDays);
+        $stmt_update_mm -> bindParam(':shipment_details_ref', $shipment_details_ref);
+        $stmt_update_mm -> execute();
+    }
+
     $conn = null;
     //header('location: ../pages/incoming_sea.php');
     //exit();

@@ -1,6 +1,6 @@
 <?php 
     require 'db_connection.php';
-
+    require '../php_static/session_lookup.php';
     $type_of_expense = "MASTERLIST FAILURE";
     $commodity = "MASTERLIST FAILURE";
     $classification = "MASTERLIST FAILURE";
@@ -44,6 +44,15 @@
 
     //if statement to figure out if we do an insert into or update
     if ($bl_container_logged) {
+        //NOTE, concerning the addition of the update api, this update block is disabled for good
+        $notification = [
+            "icon" => "warning",
+            "text" => "BL+CONTAINER DUPLICATE<br>No Additions Made",
+        ];
+        $_SESSION['notification'] = json_encode($notification);
+        header('location: ../pages/incoming_sea.php');
+        exit();
+
         //UPDATE
         $shipment_details_ref = $bl_container_logged['shipment_details_ref'];
 
