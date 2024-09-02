@@ -66,8 +66,22 @@
                         $row[$key] = round((float)$value, 2);
                     }
                 }
+                $row['eta_mnl'] = substr($row['eta_mnl'], 0, 10);
+                $row['ata_mnl'] = substr($row['ata_mnl'], 0, 10);
+                $row['atb'] = substr($row['atb'], 0, 10);
+
+                $row['required_delivery_sched'] = substr($row['required_delivery_sched'], 0, 10);
+                $row['deliver_plan'] = substr($row['deliver_plan'], 0, 10);
+                $row['date_port_out'] = substr($row['date_port_out'], 0, 10);
+                $row['actual_received_at_falp'] = substr($row['actual_received_at_falp'], 0, 10);
+
+                $row['etd'] = substr($row['etd'], 0, 10);
+
+                $row['date_return_reused'] = substr($row['date_return_reused'], 0, 10);
+
+                $row['assessment_date'] = substr($row['assessment_date'], 0, 10);
                 echo <<<HTML
-                    <tr>
+                    <tr id = "{$row['shipping_invoice']}" onclick="show_breakdown.call(this)">
                         <td>{$row['shipper']}</td>
                         <td>{$row['origin_port']}</td>
                         <td>{$row['port']}</td>

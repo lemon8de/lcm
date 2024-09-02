@@ -18,9 +18,10 @@
                 </form>
             </button>
         </div>
-        <!-- <div class="container"> -->
+        <div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
             <?php include '../php_static/content_tables/importsea_data_report.php';?>
-        <!-- </div> -->
+        </div>
+        <?php include '../php_static/content_tables/container_breakdown.php';?>
     </div>
 </div>
 
@@ -76,5 +77,26 @@
                 document.getElementById('ImportInformation').innerHTML = response.html;
             }
         });
+    }
+
+    function show_breakdown() {
+        console.log(this.id);
+        $.ajax({
+            url: '../php_api/get_container_breakdown.php',
+            type: 'GET',
+            data: {
+                'shipping_invoice' : this.id,
+            },
+            dataType: 'json',
+            success: function (response) {
+                //console.log(response);
+                document.getElementById('ContainerBreakdownContent').innerHTML = response.html;
+                //hide the main table, show the table switch
+
+            }
+        });
+        //show and hide stuff
+        document.getElementById('ImportDataMain').style.display = 'none';
+        document.getElementById('ContainerBreakdownSwitch').style.display = 'block';
     }
 </script>

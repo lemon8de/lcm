@@ -1,4 +1,5 @@
 <?php
+    //redev this shitty cluster fuck
     require 'db_connection.php';
     $shipping_invoice = $_GET['shipping_invoice'];
 
@@ -42,9 +43,6 @@
         'or_number' => 'text',
         'assessment_date' => 'date',
     ];
-    $html .= <<<HTML
-        <span class="text-danger">Known bug assessment date does not display correctly, shows as empty. Low priority</span>
-    HTML;
     for ($i = 0; $i < count($keys); $i++) {
         if (in_array($keys[$i], $forbidden)) {
             continue;
@@ -59,6 +57,9 @@
         $step = $type[$keys[$i]] == 'number' ? 'step="0.01"' : '';
         if (is_numeric($values[$i])) {
             $values[$i] = round((float)$values[$i], 2);
+        }
+        if ($keys[$i] == 'assessment_date') {
+            $values[$i] = substr($values[$i], 0, 10);
         }
         $html .= <<<HTML
             <div class="row mt-2 justify-content-center">
