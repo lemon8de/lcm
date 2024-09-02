@@ -66,20 +66,16 @@
                         $row[$key] = round((float)$value, 2);
                     }
                 }
-                $row['eta_mnl'] = substr($row['eta_mnl'], 0, 10);
-                $row['ata_mnl'] = substr($row['ata_mnl'], 0, 10);
-                $row['atb'] = substr($row['atb'], 0, 10);
-
-                $row['required_delivery_sched'] = substr($row['required_delivery_sched'], 0, 10);
-                $row['deliver_plan'] = substr($row['deliver_plan'], 0, 10);
-                $row['date_port_out'] = substr($row['date_port_out'], 0, 10);
-                $row['actual_received_at_falp'] = substr($row['actual_received_at_falp'], 0, 10);
-
-                $row['etd'] = substr($row['etd'], 0, 10);
-
-                $row['date_return_reused'] = substr($row['date_return_reused'], 0, 10);
-
-                $row['assessment_date'] = substr($row['assessment_date'], 0, 10);
+                $row['eta_mnl'] = $row['eta_mnl'] != null ? substr($row['eta_mnl'], 0, 10) : 'TBA';
+                $row['ata_mnl'] = $row['ata_mnl'] != null ? substr($row['ata_mnl'], 0, 10) : 'TBA';
+                $row['atb'] = $row['atb'] != null ? substr($row['atb'], 0, 10) : 'TBA';
+                $row['required_delivery_sched'] = $row['required_delivery_sched'] != null ? substr($row['required_delivery_sched'], 0, 10) : 'TBA';
+                $row['deliver_plan'] = $row['deliver_plan'] != null ? substr($row['deliver_plan'], 0, 10) : 'TBA';
+                $row['date_port_out'] = $row['date_port_out'] != null ? substr($row['date_port_out'], 0, 10) : 'TBA';
+                $row['actual_received_at_falp'] = $row['actual_received_at_falp'] != null ? substr($row['actual_received_at_falp'], 0, 10) : 'TBA';
+                $row['etd'] = $row['etd'] != null ? substr($row['etd'], 0, 10) : 'TBA';
+                $row['date_return_reused'] = $row['date_return_reused'] != null ? substr($row['date_return_reused'], 0, 10) : 'TBA';
+                $row['assessment_date'] = $row['assessment_date'] != null ? substr($row['assessment_date'], 0, 10) : 'TBA';
                 echo <<<HTML
                     <tr id = "{$row['shipping_invoice']}" onclick="show_breakdown.call(this)">
                         <td>{$row['shipper']}</td>
