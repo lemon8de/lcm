@@ -56,9 +56,11 @@
         $label = strtoupper(str_replace('_', ' ', $keys[$i]));
         $step = $type[$keys[$i]] == 'number' ? 'step="0.01"' : '';
         if (is_numeric($values[$i])) {
+            $values[$i] = $values[$i] ?? 0;
             $values[$i] = round((float)$values[$i], 2);
         }
         if ($keys[$i] == 'assessment_date') {
+            $values[$i] = $values[$i] ?? "";
             $values[$i] = substr($values[$i], 0, 10);
         }
         $html .= <<<HTML
