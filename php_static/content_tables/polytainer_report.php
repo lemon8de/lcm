@@ -53,7 +53,10 @@
     <tbody id="">
         <?php 
             //this might need to be filtered by an etd range soon
-            $sql = "SELECT a.vessel_name, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan from m_vessel_details as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref order by a.vessel_name desc";
+            //$sql = "SELECT a.vessel_name, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan from m_vessel_details as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref order by a.vessel_name desc";
+
+            //additions sep5: force the query to only show one copy of the vessel, origin port and shipment status is set to max to resolve having multiple results on that. no idea how this will go. :)
+            $sql = "SELECT a.vessel_name, MAX(b.shipment_status) AS shipment_status, MAX(b.origin_port) AS origin_port, MAX(a.eta_mnl) AS eta_mnl, MAX(c.etd) AS etd, MAX(d.deliver_plan) AS deliver_plan FROM m_vessel_details AS a LEFT JOIN m_shipment_sea_details AS b ON a.shipment_details_ref = b.shipment_details_ref LEFT JOIN m_polytainer_details AS c ON a.shipment_details_ref = c.shipment_details_ref LEFT JOIN m_delivery_plan AS d ON a.shipment_details_ref = d.shipment_details_ref GROUP BY a.vessel_name ORDER BY a.vessel_name asc";
             $stmt = $conn -> prepare($sql);
             $stmt -> execute();
 
