@@ -16,6 +16,7 @@ while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     <tr data-value="{$data['shipment_details_ref']}" id="{$data['container']}" onclick="loaddata(this)" style="cursor:pointer;">
         <!--<td>{$data['bl_number']}</td> -->
         <td>{$data['container']}</td>
+        <td>{$data['bl_number']}</td>
     </tr>
     HTML;
 }

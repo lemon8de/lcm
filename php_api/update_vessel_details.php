@@ -32,16 +32,23 @@
         echo json_encode($return_body);
         exit();
     } 
-    //if it passes thru here---then there is a change and we need to get all the shipment_details_ref of all affected
-    $sql_containers = "SELECT shipment_details_ref from m_vessel_details where vessel_name = :vessel_name and (eta_mnl = :eta_mnl or eta_mnl is null) and (ata_mnl = :ata_mnl or ata_mnl is null) and (atb = :atb or atb is null) order by id desc";
-    $stmt_containers = $conn -> prepare($sql_containers);
-    $stmt_containers -> bindParam(':vessel_name', $vessel_details['vessel_name']);
-    $stmt_containers -> bindParam(':eta_mnl', $vessel_details['eta_mnl']);
-    $stmt_containers -> bindParam(':ata_mnl', $vessel_details['ata_mnl']);
-    $stmt_containers -> bindParam(':atb', $vessel_details['atb']);
-    $stmt_containers -> execute();
-    $containers = $stmt_containers->fetchAll(PDO::FETCH_COLUMN);
-    //now container is an array that holds all shipment_detail_ref of all would be affected containers
+
+    //addition sep5: when the vessel name changed, the entire vessel update should only occur on that container, so we have to change the query sql_containers from selecting alot of shipment_details_ref down to just one.
+    //well i already have the shipment_details_ref of that singular entry from the post request so we just have to requery the similarity and choose to do a fetch to get all containers, or just use what one shipment details ref we have stop the execution of the code block below
+    if ($vessel_details['vessel_name'] == $vessel_name) {
+        //if it passes thru here---then there is a change and we need to get all the shipment_details_ref of all affected
+        $sql_containers = "SELECT shipment_details_ref from m_vessel_details where vessel_name = :vessel_name and (eta_mnl = :eta_mnl or eta_mnl is null) and (ata_mnl = :ata_mnl or ata_mnl is null) and (atb = :atb or atb is null) order by id desc";
+        $stmt_containers = $conn -> prepare($sql_containers);
+        $stmt_containers -> bindParam(':vessel_name', $vessel_details['vessel_name']);
+        $stmt_containers -> bindParam(':eta_mnl', $vessel_details['eta_mnl']);
+        $stmt_containers -> bindParam(':ata_mnl', $vessel_details['ata_mnl']);
+        $stmt_containers -> bindParam(':atb', $vessel_details['atb']);
+        $stmt_containers -> execute();
+        $containers = $stmt_containers->fetchAll(PDO::FETCH_COLUMN);
+        //now container is an array that holds all shipment_detail_ref of all would be affected containers
+    } else {
+        $containers = [$shipment_details_ref];
+    }
 
     //find what changed, and make m_change_history logs for all shipment_details_ref
     $compare_set_user = [$vessel_name, $eta_mnl, $ata_mnl, $atb];

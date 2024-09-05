@@ -66,7 +66,7 @@
     </div>
     <div class="card-body table-responsive">
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <div class="row">
                     <div class="col-12">
                     <input class="form-control" id="ContainerInput" placeholder="Search By Container" onkeyup="debounce(searchContainer, 150)" autocomplete="off">
@@ -78,6 +78,7 @@
                             <thead>
                                 <tr>
                                     <th>CONTAINER</th>
+                                    <th>BL</th>
                                 </tr>
                             </thead>
                             <tbody id="ContainerSearch">
@@ -86,7 +87,7 @@
                     </div>
                 </div>
             </div>
-        <div class="col-10">
+        <div class="col-9">
             <div class="card card-secondary card-tabs">
                 <div class="card-header p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">

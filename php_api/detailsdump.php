@@ -268,6 +268,10 @@
     if ($shipment) {
         $shipment['eta_mnl'] = $shipment['eta_mnl'] == null ? null : substr($shipment['eta_mnl'], 0, 10);
         $shipment['ata_mnl'] = $shipment['ata_mnl'] == null ? null : substr($shipment['ata_mnl'], 0, 10);
+
+        //additions sep5: making input boxes readonly on condition: if has ata: disable eta
+        $eta_disabled = $shipment['ata_mnl'] != null ? ' readonly' : "";
+
         $shipment['atb'] = $shipment['atb'] == null ? null : substr($shipment['atb'], 0, 10);
         $return_body['vessel'] = <<<HTML
             <div class="row">
@@ -285,7 +289,7 @@
                 </div>
                 <div class="col-6">
                     <label>ETA MNL (YYYY/MM/DD)</label>
-                    <input type="date" class="form-control" id="VesselDetailsEditETA" value="{$shipment['eta_mnl']}" name="eta_mnl">
+                    <input type="date" class="form-control" id="VesselDetailsEditETA" value="{$shipment['eta_mnl']}" name="eta_mnl"{$eta_disabled}>
                 </div>
             </div>
             <div class="row mb-2">
