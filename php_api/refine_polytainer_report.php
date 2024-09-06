@@ -3,7 +3,7 @@
     //$sql = "SELECT a.vessel_name, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan from m_vessel_details as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref order by a.vessel_name desc";
 
     $start_year = $_GET['year'];
-    $start_month = $_GET['month'];
+    $start_month = $_GET['month'] ?? "";
     if ($start_year == "" || $start_month == "") {
         echo json_encode(['exited' => true]);
         exit();
@@ -14,7 +14,7 @@
     //this seriously need a distinct, because if this vessel name appears again in the near future this report is fucked
     //distinct will fix it fine, already tested
     //now distinct, extra code will be added on the for loop if the vessel name would duplicate
-    $sql = "SELECT distinct a.vessel_name, a.id, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan, e.actual_received_at_falp FROM m_vessel_details AS a LEFT JOIN m_shipment_sea_details AS b ON a.shipment_details_ref = b.shipment_details_ref LEFT JOIN m_polytainer_details AS c ON a.shipment_details_ref = c.shipment_details_ref LEFT JOIN m_delivery_plan AS d ON a.shipment_details_ref = d.shipment_details_ref LEFT JOIN m_completion_details as e ON a.shipment_details_ref = e.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY vessel_name asc,  a.id desc";
+    $sql = "SELECT distinct a.vessel_name, a.id, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan, e.actual_received_at_falp FROM m_vessel_details AS a LEFT JOIN m_shipment_sea_details AS b ON a.shipment_details_ref = b.shipment_details_ref LEFT JOIN m_polytainer_details AS c ON a.shipment_details_ref = c.shipment_details_ref LEFT JOIN m_delivery_plan AS d ON a.shipment_details_ref = d.shipment_details_ref LEFT JOIN m_completion_details as e ON a.shipment_details_ref = e.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY vessel_name asc, a.id desc";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':start_year', $start_year);
     $stmt -> bindParam(':start_year2', $start_year);

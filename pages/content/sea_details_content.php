@@ -16,6 +16,7 @@
             <div class="row">
                     <div class="col-3">
                         <select class="form-control" name="month" onchange="search_polytainer_report()">
+                            <option value="" selected disabled>Select Month</option>
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -54,17 +55,16 @@
 
 <script>
     function search_polytainer_report() {
-        console.log('this');
         var formData = $('#PolytainerReportSearchForm').serialize();
-        console.log(formData);
-
         $.ajax({
             type: 'GET',
             url: '../php_api/refine_polytainer_report.php',
             data: formData,
             dataType: 'json',
             success: function(response) {
-                document.getElementById("PolytainerReportContent").innerHTML = response.inner_html;
+                if (!response.exited) {
+                    document.getElementById("PolytainerReportContent").innerHTML = response.inner_html;
+                }
             },
         });
     }
