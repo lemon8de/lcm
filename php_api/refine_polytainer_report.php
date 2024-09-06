@@ -11,7 +11,10 @@
 
     //additions sep5: force the query to only show one copy of the vessel, origin port and shipment status is set to max to resolve having multiple results on that. no idea how this will go. :)
     //this new file has some filtering involved, and should still be similar nonetheless
-    $sql = "SELECT a.vessel_name, MAX(b.shipment_status) AS shipment_status, MAX(b.origin_port) AS origin_port, MAX(a.eta_mnl) AS eta_mnl, MAX(c.etd) AS etd, MAX(d.deliver_plan) AS deliver_plan, MAX(e.actual_received_at_falp) as actual_received_at_falp FROM m_vessel_details AS a LEFT JOIN m_shipment_sea_details AS b ON a.shipment_details_ref = b.shipment_details_ref LEFT JOIN m_polytainer_details AS c ON a.shipment_details_ref = c.shipment_details_ref LEFT JOIN m_delivery_plan AS d ON a.shipment_details_ref = d.shipment_details_ref LEFT JOIN m_completion_details as e ON a.shipment_details_ref = e.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) GROUP BY a.vessel_name ORDER BY actual_received_at_falp asc";
+    //this seriously need a distinct, because if this vessel name appears again in the near future this report is fucked
+    //distinct will fix it fine, already tested
+    //now distinct, extra code will be added on the for loop if the vessel name would duplicate
+    $sql = "SELECT distinct a.vessel_name, a.id, b.shipment_status, b.origin_port, a.eta_mnl, c.etd, d.deliver_plan, e.actual_received_at_falp FROM m_vessel_details AS a LEFT JOIN m_shipment_sea_details AS b ON a.shipment_details_ref = b.shipment_details_ref LEFT JOIN m_polytainer_details AS c ON a.shipment_details_ref = c.shipment_details_ref LEFT JOIN m_delivery_plan AS d ON a.shipment_details_ref = d.shipment_details_ref LEFT JOIN m_completion_details as e ON a.shipment_details_ref = e.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY vessel_name asc,  a.id desc";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':start_year', $start_year);
     $stmt -> bindParam(':start_year2', $start_year);
@@ -23,7 +26,15 @@
     $stmt_main = $conn -> prepare($sql_main);
     
     $inner_html = "";
+    $last_vessel = "";
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        //this hack removed vessel duplication, just make sure we are getting latest vessel name, by ordering by id desc
+        if ($last_vessel == $row['vessel_name']) {
+            continue;
+        }
+        $last_vessel = $row['vessel_name'];
+
         $q_eta_mnl = $row['eta_mnl']; //save this for the query below, the TBA change should be done for the displaying only
         $q_etd = $row['etd']; //save this for the query below, the TBA change should be done for the displaying only
         $row['etd'] = $row['etd'] == null ? 'TBA' : date('Y/m/d', strtotime($row['etd']));
