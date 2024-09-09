@@ -134,11 +134,9 @@
                             <?php include '../php_static/content_tables/polytainer_details.php';?>
                         </div>
                         <div class="tab-pane fade" id="MMTabDiv" role="tabpanel">
-                            <span class="text-danger">Dev Note: Days won't automatically update.</span>
                             <?php include '../php_static/content_tables/mm_system.php';?>
                         </div>
                         <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
-                            <span class="text-danger">Dev Note: This won't update when we modify information, a refresh is needed. This is not a priority</span>
                             <div style="max-height: 300px; overflow-y: auto;">
                                 <?php include '../php_static/content_tables/history.php';?>
                             </div>
@@ -216,43 +214,43 @@
                     document.getElementById('DeliveryPlanContent').innerHTML = response.delivery_plan;
                     //console.log(response)
                 } else {
-                    document.getElementById('DeliveryPlanContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('DeliveryPlanContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.completion_details) {
                     document.getElementById('CompletionContent').innerHTML = response.completion_details;
                     //console.log(response)
                 } else {
-                    document.getElementById('CompletionContent').innerHTML = "<tr><td colspan='3' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('CompletionContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.polytainer_details) {
                     document.getElementById('PolytainerDetailsContent').innerHTML = response.polytainer_details;
                     //console.log(response)
                 } else {
-                    document.getElementById('PolytainerDetailsContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('PolytainerDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.mmsystem_details) {
                     document.getElementById('MMDetailsContent').innerHTML = response.mmsystem_details;
                     //console.log(response)
                 } else {
-                    document.getElementById('MMDetailsContent').innerHTML = "<tr><td colspan='5' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('MMDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.history) {
                     document.getElementById('HistoryContent').innerHTML = response.history;
                     //console.log(response)
                 } else {
-                    document.getElementById('HistoryContent').innerHTML = "<tr><td colspan='4' class='text-muted text-center'>NO DATA</td></tr>";
+                    document.getElementById('HistoryContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.shipment) {
                     document.getElementById('ShipmentDetailsContent').innerHTML = response.shipment;
                     //console.log(response)
                 } else {
-                    document.getElementById('ShipmentDetailsContent').innerHTML = '<div class="container" id="ShipmentDetailsContent"> <div class="row"> <div class="col-12 text-center"> <span class="text-muted">Make a selection to view its data.</span></div></div></div>'; 
+                    document.getElementById('ShipmentDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
                 if (response.vessel) {
                     document.getElementById('VesselDetailsContent').innerHTML = response.vessel;
                     //console.log(response)
                 } else {
-                    document.getElementById('VesselDetailsContent').innerHTML = '<div class="container" id="ShipmentDetailsContent"> <div class="row"> <div class="col-12 text-center"> <span class="text-muted">Make a selection to view its data.</span></div></div></div>'; 
+                    document.getElementById('VesselDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
                 }
             }
         });

@@ -15,23 +15,28 @@
         $shipment['deliver_plan'] = $shipment['deliver_plan'] == null ? null : substr($shipment['deliver_plan'], 0, 10);
         $shipment['tabs'] = $shipment['tabs'] == null ? null : substr($shipment['tabs'], 0, 5);
         $return_body['delivery_plan'] = <<<HTML
-            <tr>
-                <td style="display: none;">
-                    <input readonly value="$shipment_details_ref" type="text" class="form-control" name="shipment_details_ref">
-                </td>
-                <td>
+            <input readonly style="display:none;" value="{$shipment_details_ref}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>REQUIRED DELIVERY SCHEDULE</label>
                     <input value="{$shipment['required_delivery_sched']}" type="date" class="form-control" name="required_delivery_sched">
-                </td>
-                <td>
+                </div>
+                <div class="col-6">
+                    <label>DELIVERY PLAN</label>
                     <input value="{$shipment['deliver_plan']}" type="date" class="form-control" name="deliver_plan">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>TABS</label>
                     <input value="{$shipment['tabs']}" type="text" class="form-control" name="tabs">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+                <div class="col-3 ml-auto">
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
-                </td>
-            </tr>
+                </div>
+            </div>
         HTML;
     }
 
@@ -46,20 +51,22 @@
         $shipment['date_port_out'] = $shipment['date_port_out'] == null ? null : substr($shipment['date_port_out'], 0, 10);
         $shipment['actual_received_at_falp'] = $shipment['actual_received_at_falp'] == null ? null : substr($shipment['actual_received_at_falp'], 0, 10);
         $return_body['completion_details'] = <<<HTML
-            <tr>
-                <td style="display: none;">
-                    <input readonly value="$shipment_details_ref" type="text" class="form-control" name="shipment_details_ref">
-                </td>
-                <td>
+            <input readonly style="display:none;" value="{$shipment_details_ref}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>DATE PORT OUT</label>
                     <input type="date" value="{$shipment['date_port_out']}" class="form-control" name="date_port_out">
-                </td>
-                <td>
+                </div>
+                <div class="col-6">
+                    <label>ACTUAL RECEIVED AT FALP</label>
                     <input type="date" value="{$shipment['actual_received_at_falp']}" class="form-control" name="actual_received_at_falp">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+                <div class="col-3 ml-auto">
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
-                </td>
-            </tr>
+                </div>
+            </div>
         HTML;
     }
 
@@ -73,23 +80,28 @@
     if ($shipment) {
         $shipment['etd'] = $shipment['etd'] == null ? null : substr($shipment['etd'], 0, 10);
         $return_body['polytainer_details'] = <<<HTML
-            <tr>
-                <td style="display: none;">
-                    <input readonly value="$shipment_details_ref" type="text" class="form-control" name="shipment_details_ref">
-                </td>
-                <td>
+            <input readonly style="display:none;" value="{$shipment_details_ref}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>POLYTAINER SIZE</label>
                     <input value="{$shipment['polytainer_size']}" type="text" class="form-control" name="polytainer_size">
-                </td>
-                <td>
+                </div>
+                <div class="col-6">
+                    <label>POLYTAINER QUANTITY</label>
                     <input value="{$shipment['polytainer_quantity']}" type="text" class="form-control" name="polytainer_quantity">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>ETD</label>
                     <input value="{$shipment['etd']}" type="date" class="form-control" name="etd">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+                <div class="col-3 ml-auto">
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
-                </td>
-            </tr>
+                </div>
+            </div>
         HTML;
     }
 
@@ -103,26 +115,32 @@
     if ($shipment) {
         $shipment['date_return_reused'] = $shipment['date_return_reused'] == null ? null : substr($shipment['date_return_reused'], 0, 10);
         $return_body['mmsystem_details'] = <<<HTML
-            <tr>
-                <td style="display: none;">
-                    <input readonly value="$shipment_details_ref" type="text" class="form-control" name="shipment_details_ref">
-                </td>
-                <td>
+            <input readonly style="display:none;" value="{$shipment_details_ref}" type="text" name="shipment_details_ref">
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>CONTAINER STATUS</label>
                     <input value="{$shipment['container_status']}" type="text" class="form-control" name="container_status">
-                </td>
-                <td>
+                </div>
+                <div class="col-6">
+                    <label>DATE RETURN / REUSED</label>
                     <input value="{$shipment['date_return_reused']}" type="date" class="form-control" name="date_return_reused">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>NO. DAYS AT PORT</label>
                     <input readonly value="{$shipment['no_days_port']}" type="number" class="form-control" name="no_days_port">
-                </td>
-                <td>
+                </div>
+                <div class="col-6">
+                    <label>NO. DAYS AT FALP</label>
                     <input readonly value="{$shipment['no_days_falp']}" type="number" class="form-control" name="no_days_falp">
-                </td>
-                <td>
+                </div>
+            </div>
+            <div class="row mb-2 d-flex align-items-center">
+                <div class="col-3 ml-auto">
                     <button type="submit" class="btn bg-primary btn-block">Update</button>
-                </td>
-            </tr>
+                </div>
+            </div>
         HTML;
     }
 
