@@ -13,30 +13,40 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link<?php echo ($bar_whois_active == "incoming_sea" || $bar_whois_active == "sea_details" || $bar_whois_active == 'incoming_air'|| $bar_whois_active == 'sea_import_details' ? ' active': '');?>">
-						<i class="nav-icon far fa-circle"></i><p>Incoming Delivery<i class="right fas fa-angle-left"></i></p>
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment', 'shipment_documentation', 'incoming_sea', 'sea_details', 'sea_import_details', 'sea_active_details']) ? ' active ' : ''?>">
+						<i class="nav-icon far fa-circle"></i><p>Sea Incoming Delivery<i class="right fas fa-angle-left"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo ($bar_whois_active == "incoming_sea" || $bar_whois_active == "sea_details" || $bar_whois_active == 'incoming_air'|| $bar_whois_active == 'sea_import_details' ? ' style="display:block;"': '');?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment', 'shipment_documentation', 'incoming_sea', 'sea_details', 'sea_import_details', 'sea_active_details']) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
+							<a href="add_shipment_sea.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Add Shipment</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="documentation_sea.php" class="nav-link<?php echo ($bar_whois_active == "shipment_documentation" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Documentation</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a href="incoming_sea.php" class="nav-link<?php echo ($bar_whois_active == "incoming_sea" ? ' active': '');?>">
 								<i class="far fa-circle nav-icon"></i><p>Sea Shipments</p>
 							</a>
 						</li>
 						<li class="nav-item">
+							<a href="sea_active_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_active_details" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Active Report</p>
+							</a>
+						</li>
+						<li class="nav-item">
 							<a href="sea_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_details" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Sea Polytainer Report</p>
+								<i class="far fa-circle nav-icon"></i><p>Polytainer Report</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="sea_import_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_import_details" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Sea Import Report</p>
+								<i class="far fa-circle nav-icon"></i><p>Import Report</p>
 							</a>
 						</li>
-						<!-- <li class="nav-item">
-							<a href="incoming_air.php" class="nav-link<?php echo ($bar_whois_active == "incoming_air" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Air Shipments</p>
-							</a>
-						</li> -->
 					</ul>
 				</li>
 				<!-- <li class="nav-item">

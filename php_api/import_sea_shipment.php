@@ -237,7 +237,8 @@
                 "text" => "File Imported Successfully<br>$updated items updated<br>$created items created",
             ];
             $_SESSION['notification'] = json_encode($notification);
-            header('location: ../pages/incoming_sea.php');
+            //header('location: ../pages/incoming_sea.php');
+            header('location: ../pages/add_shipment_sea.php');
             exit();
         } else {
             //file not uploaded

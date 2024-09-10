@@ -8,13 +8,13 @@
     </thead>
     <tbody id="ConfirmIncomingSeaTableBody">
 <?php
-$sql = "SELECT shipment_details_ref, bl_number, commercial_invoice from m_shipment_sea_details where confirm_departure = 0 ";
+$sql = "SELECT shipment_details_ref, bl_number, container, commercial_invoice from m_shipment_sea_details where confirm_departure = 0 ";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo <<<HTML
-        <tr>
+        <tr data-value="{$row['container']}" onclick="loaddata(this)" id="{$row['shipment_details_ref']}" class="modal-trigger" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal">
             <td>{$row['bl_number']}</td>
             <td>{$row['commercial_invoice']}</td>
             <td>
