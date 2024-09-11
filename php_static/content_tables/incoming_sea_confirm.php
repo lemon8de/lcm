@@ -2,6 +2,7 @@
     <thead>
         <tr style="border-bottom:1px solid black">
             <th>BL NUMBER</th>
+            <th>CONTAINER</th>
             <th>INVOICE NUMBER</th>
             <th colspan="2" class="text-center">ACTION</th>
         </tr>
@@ -16,6 +17,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo <<<HTML
         <tr data-value="{$row['container']}" onclick="loaddata(this)" id="{$row['shipment_details_ref']}" class="modal-trigger" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal">
             <td>{$row['bl_number']}</td>
+            <td>{$row['container']}</td>
             <td>{$row['commercial_invoice']}</td>
             <td>
                 <form action="../php_api/sea_confirm_departure.php" method="POST">
