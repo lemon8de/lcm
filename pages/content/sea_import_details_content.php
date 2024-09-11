@@ -1,27 +1,17 @@
-<div class="card card-gray-dark card-outline">
-    <div class="card-header collapsed">
-        <h3 class="card-title">Import Data Report</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                <i class="fas fa-expand"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body table-responsive">
-        <div class="col-3 mb-3">
+<div class="container mt-2 mb-3">
+    <div class="row">
+        <div class="col-3">
             <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
                 <form id="file_form" enctype="multipart/form-data" action="../php_api/import_sea_peza_array-invoices.php" method="POST">
                     <span><i class="fas fa-upload mr-2"></i>PEZA Import</span><input type="file" id="peza_import_sea" name="import_sea_peza_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
                 </form>
             </button>
         </div>
-        <form id="ImportReportSearchForm">
-        <div class="container mb-2">
-            <div class="row">
-                    <div class="col-3">
+            <div class="col-4">
+                <div class="container">
+                <form id="ImportReportSearchForm">
+                <div class="row">
+                    <div class="col-8">
                         <select class="form-control" name="month" onchange="search_import_report()">
                             <option value="" selected disabled>Select Month</option>
                             <option value="1">January</option>
@@ -38,7 +28,7 @@
                             <option value="12">December</option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col-4">
                         <select class="form-control" name="year" onchange="search_import_report()">
                             <?php
                                 $current_year = date("Y");
@@ -51,14 +41,16 @@
                             ?>
                         </select>
                     </div>
+                </div>
+                </form>
             </div>
         </div>
-        </form>
-        <div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
-            <?php include '../php_static/content_tables/importsea_data_report.php';?>
-        </div>
-        <?php include '../php_static/content_tables/container_breakdown.php';?>
     </div>
+</div>
+
+<div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
+    <?php include '../php_static/content_tables/importsea_data_report.php';?>
+    <?php include '../php_static/content_tables/container_breakdown.php';?>
 </div>
 
 <div class="card card-gray-dark card-outline">

@@ -12,14 +12,14 @@
 						<i class="nav-icon far fa-circle"></i><p>Dashboard</p>
 					</a>
 				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment', 'shipment_documentation', 'incoming_sea', 'sea_details', 'sea_import_details', 'sea_active_details']) ? ' active ' : ''?>">
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' active ' : ''?>">
 						<i class="nav-icon far fa-circle"></i><p>Sea Incoming Delivery<i class="right fas fa-angle-left"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment', 'shipment_documentation', 'incoming_sea', 'sea_details', 'sea_import_details', 'sea_active_details']) ? ' style="display:block;"' : '';?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="add_shipment_sea.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Add Shipment</p>
+								<i class="far fa-circle nav-icon"></i><p>Add/Update Shipment</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -33,18 +33,35 @@
 							</a>
 						</li>
 						<li class="nav-item">
+							<a href="edit_shipment_sea.php" class="nav-link<?php echo ($bar_whois_active == "edit_shipment_sea" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Edit Shipment Data</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="incoming_sea.php" class="nav-link<?php echo ($bar_whois_active == "edit_import_sea" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Edit Import Data</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['sea_active_details', 'sea_details', 'sea_import_details']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['sea_active_details', 'sea_details', 'sea_import_details']) ? ' active ' : ''?>">
+						<i class="nav-icon far fa-circle"></i><p>Sea Report Generation<i class="right fas fa-angle-left"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['sea_import_details', 'sea_details', 'sea_active_details']) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
 							<a href="sea_active_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_active_details" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Active Report</p>
+								<i class="far fa-circle nav-icon"></i><p>Active</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="sea_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_details" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Polytainer Report</p>
+								<i class="far fa-circle nav-icon"></i><p>Polytainer</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="sea_import_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_import_details" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Import Report</p>
+								<i class="far fa-circle nav-icon"></i><p>Import</p>
 							</a>
 						</li>
 					</ul>
