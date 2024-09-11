@@ -136,7 +136,7 @@
                 "text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated<br>{$matches}",
             ];
             $_SESSION['notification'] = json_encode($notification);
-            header('location: ../pages/sea_import_details.php');
+            header('location: ../pages/edit_import_sea.php');
             exit();
         } else {
             //file not uploaded

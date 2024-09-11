@@ -1,9 +1,9 @@
 <?php
     require 'db_connection.php';
 
-    $bl_number = $_GET['bl_number'];
-    $container = $_GET['container'];
-    $commercial_invoice = $_GET['commercial_invoice'];
+    $bl_number = $_GET['bl_number'] ?? '';
+    $container = $_GET['container'] ?? '';
+    $commercial_invoice = $_GET['commercial_invoice'] ?? '';
 
     if ($bl_number == "" && $container == "" && $commercial_invoice == "") {
         echo json_encode(['search_state' => 'aborted']);
@@ -63,7 +63,7 @@
         $inner_html = "";
         while ($row = $stmt_import -> fetch(PDO::FETCH_ASSOC)) {
             $inner_html .= <<<HTML
-                <tr>
+                <tr class="modal-trigger" id="{$row['shipping_invoice']}" onclick="load_import_data.call(this)" data-toggle="modal" data-target="#edit_import_data_sea_modal">
                     <td>{$row['shipping_invoice']}</td>
                     <td>{$row['assessment_date']}</td>
                     <td>{$row['ip_number']}</td>

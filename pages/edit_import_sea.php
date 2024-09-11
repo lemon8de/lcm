@@ -28,5 +28,6 @@
             <?php include '../php_static/web/footer.php'?>
         </div>
     </body>
+    <?php include '../modals/edit_import_data_sea_modal.php';?>
     <?php include '../php_static/web/notification_handler.php';?>
 </html>

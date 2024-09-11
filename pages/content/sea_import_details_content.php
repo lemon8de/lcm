@@ -1,12 +1,5 @@
 <div class="container mt-2 mb-3">
     <div class="row">
-        <div class="col-3">
-            <button class="btn btn-warning btn-block btn-file" onclick="fileexplorer()">
-                <form id="file_form" enctype="multipart/form-data" action="../php_api/import_sea_peza_array-invoices.php" method="POST">
-                    <span><i class="fas fa-upload mr-2"></i>PEZA Import</span><input type="file" id="peza_import_sea" name="import_sea_peza_file" onchange="submit()" accept=".csv" style="opacity:0; display:none;">
-                </form>
-            </button>
-        </div>
             <div class="col-4">
                 <div class="container">
                 <form id="ImportReportSearchForm">
@@ -50,6 +43,8 @@
 
 <div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
     <?php include '../php_static/content_tables/importsea_data_report.php';?>
+</div>
+<div class="container" id="ContainerBreakdownSwitch" style="display:none;">
     <?php include '../php_static/content_tables/container_breakdown.php';?>
 </div>
 
@@ -88,9 +83,6 @@
 </div>
 
 <script>
-    function fileexplorer() {
-        document.getElementById("peza_import_sea").click();
-    }
     function loaddata() {
         //console.log(this.value);
         $.ajax({
@@ -117,10 +109,9 @@
             },
             dataType: 'json',
             success: function (response) {
-                //console.log(response);
+                console.log(response);
                 document.getElementById('ContainerBreakdownContent').innerHTML = response.html;
                 //hide the main table, show the table switch
-
             }
         });
         //show and hide stuff

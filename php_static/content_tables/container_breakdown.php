@@ -1,4 +1,3 @@
-<section id="ContainerBreakdownSwitch" style="display:none;">
 <div class="row mb-2">
     <div class="col-sm-12">
         <button type="button" class="btn btn-tool" onclick="tableswitchingbutton()">
@@ -16,7 +15,6 @@
     <tbody id="ContainerBreakdownContent">
     </tbody>
 </table>
-</section>
 
 <script>
     function tableswitchingbutton() {
