@@ -26,13 +26,13 @@
             $stmt -> execute();
 
             while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-                $row['commercial_invoice'] = str_replace(" ", "<br>", $row['commercial_invoice']);
+                $row['commercial_invoice'] =$row['commercial_invoice'] == null ? null : str_replace(" ", "<br>", $row['commercial_invoice']);
 
-                $row['eta_mnl'] = substr($row['eta_mnl'], 0, 10);
-                $row['ata_mnl'] = substr($row['ata_mnl'], 0, 10);
-                $row['atb'] = substr($row['atb'], 0, 10);
-                $row['required_delivery_sched'] = substr($row['required_delivery_sched'], 0, 10);
-                $row['deliver_plan'] = substr($row['deliver_plan'], 0, 10);
+                $row['eta_mnl'] = $row['eta_mnl'] == null ? null : substr($row['eta_mnl'], 0, 10);
+                $row['ata_mnl'] = $row['ata_mnl'] == null ? null : substr($row['ata_mnl'], 0, 10);
+                $row['atb'] = $row['atb'] == null ? null : substr($row['atb'], 0, 10);
+                $row['required_delivery_sched'] = $row['required_delivery_sched'] == null ? null : substr($row['required_delivery_sched'], 0, 10);
+                $row['deliver_plan'] = $row['deliver_plan'] == null ? null : substr($row['deliver_plan'], 0, 10);
 
                 echo <<<HTML
                 <tr style="border-bottom:1px solid black">
