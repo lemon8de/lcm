@@ -10,17 +10,17 @@
     $inner_html = "";
     if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         //floating point rounding
-        $data['commercial_invoice_amount'] = round((float)$data['commercial_invoice_amount'], 2);
-        $data['gross_weight'] = round((float)$data['gross_weight'], 2);
-        $data['total_custom_value'] = round((float)$data['total_custom_value'], 2);
-        $data['duitable_value'] = round((float)$data['duitable_value'], 2);
-        $data['rate'] = round((float)$data['rate'], 2);
-        $data['customs_duty'] = round((float)$data['customs_duty'], 2);
-        $data['landed_cost'] = round((float)$data['landed_cost'], 2);
-        $data['vat'] = round((float)$data['vat'], 2);
-        $data['bank_charges'] = round((float)$data['bank_charges'], 2);
-        $data['wharfage'] = round((float)$data['wharfage'], 2);
-        $data['arrastre_charges'] = round((float)$data['arrastre_charges'], 2);
+        $data['commercial_invoice_amount'] = $data['commercial_invoice_amount'] == null ? "" : round((float)$data['commercial_invoice_amount'], 2);
+        $data['gross_weight'] = $data['gross_weight'] == null ? "" : round((float)$data['gross_weight'], 2);
+        $data['total_custom_value'] = $data['total_custom_value'] == null ? "" : round((float)$data['total_custom_value'], 2);
+        $data['duitable_value'] = $data['duitable_value'] == null ? "" : round((float)$data['duitable_value'], 2);
+        $data['rate'] = $data['rate'] == null ? "" : round((float)$data['rate'], 2);
+        $data['customs_duty'] = $data['customs_duty'] == null ? "" : round((float)$data['customs_duty'], 2);
+        $data['landed_cost'] = $data['landed_cost'] == null ? "" : round((float)$data['landed_cost'], 2);
+        $data['vat'] = $data['vat'] == null ? "" : round((float)$data['vat'], 2);
+        $data['bank_charges'] = $data['bank_charges'] == null ? "" : round((float)$data['bank_charges'], 2);
+        $data['wharfage'] = $data['wharfage'] == null ? "" : round((float)$data['wharfage'], 2);
+        $data['arrastre_charges'] = $data['arrastre_charges'] == null ? "" : round((float)$data['arrastre_charges'], 2);
 
         //date snip
         //$data['assessment_date'] = $data['assessment_date'] !== null ? substr($data['assessment_date'], 0, 10) : "";
