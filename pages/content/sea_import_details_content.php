@@ -1,46 +1,47 @@
-<div class="container mt-2 mb-3">
-    <div class="row">
-            <div class="col-4">
-                <div class="container">
-                <form id="ImportReportSearchForm">
-                <div class="row">
-                    <div class="col-8">
-                        <select class="form-control" name="month" onchange="search_import_report()">
-                            <option value="" selected disabled>Select Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                    </div>
-                    <div class="col-4">
-                        <select class="form-control" name="year" onchange="search_import_report()">
-                            <?php
-                                $current_year = date("Y");
-                                $end_year = $current_year - 10;
-                                for ($year = $current_year; $year >= $end_year; $year--) {
-                                    echo <<<HTML
-                                        <option value="{$year}">{$year}</option>
-                                    HTML;
-                                }
-                            ?>
-                        </select>
-                    </div>
+<div class="container mt-2">
+    <form id="ImportReportSearchForm">
+        <div class="container mb-2">
+            <div class="row mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remove_active" onchange="search_import_report()">
+                    <label class="form-check-label">Don't Show Active<span class="text-muted small">&nbsp;For Accurate Historical Logs</span></label>
                 </div>
-                </form>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <select class="form-control" name="month" onchange="search_import_report()">
+                        <option value="" selected disabled>Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <select class="form-control" name="year" onchange="search_import_report()">
+                        <?php
+                            $current_year = date("Y");
+                            $end_year = $current_year - 10;
+                            for ($year = $current_year; $year >= $end_year; $year--) {
+                                echo <<<HTML
+                                    <option value="{$year}">{$year}</option>
+                                HTML;
+                            }
+                        ?>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
-
 <div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
     <?php include '../php_static/content_tables/importsea_data_report.php';?>
 </div>

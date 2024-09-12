@@ -5,9 +5,10 @@
             <label class="form-check-label">Show Active Only<span class="text-muted small">&nbsp;Disable for Historical Logs</span></label>
         </div>
     </div>
+    <form id="ActiveReportSearchForm">
     <div class="row mb-3" id="ActiveReportSearchBars" style="display:none;">
         <div class="col-3">
-            <select class="form-control" name="month" onchange="search_polytainer_report()">
+            <select class="form-control" name="month" onchange="search_active_report()">
                 <option value="" selected disabled>Select Month</option>
                 <option value="1">January</option>
                 <option value="2">February</option>
@@ -24,7 +25,7 @@
             </select>
         </div>
         <div class="col-2">
-            <select class="form-control" name="year" onchange="search_polytainer_report()">
+            <select class="form-control" name="year" onchange="search_active_report()">
                 <?php
                     $current_year = date("Y");
                     $end_year = $current_year - 10;
@@ -37,6 +38,7 @@
             </select>
         </div>
     </div>
+    </form>
 </div>
 
 <div class="container" style="max-height: 600px; overflow-y: auto;" id="ImportDataMain">
@@ -60,5 +62,19 @@
             document.getElementById("ActiveReportSearchBars").style.display = 'flex';
             document.getElementById("ActiveReportContent").innerHTML = '';
         }
+    }
+    function search_active_report() {
+        var formData = $('#ActiveReportSearchForm').serialize();
+        $.ajax({
+            type: 'GET',
+            url: '../php_api/refine_active_report.php',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (!response.exited) {
+                    document.getElementById("ActiveReportContent").innerHTML = response.inner_html;
+                }
+            },
+        });
     }
 </script>

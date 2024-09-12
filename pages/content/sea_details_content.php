@@ -1,6 +1,12 @@
 <div class="container mt-2">
     <form id="PolytainerReportSearchForm">
         <div class="container mb-2">
+            <div class="row mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remove_active" onchange="search_polytainer_report()">
+                    <label class="form-check-label">Don't Show Active<span class="text-muted small">&nbsp;For Accurate Historical Logs</span></label>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-3">
                     <select class="form-control" name="month" onchange="search_polytainer_report()">
