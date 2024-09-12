@@ -23,7 +23,8 @@
         $data['arrastre_charges'] = round((float)$data['arrastre_charges'], 2);
 
         //date snip
-        $data['assessment_date'] = substr($data['assessment_date'], 0, 10);
+        //$data['assessment_date'] = $data['assessment_date'] !== null ? substr($data['assessment_date'], 0, 10) : "";
+        $data['assessment_date'] = $data['assessment_date'] == null ? null : substr($data['assessment_date'], 0, 10);
         $inner_html .= <<<HTML
                 <div class="row mt-2 justify-content-center">
                     <div class="col-3">
