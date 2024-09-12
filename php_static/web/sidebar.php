@@ -27,11 +27,11 @@
 								<i class="far fa-circle nav-icon"></i><p>Documentation</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<a href="incoming_sea.php" class="nav-link<?php echo ($bar_whois_active == "incoming_sea" ? ' active': '');?>">
 								<i class="far fa-circle nav-icon"></i><p>Sea Shipments</p>
 							</a>
-						</li>
+						</li> -->
 						<li class="nav-item">
 							<a href="edit_shipment_sea.php" class="nav-link<?php echo ($bar_whois_active == "edit_shipment_sea" ? ' active': '');?>">
 								<i class="far fa-circle nav-icon"></i><p>Edit Shipment Data</p>

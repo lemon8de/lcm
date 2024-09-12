@@ -48,7 +48,7 @@
     <?php include '../php_static/content_tables/container_breakdown.php';?>
 </div>
 
-<div class="card card-gray-dark card-outline">
+<!-- <div class="card card-gray-dark card-outline">
     <div class="card-header collapsed">
         <h3 class="card-title">Edit Data</h3>
         <div class="card-tools">
@@ -76,28 +76,28 @@
                 ?>
             </select>
         </div>
-        <!-- <div class="container"> -->
+        <div class="container">
             <?php include '../forms/import_data_edit_form.php';?>
-        <!-- </div> -->
+        </div>
     </div>
-</div>
+</div> -->
 
 <script>
-    function loaddata() {
-        //console.log(this.value);
-        $.ajax({
-            url: '../php_api/get_import_data.php',
-            type: 'GET',
-            data: {
-                'shipping_invoice' : this.value,
-            },
-            dataType: 'json',
-            success: function (response) {
-                //console.log(response);
-                document.getElementById('ImportInformation').innerHTML = response.html;
-            }
-        });
-    }
+    //function loaddata() {
+        ////console.log(this.value);
+        //$.ajax({
+            //url: '../php_api/get_import_data.php',
+            //type: 'GET',
+            //data: {
+                //'shipping_invoice' : this.value,
+            //},
+            //dataType: 'json',
+            //success: function (response) {
+                ////console.log(response);
+                //document.getElementById('ImportInformation').innerHTML = response.html;
+            //}
+        //});
+    //}
 
     function show_breakdown() {
         console.log(this.id);
