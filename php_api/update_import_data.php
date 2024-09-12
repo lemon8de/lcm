@@ -88,5 +88,13 @@
     $stmt->bindValue(':shipping_invoice', $shipping_invoice);
     $stmt -> execute();
 
-    header('location: ../pages/sea_import_details.php');
-    exit();
+    $conn = null;
+    //header('location: ../pages/incoming_sea.php');
+    //exit();
+    $notification = [
+        "icon" => "success",
+        "text" => "Details Updated",
+    ];
+    $return_body = [];
+    $return_body['notification'] = $notification;
+    echo json_encode($return_body);
