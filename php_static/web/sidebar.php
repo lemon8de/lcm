@@ -50,7 +50,7 @@
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['sea_import_details', 'sea_details', 'sea_active_details']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
-							<a href="sea_active_details.php" class="nav-link<?php echo ($bar_whois_active == "sea_active_details" ? ' active': '');?>">
+							<a href="active_report_sea.php" class="nav-link<?php echo ($bar_whois_active == "sea_active_details" ? ' active': '');?>">
 								<i class="far fa-circle nav-icon"></i><p>Active</p>
 							</a>
 						</li>
