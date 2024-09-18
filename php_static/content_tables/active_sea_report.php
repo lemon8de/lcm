@@ -21,7 +21,8 @@
     </thead>
     <tbody id="ActiveReportContent">
         <?php
-            $sql = "SELECT a.forwarder_name, b.vessel_name, b.eta_mnl, b.ata_mnl, b.atb, a.bl_number, a.container, a.commercial_invoice, a.commodity, c.required_delivery_sched, c.deliver_plan, c.tabs, a.shipment_status, a.origin_port, d.no_days_port, a.type_of_expense from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_delivery_plan as c on a.shipment_details_ref = c.shipment_details_ref left join m_mmsystem as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref where e.actual_received_at_falp is null";
+            //$sql = "SELECT a.forwarder_name, b.vessel_name, b.eta_mnl, b.ata_mnl, b.atb, a.bl_number, a.container, a.commercial_invoice, a.commodity, c.required_delivery_sched, c.deliver_plan, c.tabs, a.shipment_status, a.origin_port, d.no_days_port, a.type_of_expense from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_delivery_plan as c on a.shipment_details_ref = c.shipment_details_ref left join m_mmsystem as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref where e.actual_received_at_falp is null";
+            $sql = "SELECT * from active_report";
             $stmt = $conn -> prepare($sql);
             $stmt -> execute();
 

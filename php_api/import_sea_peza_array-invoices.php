@@ -133,7 +133,8 @@
             fclose($csvFile);
             $notification = [
                 "icon" => "success",
-                "text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated<br>{$matches}",
+                //"text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated<br>{$matches}",
+                "text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated",
             ];
             $_SESSION['notification'] = json_encode($notification);
             header('location: ../pages/edit_import_sea.php');

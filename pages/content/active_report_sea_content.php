@@ -1,8 +1,11 @@
 <div class="container">
     <div class="row mb-3">
-        <div class="form-check">
+        <div class="col-2 form-check">
             <input class="form-check-input" type="checkbox" checked onchange="historical_mode.call(this)">
-            <label class="form-check-label">Show Active Only<span class="text-muted small">&nbsp;Disable for Historical Logs</span></label>
+            <label class="form-check-label">Show Active Only<br><span class="text-muted small">&nbsp;Disable for Historical Logs</span></label>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-block btn-primary">Export Data</button>
         </div>
     </div>
     <form id="ActiveReportSearchForm">

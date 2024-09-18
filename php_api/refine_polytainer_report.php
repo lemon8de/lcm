@@ -36,9 +36,9 @@
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
         //this hack removed vessel duplication, just make sure we are getting latest vessel name, by ordering by id desc
-        if ($last_vessel == $row['vessel_name']) {
-            continue;
-        }
+        //if ($last_vessel == $row['vessel_name']) {
+            //continue;
+        //}
         $last_vessel = $row['vessel_name'];
 
         $q_eta_mnl = $row['eta_mnl']; //save this for the query below, the TBA change should be done for the displaying only
@@ -136,7 +136,7 @@
             <td>$total</td>
         HTML;
     
-        $row['deliver_plan'] = $row['deliver_plan'] == null ? 'TBA' : date('Y/m/d', strtotime($row['deliver_plan']));
+        $row['deliver_plan'] = $row['deliver_plan'] == null ? 'TBA' : 'TENTATIVE ON ' . date('Y/m/d', strtotime($row['deliver_plan']));
         $inner_html .= <<<HTML
             <td>{$row['deliver_plan']}</td>
         HTML;

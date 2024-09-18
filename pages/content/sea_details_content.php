@@ -2,9 +2,12 @@
     <form id="PolytainerReportSearchForm">
         <div class="container mb-2">
             <div class="row mb-3">
-                <div class="form-check">
+                <div class="col-3 form-check">
                     <input class="form-check-input" type="checkbox" name="remove_active" onchange="search_polytainer_report()">
-                    <label class="form-check-label">Don't Show Active<span class="text-muted small">&nbsp;For Accurate Historical Logs</span></label>
+                    <label class="form-check-label">Don't Show Active<br><span class="text-muted small">&nbsp;For Accurate Historical Logs</span></label>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-block btn-primary">Export Data</button>
                 </div>
             </div>
             <div class="row">
