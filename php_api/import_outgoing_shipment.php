@@ -32,7 +32,6 @@
             $stmt_entry_duplicate = $conn -> prepare($sql_entry_duplicate);
 
             while (($line = fgetcsv($csvFile)) !== false) {
-                echo 'started reading';
                 if (empty(implode('', $line))) {
                     continue; // Skip blank lines
                 }
