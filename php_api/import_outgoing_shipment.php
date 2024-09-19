@@ -1,4 +1,7 @@
 <?php 
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
