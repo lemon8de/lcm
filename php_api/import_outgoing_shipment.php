@@ -6,12 +6,17 @@
     echo 'made it here11';
 
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
+        echo '1';
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
+            echo '2';
             //READ FILE
             $csvFile = fopen($_FILES['outgoing_shipment_file']['tmp_name'],'r');
             // SKIP FIRST LINE
+            echo '3';
             fgetcsv($csvFile);
             // PARSE
+
+            echo '4';
 
             $created = 0;
             $duplicate = 0;
