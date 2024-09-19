@@ -8,12 +8,14 @@
     echo '1';
     echo 'space';
 
+    echo !empty($_FILES['outgoing_shipment_file']['name']);
+    echo in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes);
+
     try {
         echo $_FILES['outgoing_shipment_file']['type'];
     } catch (Exception $e) {
         echo "Caught exception: " . $e->getMessage();
     }
-
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
         echo '1';
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
