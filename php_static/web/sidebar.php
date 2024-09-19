@@ -66,6 +66,18 @@
 						</li>
 					</ul>
 				</li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['add_outgoing']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_outgoing']) ? ' active ' : ''?>">
+						<i class="nav-icon far fa-circle"></i><p>Outgoing Shipment<i class="right fas fa-angle-left"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_outgoing']) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
+							<a href="add_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "add_outgoing" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>Add Outgoing</p>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<!-- <li class="nav-item">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ? ' active': '');?>">
 						<i class="nav-icon far fa-circle"></i><p>Example User Link</p>

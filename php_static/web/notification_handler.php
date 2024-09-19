@@ -6,7 +6,7 @@
             popup: 'colored-toast',
         },
         showConfirmButton: false,
-        timer: 1000,
+        timer: 3000,
         timerProgressBar: true,
     })
 </script>
