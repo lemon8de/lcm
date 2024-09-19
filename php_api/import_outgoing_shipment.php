@@ -5,6 +5,7 @@
 
     echo 'made it here11';
     echo $_FILES['outgoing_shipment_file']['name'];
+    echo $_FILES['outgoing_shipment_file']['type'];
 
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
         echo '1';
