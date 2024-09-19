@@ -9,8 +9,6 @@
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
             //READ FILE
             $csvFile = fopen($_FILES['outgoing_shipment_file']['tmp_name'],'r');
-            $lines = file($_FILES['outgoing_shipment_file']['tmp_name']);
-            $row_count = count($lines) - 1;
             // SKIP FIRST LINE
             fgetcsv($csvFile);
             // PARSE
