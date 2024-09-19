@@ -1,6 +1,7 @@
 <?php 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+    // Enable error logging
+    ini_set('log_errors', 1); // Enable error logging
+    ini_set('error_log', '/var/www/html/error.log'); // Specify the log file path
 
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
