@@ -1,11 +1,9 @@
 <?php 
-    // Enable error logging
-    ini_set('log_errors', 1); // Enable error logging
-    ini_set('error_log', '/var/www/html/error.log'); // Specify the log file path
-
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+
+    echo 'made it here';
 
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
