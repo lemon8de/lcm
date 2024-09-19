@@ -3,31 +3,13 @@
     require '../php_static/session_lookup.php';
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
 
-    echo 'made it here11';
-    echo $_FILES['outgoing_shipment_file']['name'];
-    echo '1';
-    echo 'space';
-
-    echo !empty($_FILES['outgoing_shipment_file']['name']);
-    echo in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes);
-
-    try {
-        echo $_FILES['outgoing_shipment_file']['type'];
-    } catch (Exception $e) {
-        echo "Caught exception: " . $e->getMessage();
-    }
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
-        echo '1';
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
-            echo '2';
             //READ FILE
             $csvFile = fopen($_FILES['outgoing_shipment_file']['tmp_name'],'r');
             // SKIP FIRST LINE
-            echo '3';
             fgetcsv($csvFile);
             // PARSE
-
-            echo '4';
 
             $created = 0;
             $duplicate = 0;
@@ -37,7 +19,6 @@
             $tw_no = [];
             $invoice_amount = [];
 
-            echo "made it here";
             $sql_insert_fsib = "INSERT into m_outgoing_fsib (outgoing_details_ref, invoice_no, container_no, destination_service_center, destination, car_model, ship_out_date, no_pallets, no_cartons, pack_qty, invoice_amount) values (:outgoing_details_ref, :invoice_no, :container_no, :destination_service_center, :destination, :car_model, :ship_out_date, :no_pallets, :no_cartons, :pack_qty, :invoice_amount); INSERT into m_outgoing_vessel_details (outgoing_details_ref, mode_of_shipment) values (:outgoing_details_ref2, :mode_of_shipment)";
             $stmt_insert_fsib = $conn -> prepare($sql_insert_fsib);
 
@@ -51,6 +32,7 @@
             $stmt_entry_duplicate = $conn -> prepare($sql_entry_duplicate);
 
             while (($line = fgetcsv($csvFile)) !== false) {
+                echo 'started reading';
                 if (empty(implode('', $line))) {
                     continue; // Skip blank lines
                 }
