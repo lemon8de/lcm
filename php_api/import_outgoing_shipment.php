@@ -5,6 +5,7 @@
 
     echo 'made it here11';
     echo $_FILES['outgoing_shipment_file']['name'];
+    echo 'space';
 
     try {
         echo $_FILES['outgoing_shipment_file']['type'];
