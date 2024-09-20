@@ -8,7 +8,6 @@
             </button>
         </div>
     </div>
-    <?php include '../forms/add_shipment_sea_details_form.php';?>
 </div>
 <script>
     function fileexplorer() {

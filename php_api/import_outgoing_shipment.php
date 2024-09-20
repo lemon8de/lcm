@@ -31,6 +31,9 @@
             $sql_entry_duplicate = "SELECT outgoing_details_ref from m_outgoing_fsib where invoice_no = :invoice_no";
             $stmt_entry_duplicate = $conn -> prepare($sql_entry_duplicate);
 
+            $sql_init_tables = "INSERT into m_outgoing_rtv (outgoing_details_ref) values (:outgoing_details_ref); INSERT into m_outgoing_invoice_details (outgoing_details_ref) values (:outgoing_details_ref2); INSERT into m_outgoing_bl_details (outgoing_details_ref) values (:outgoing_details_ref3); INSERT into m_outgoing_container_details (outgoing_details_ref) values (:outgoing_details_ref4); INSERT into m_outgoing_dispatching_details (outgoing_details_ref) values (:outgoing_details_ref5); INSERT into m_outgoing_cont_lineup (outgoing_details_ref) values (:outgoing_details_ref6)";
+            $stmt_init_tables = $conn -> prepare($sql_init_tables);
+
             while (($line = fgetcsv($csvFile)) !== false) {
                 if (empty(implode('', $line))) {
                     continue; // Skip blank lines
@@ -86,6 +89,14 @@
                         $stmt_insert_fsib -> bindParam(":invoice_amount", $invoice_amount);
                         $stmt_insert_fsib -> bindParam(":mode_of_shipment", $mode_of_shipment);
                         $stmt_insert_fsib -> execute();
+
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref2", $outgoing_details_ref);
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref3", $outgoing_details_ref);
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref4", $outgoing_details_ref);
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref5", $outgoing_details_ref);
+                        $stmt_init_tables -> bindParam(":outgoing_details_ref6", $outgoing_details_ref);
+                        $stmt_init_tables -> execute();
                     }
 
                     $tw_no = [];
@@ -167,6 +178,14 @@
                 $stmt_insert_fsib -> bindParam(":invoice_amount", $invoice_amount);
                 $stmt_insert_fsib -> bindParam(":mode_of_shipment", $mode_of_shipment);
                 $stmt_insert_fsib -> execute();
+
+                $stmt_init_tables -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+                $stmt_init_tables -> bindParam(":outgoing_details_ref2", $outgoing_details_ref);
+                $stmt_init_tables -> bindParam(":outgoing_details_ref3", $outgoing_details_ref);
+                $stmt_init_tables -> bindParam(":outgoing_details_ref4", $outgoing_details_ref);
+                $stmt_init_tables -> bindParam(":outgoing_details_ref5", $outgoing_details_ref);
+                $stmt_init_tables -> bindParam(":outgoing_details_ref6", $outgoing_details_ref);
+                $stmt_init_tables -> execute();
             }
 
             fclose($csvFile);
