@@ -104,7 +104,6 @@
     //}
 
     function show_breakdown() {
-        console.log(this.id);
         $.ajax({
             url: '../php_api/get_container_breakdown.php',
             type: 'GET',
@@ -113,7 +112,6 @@
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 document.getElementById('ContainerBreakdownContent').innerHTML = response.html;
                 //hide the main table, show the table switch
             }

@@ -21,7 +21,6 @@ $(document).ready(function() {
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 if (response.notification) {
                     Toast.fire({
 		                icon: response.notification.icon,
@@ -42,7 +41,6 @@ function edit_find_similar() {
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (response.exists) {
                     document.getElementById('VesselDetailsEditToolTipInfo').style.display = 'block';
                     document.getElementById('VesselDetailsEditETA').value = response.eta_mnl;

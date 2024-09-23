@@ -1,6 +1,7 @@
 <?php
     if (!isset($_GET['month'])) {
         echo json_encode(["exited" => true]);
+        exit();
     }
     require 'db_connection.php'; 
 

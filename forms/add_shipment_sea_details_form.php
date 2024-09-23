@@ -107,7 +107,6 @@
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (response.exists) {
                     document.getElementById('VesselDetailsETA').value = response.eta_mnl;
                     document.getElementById('VesselDetailsATA').value = response.ata_mnl;

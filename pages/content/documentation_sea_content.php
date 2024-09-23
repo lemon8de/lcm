@@ -33,7 +33,6 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 document.getElementById('ConfirmIncomingSeaTableBody').innerHTML = response.inner_html;
             },
         });

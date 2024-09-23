@@ -7,28 +7,28 @@
           <div class="card-header p-0 pt-1">
               <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                   <li class="nav-item">
-                      <a class="nav-link active" data-toggle="pill" href="FISBDiv" role="tab">FSIB</a>
+                      <a class="nav-link active" data-toggle="pill" href="#FSIBDiv" role="tab">FSIB</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="VesselDetailsDiv" role="tab">Vessel</a>
+                      <a class="nav-link" data-toggle="pill" href="#VesselDetailsDiv" role="tab">Vessel</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="InvoiceDetailsDiv" role="tab">Invoice</a>
+                      <a class="nav-link" data-toggle="pill" href="#InvoiceDetailsDiv" role="tab">Invoice</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="ContainerDetailsDiv" role="tab">Container</a>
+                      <a class="nav-link" data-toggle="pill" href="#ContainerDetailsDiv" role="tab">Container</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="DispatchingDetailsDiv" role="tab">Dispatching</a>
+                      <a class="nav-link" data-toggle="pill" href="#DispatchingDetailsDiv" role="tab">Dispatching</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="ContLineUpDiv" role="tab">Cont Line Up</a>
+                      <a class="nav-link" data-toggle="pill" href="#ContLineUpDiv" role="tab">Cont Line Up</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="BLDetailsDiv" role="tab">BL Details</a>
+                      <a class="nav-link" data-toggle="pill" href="#BLDetailsDiv" role="tab">BL Details</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="RTVDiv" role="tab">RTV</a>
+                      <a class="nav-link" data-toggle="pill" href="#RTVDiv" role="tab">RTV</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" data-toggle="pill" href="#HistoryTabDiv" role="tab">History</a>
@@ -37,11 +37,29 @@
             </div>  
             <div class="card-body">
                 <div class="tab-content" id="custom-tabs-one-tabContent">
-                    <div class="tab-pane fade active show" id="ShipmentTabDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/shipment_details.php';?>
+                    <div class="tab-pane fade active show" id="FSIBDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_fsib.php';?>
                     </div>
-                    <div class="tab-pane fade" id="VesselTabDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/vessel_details.php';?>
+                    <div class="tab-pane fade" id="VesselDetailsDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_vessel.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="InvoiceDetailsDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_invoice.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="ContainerDetailsDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_container.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="DispatchingDetailsDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_dispatch.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="ContLineUpDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_contlineup.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="BLDetailsDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_bl.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="RTVDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_rtv.php';?>
                     </div>
                     <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
                         <div style="max-height: 300px; overflow-y: auto;">
@@ -60,37 +78,24 @@
 <script>
 function loaddata() {
         var outgoing_details_ref = this.id;
-        console.log(outgoing_details_ref);
-        //var container = row.getAttribute('data-value');
-        //document.getElementById('TabTitle').innerHTML = "&nbsp;" + container + "&nbsp;";
 
-        //$.ajax({
-            //url: '../php_api/detailsdump.php',
-            //type: 'GET',
-            //data: {
-                //'shipment_details_ref' : shipment_details_ref,
-            //},
-            //dataType: 'json',
-            //success: function (response) {
-                //if (response.history) {
-                    //document.getElementById('HistoryContent').innerHTML = response.history;
-                    ////console.log(response)
-                //} else {
-                    //document.getElementById('HistoryContent').innerHTML = "";
-                //}
-                //if (response.shipment) {
-                    //document.getElementById('ShipmentDetailsContent').innerHTML = response.shipment;
-                    ////console.log(response)
-                //} else {
-                    //document.getElementById('ShipmentDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
-                //}
-                //if (response.vessel) {
-                    //document.getElementById('VesselDetailsContent').innerHTML = response.vessel;
-                    ////console.log(response)
-                //} else {
-                    //document.getElementById('VesselDetailsContent').innerHTML = "<center><span class='text-muted'>NO DATA</span></center>";
-                //}
-            //}
-        //});
+        $.ajax({
+            url: '../php_api/outgoing_detailsdump.php',
+            type: 'GET',
+            data: {
+                'outgoing_details_ref' : outgoing_details_ref,
+            },
+            dataType: 'json',
+            success: function (response) {
+                document.getElementById('OutgoingFSIBContent').innerHTML = response.outgoing_fsib;
+                document.getElementById('OutgoingVesselContent').innerHTML = response.outgoing_vessel;
+                document.getElementById('OutgoingInvoiceContent').innerHTML = response.outgoing_invoice;
+                document.getElementById('OutgoingContainerContent').innerHTML = response.outgoing_container;
+                document.getElementById('OutgoingDispatchContent').innerHTML = response.outgoing_dispatch;
+                document.getElementById('OutgoingContLineUpContent').innerHTML = response.outgoing_contlineup;
+                document.getElementById('OutgoingBLContent').innerHTML = response.outgoing_bl;
+                document.getElementById('OutgoingRTVContent').innerHTML = response.outgoing_rtv;
+            }
+        });
     }
 </script>

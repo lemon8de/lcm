@@ -56,7 +56,6 @@
 function loaddata(row) {
         var value = row.getAttribute('id');
         var shipment_details_ref = value;
-        console.log(shipment_details_ref);
         var container = row.getAttribute('data-value');
         document.getElementById('TabTitle').innerHTML = "&nbsp;" + container + "&nbsp;";
 

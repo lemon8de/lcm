@@ -71,8 +71,9 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
-                document.getElementById('OutgoingSearchTableBody').innerHTML = response.inner_html;
+                if (!response.exited) {
+                    document.getElementById('OutgoingSearchTableBody').innerHTML = response.inner_html;
+                }
             },
         });
     }
