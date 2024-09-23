@@ -1,5 +1,4 @@
 <!-- Modal -->
-<form action="../../process/alert_table_click_modal_api.php" method="POST"></form>
 <div class="modal fade" id="documentation_view_shipment_sea_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">

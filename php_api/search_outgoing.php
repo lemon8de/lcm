@@ -39,7 +39,7 @@
     $inner_html = "";
     while ($data = $stmt_search -> fetch(PDO::FETCH_ASSOC)) {
         $inner_html .= <<<HTML
-            <tr>
+            <tr id="{$data['outgoing_details_ref']}" onclick="loaddata.call(this)" class="modal-trigger" data-toggle="modal" data-target="#edit_outgoing_modal">
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>
                 <td>{$data['destination_service_center']}</td>
