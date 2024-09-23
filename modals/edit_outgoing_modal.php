@@ -95,6 +95,7 @@ function loaddata() {
                 document.getElementById('OutgoingContLineUpContent').innerHTML = response.outgoing_contlineup;
                 document.getElementById('OutgoingBLContent').innerHTML = response.outgoing_bl;
                 document.getElementById('OutgoingRTVContent').innerHTML = response.outgoing_rtv;
+                document.getElementById('HistoryContent').innerHTML = response.history;
             }
         });
     }

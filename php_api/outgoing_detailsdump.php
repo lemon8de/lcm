@@ -327,5 +327,26 @@ if ($shipment) {
     HTML;
 }
 
+//history details
+$sql = "SELECT column_name, changed_from, changed_to, date_modified from m_change_history where shipment_details_ref = :outgoing_details_ref order by date_modified asc";
+$stmt = $conn -> prepare($sql);
+$stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
+$stmt -> execute();
+
+$return_body['history'] = null;
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $row['date_modified'] = date("Y/m/d", strtotime($row["date_modified"]));
+    $row['changed_from'] = $row['changed_from'] == null ? "N/A" : $row['changed_from'];
+    $row['changed_to'] = $row['changed_to'] == null ? "N/A" : $row['changed_to'];
+    $return_body['history'] .= <<<HTML
+        <tr>
+            <td>{$row['date_modified']}</td>
+            <td>{$row['column_name']}</td>
+            <td>{$row['changed_from']}</td>
+            <td>{$row['changed_to']}</td>
+        </tr>
+    HTML;
+}
+
 echo json_encode($return_body);
 exit();
