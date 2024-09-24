@@ -45,6 +45,10 @@
                             <div class="container">
                                 <div class="row mb-2">
                                     <div class="col-6">
+                                        <label>MODE OF SHIPMENT</label>
+                                        <input type="text" class="form-control" name="mode_of_shipment">
+                                    </div>
+                                    <div class="col-6">
                                         <label>VESSEL NAME</label>
                                         <input type="text" class="form-control" name="vessel_name">
                                     </div>
@@ -117,7 +121,7 @@ $(document).ready(function() {
         // Send the AJAX request
         $.ajax({
             type: 'POST', // or 'GET' depending on your needs
-            url: '../php_api/update_outgoing_b_vessel.php', // Replace with your server endpoint
+            url: '../php_api/update_outgoing_vessel.php', // Replace with your server endpoint
             data: combinedData,
             dataType: 'json',
             success: function(response) {
