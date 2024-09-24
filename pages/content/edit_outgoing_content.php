@@ -1,13 +1,13 @@
 <form id="OutgoingSearchForm">
     <div class="container">
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-3">
                 <input class="form-control" placeholder="INVOICE NO." name="invoice_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
             <div class="col-3">
                 <input class="form-control" placeholder="CONTAINER NO." name="container_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <select class="form-control" name="month" onchange="outgoing_search()">
                     <option value="" selected disabled>Select Month</option>
                     <option value="1">January</option>
@@ -40,11 +40,19 @@
         </div>
     </div>
 </form>
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-3">
+            <button class="btn btn-block btn-primary" onclick="edit_selected()">Edit Selected</button>
+        </div>
+    </div>
+</div>
 
 <div class="container" style="max-height: 80vh; overflow-y:auto;">
 <table class="table table-head-fixed text-nowrap table-hover">
     <thead>
         <tr style="border-bottom:1px solid black">
+            <th><input type="checkbox" onchange="checkall(this)"></th>
             <th>INVOICE NO.</th>
             <th>CONTAINER NO.</th>
             <th>DESTINATION (Service Center)</th>
@@ -76,5 +84,27 @@
                 }
             },
         });
+    }
+    
+    function checkall(source) {
+        const checkboxes = document.querySelectorAll('.row-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
+    
+    let selectedIds = [];
+    function edit_selected() {
+        const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+        selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.id);
+        console.log(selectedIds);
+        if (selectedIds.length == 0) {
+            Toast.fire({
+		        icon: "info",
+		        title: "None selected",
+	        })
+        } else {
+            $('#editb_outgoing_modal').modal('show');
+        }
     }
 </script>
