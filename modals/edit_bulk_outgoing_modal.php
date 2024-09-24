@@ -112,7 +112,6 @@ $(document).ready(function() {
         event.preventDefault(); // Prevent the default form submission
         // Serialize the form data
         var formData = $(this).serialize();
-        console.log(selectedIds);
         var additionalData = $.param({ 'outgoing_details_ref': selectedIds });
         var combinedData = formData + '&' + additionalData;
         // Send the AJAX request

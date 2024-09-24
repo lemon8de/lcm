@@ -37,6 +37,11 @@
                     ?>
                 </select>
             </div>
+            <div class="col-2">
+                <select class="form-control" id="destination_select" name="destination_service_center" onchange="outgoing_search()">
+                    <option disabled value="" selected>Destination</option>
+                </select>
+            </div>
         </div>
     </div>
 </form>
@@ -81,6 +86,7 @@
             success: function(response) {
                 if (!response.exited) {
                     document.getElementById('OutgoingSearchTableBody').innerHTML = response.inner_html;
+                    document.getElementById('destination_select').innerHTML = response.selection;
                 }
             },
         });
@@ -97,7 +103,6 @@
     function edit_selected() {
         const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
         selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.id);
-        console.log(selectedIds);
         if (selectedIds.length == 0) {
             Toast.fire({
 		        icon: "info",
