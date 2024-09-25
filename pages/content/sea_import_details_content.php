@@ -7,7 +7,7 @@
                     <label class="form-check-label">Don't Show Active<br><span class="text-muted small">&nbsp;For Accurate Historical Logs</span></label>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-block btn-primary">Export Data</button>
+                    <button type="button" class="btn btn-block btn-primary">Export Data</button>
                 </div>
             </div>
             <div class="row">

@@ -21,7 +21,7 @@
             <div class="content-wrapper">
                 <div class="content-header">
                     <div class="container-fluid">
-                        <?php include 'content/dashboard_content.php'?>
+                        <?php include 'content/outgoing_fsi_jp_content.php'?>
                     </div>
                 </div>
             </div>
