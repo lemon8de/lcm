@@ -132,7 +132,7 @@ if ($switch_invoice == null) {
                 <td>{$row['container_no']}</td>
                 <td>{$row['shipping_seal']}</td>
                 <td>{$ship_out_date}</td>
-                <td>{$row['destination']}</td>
+                <td>{$row['destination_service_center']}</td>
                 <td>{$row['no_pallets']}</td>
                 <td>{$row['gross_weight']}</td>
                 <td>{$row['cbm']}</td>
