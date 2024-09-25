@@ -34,6 +34,9 @@
             $sql_init_tables = "INSERT into m_outgoing_rtv (outgoing_details_ref) values (:outgoing_details_ref); INSERT into m_outgoing_invoice_details (outgoing_details_ref) values (:outgoing_details_ref2); INSERT into m_outgoing_bl_details (outgoing_details_ref) values (:outgoing_details_ref3); INSERT into m_outgoing_container_details (outgoing_details_ref) values (:outgoing_details_ref4); INSERT into m_outgoing_dispatching_details (outgoing_details_ref) values (:outgoing_details_ref5); INSERT into m_outgoing_cont_lineup (outgoing_details_ref) values (:outgoing_details_ref6)";
             $stmt_init_tables = $conn -> prepare($sql_init_tables);
 
+            $sql_destination = "SELECT destination from m_outgoing_list_destination where destination_service_center = :destination_service_center";
+            $stmt_destination = $conn -> prepare($sql_destination);
+
             while (($line = fgetcsv($csvFile)) !== false) {
                 if (empty(implode('', $line))) {
                     continue; // Skip blank lines
@@ -44,6 +47,14 @@
                 if ($last_invoice !== $invoice_no && $last_invoice !== "") {
                     $no_pallets = count(array_unique($tw_no));
                     $invoice_amount = array_sum($invoice_amount);
+
+                    $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
+                    $stmt_destination -> execute();
+                    if ($data = $stmt_destination -> fetch(PDO::FETCH_ASSOC)) {
+                        $destination = $data['destination'];
+                    } else {
+                        $destination = "MASTERLIST FAILURE";
+                    }
 
                     //check if there is a duplicate
                     $stmt_entry_duplicate -> bindParam(":invoice_no", $last_invoice);
@@ -117,7 +128,7 @@
                     $mode_of_shipment = "TBA";
                 }
                 $destination_service_center = $line[11];
-                $destination = $line[11];
+                //$destination = $line[11];
                 $no_cartons = 0;
                 $pack_qty = 0;
                 $car_model = "";// change this to null on insert
@@ -134,6 +145,14 @@
             //dirty i know but it has to be this way i am so sorry
             $no_pallets = count(array_unique($tw_no));
             $invoice_amount = array_sum($invoice_amount);
+
+            $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
+            $stmt_destination -> execute();
+            if ($data = $stmt_destination -> fetch(PDO::FETCH_ASSOC)) {
+                $destination = $data['destination'];
+            } else {
+                $destination = "MASTERLIST FAILURE";
+            }
 
             //check if there is a duplicate
             $stmt_entry_duplicate -> bindParam(":invoice_no", $last_invoice);

@@ -83,6 +83,23 @@
 						</li>
 					</ul>
 				</li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' active ' : ''?>">
+						<i class="nav-icon far fa-circle"></i><p>Outgoing Report Generation<i class="right fas fa-angle-left"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
+							<a href="outgoing_fsi_jp.php" class="nav-link<?php echo ($bar_whois_active == "fsi_jp" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>FSI JP</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="outgoing_fsi_la.php" class="nav-link<?php echo ($bar_whois_active == "fsi_la" ? ' active': '');?>">
+								<i class="far fa-circle nav-icon"></i><p>FSI LA</p>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<!-- <li class="nav-item">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ? ' active': '');?>">
 						<i class="nav-icon far fa-circle"></i><p>Example User Link</p>
