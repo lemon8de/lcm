@@ -53,6 +53,7 @@
     function outgoing_fsi_jp_search(should_clear) {
         if (should_clear) {
             document.getElementById("switch_invoice_select").value = "";
+            document.getElementById('OutgoingFsiJpReportContent').innerHTML = "";
         }
         var formData = $('#OutgoingFsiJpSearchForm').serialize();
         $.ajax({

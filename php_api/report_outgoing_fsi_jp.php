@@ -16,7 +16,7 @@ if ($switch_invoice == null) {
     $stmt_switch_invoice -> bindParam(":start_year2", $year);
     $stmt_switch_invoice -> execute();
 
-    $switch_invoice_select = '<option value="">Switch Invoice</option>';
+    $switch_invoice_select = '<option value="">Select Invoice</option>';
     while ($data = $stmt_switch_invoice -> fetch(PDO::FETCH_ASSOC)) {
         $switch_invoice_select .= <<<HTML
             <option>{$data['switch_invoice']}</option>
@@ -71,12 +71,12 @@ if ($switch_invoice == null) {
             $etd_mnl = "TBA";
         }
         $inner_html .= <<<HTML
-            <div class="card card-gray-dark card-outline">
+            <div class="card card-gray-dark card-outline collapsed collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title">{$data['data'][0]['destination']} | {$data['data'][0]['vessel_name']}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-plus"></i>
                         </button>
                         <button type="button" class="btn btn-tool" data-card-widget="maximize">
                             <i class="fas fa-expand"></i>
