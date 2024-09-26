@@ -22,7 +22,9 @@
             $sql_insert_fsib = "INSERT into m_outgoing_fsib (outgoing_details_ref, invoice_no, container_no, destination_service_center, destination, car_model, ship_out_date, no_pallets, no_cartons, pack_qty, invoice_amount) values (:outgoing_details_ref, :invoice_no, :container_no, :destination_service_center, :destination, :car_model, :ship_out_date, :no_pallets, :no_cartons, :pack_qty, :invoice_amount); INSERT into m_outgoing_vessel_details (outgoing_details_ref, mode_of_shipment) values (:outgoing_details_ref2, :mode_of_shipment)";
             $stmt_insert_fsib = $conn -> prepare($sql_insert_fsib);
 
-            $sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, destination = :destination, car_model = :car_model, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref";
+            //destination and car model is problematic, the system will clear those fields if you were to update it
+            //$sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, destination = :destination, car_model = :car_model, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref";
+            $sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref";
             $stmt_update_fsib = $conn -> prepare($sql_update_fsib);
 
             $sql_uniqueid_duplicate = "SELECT COUNT(id) from m_outgoing_fsib where outgoing_details_ref = :outgoing_details_ref";
@@ -65,8 +67,8 @@
                         $duplicate++;
                         $stmt_update_fsib -> bindParam(":container_no", $container_no);
                         $stmt_update_fsib -> bindParam(":destination_service_center", $destination_service_center);
-                        $stmt_update_fsib -> bindParam(":destination", $destination);
-                        $stmt_update_fsib -> bindParam(":car_model", $car_model);
+                        //$stmt_update_fsib -> bindParam(":destination", $destination);
+                        //$stmt_update_fsib -> bindParam(":car_model", $car_model);
                         $stmt_update_fsib -> bindParam(":ship_out_date", $ship_out_date);
                         $stmt_update_fsib -> bindParam(":no_pallets", $no_pallets);
                         $stmt_update_fsib -> bindParam(":no_cartons", $no_cartons);
@@ -163,8 +165,8 @@
                 $duplicate++;
                 $stmt_update_fsib -> bindParam(":container_no", $container_no);
                 $stmt_update_fsib -> bindParam(":destination_service_center", $destination_service_center);
-                $stmt_update_fsib -> bindParam(":destination", $destination);
-                $stmt_update_fsib -> bindParam(":car_model", $car_model);
+                //$stmt_update_fsib -> bindParam(":destination", $destination);
+                //$stmt_update_fsib -> bindParam(":car_model", $car_model);
                 $stmt_update_fsib -> bindParam(":ship_out_date", $ship_out_date);
                 $stmt_update_fsib -> bindParam(":no_pallets", $no_pallets);
                 $stmt_update_fsib -> bindParam(":no_cartons", $no_cartons);
