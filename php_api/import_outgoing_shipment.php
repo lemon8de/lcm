@@ -131,7 +131,7 @@
                 //$destination = $line[11];
                 $no_cartons = 0;
                 $pack_qty = 0;
-                $car_model = "";// change this to null on insert
+                $car_model = null;// change this to null on insert
                 if (in_array($destination_service_center, ['LANGELES1W', 'LANGELES1', 'LONGBEACHW'])) {
                     $car_model = "HONDA";
                 } else if ($destination_service_center == "LANGELESW") {
@@ -146,6 +146,7 @@
             $no_pallets = count(array_unique($tw_no));
             $invoice_amount = array_sum($invoice_amount);
 
+            //this will be removed in the future, I don't think this should exist
             $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
             $stmt_destination -> execute();
             if ($data = $stmt_destination -> fetch(PDO::FETCH_ASSOC)) {
