@@ -26,7 +26,11 @@ if ($car_model == null) {
     $response_body['car_model'] = $car_model_select;
 } else {
     //main table building is here, here we have month, year, and switch invoice available
-    $car_model = "%" . $car_model . "%";
+    if ($car_model == "None") {
+        $car_model = "ALL";
+    } else {
+        $car_model = "%" . $car_model . "%";
+    }
 
     $sql_data = "EXEC GetOutgoingFSI_LA :StartYear, :StartMonth, :CarModel"; //mssql server stored procedure
     $stmt_data = $conn -> prepare($sql_data);
