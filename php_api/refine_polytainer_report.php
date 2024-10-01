@@ -42,7 +42,7 @@
         //if ($last_vessel == $row['vessel_name']) {
             //continue;
         //}
-        $last_vessel = $row['vessel_name'];
+        //$last_vessel = $row['vessel_name'];
 
         $q_eta_mnl = $row['eta_mnl']; //save this for the query below, the TBA change should be done for the displaying only
         $q_etd = $row['etd']; //save this for the query below, the TBA change should be done for the displaying only
