@@ -13,7 +13,7 @@
         </div>
     </div>
 </form>
-<div class="container">
+<div class="container table-responsive">
     <?php include '../php_static/content_tables/incoming_sea_confirm.php';?>
 </div>
 
