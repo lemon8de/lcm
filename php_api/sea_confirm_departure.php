@@ -84,5 +84,5 @@
     }
 
     $conn = null;
-    header('location: ../pages/incoming_sea.php');
+    header('location: ../pages/documentation_sea.php');
     exit();
