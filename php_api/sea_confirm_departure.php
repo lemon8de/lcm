@@ -64,23 +64,66 @@
     $stmt_invoice = $conn -> prepare($sql_invoice);
 
     $invoices  = $stmt -> fetch(PDO::FETCH_COLUMN);
+    //revisions some invoices are shorthand
+    //if ($invoices) {
+        //$pattern = '/([A-Za-z0-9-_()]+)/';
+
+        //if (preg_match_all($pattern, $invoices, $matches)) {
+            //foreach ($matches[0] as $match) {
+
+                //$stmt_duplicate -> bindParam(':shipping_invoice', $match);
+                //$stmt_duplicate -> execute();
+                //$duplicate = $stmt_duplicate -> fetch(PDO::FETCH_ASSOC);
+
+                //if (!$duplicate) {
+                    //$stmt_invoice -> bindParam(':shipment_details_ref', $shipment_details_ref);
+                    //$stmt_invoice -> bindParam(':shipping_invoice', $match);
+                    //$stmt_invoice -> execute();
+                //}
+            //}
+        //} 
+    //}
     if ($invoices) {
-        $pattern = '/([A-Za-z0-9-_]+)/';
-
-        if (preg_match_all($pattern, $invoices, $matches)) {
-            foreach ($matches[0] as $match) {
-
-                $stmt_duplicate -> bindParam(':shipping_invoice', $match);
-                $stmt_duplicate -> execute();
-                $duplicate = $stmt_duplicate -> fetch(PDO::FETCH_ASSOC);
-
-                if (!$duplicate) {
-                    $stmt_invoice -> bindParam(':shipment_details_ref', $shipment_details_ref);
-                    $stmt_invoice -> bindParam(':shipping_invoice', $match);
-                    $stmt_invoice -> execute();
+        $list = explode(", ", $invoices);
+        $fixed_list = [];
+        $first = false;
+        foreach ($list as $invoice) {
+            //check if this invoice is cut or not
+            //if not cut, i.e. start of the loop proceed immediately
+            if ($first) {
+                //now we can start
+                if (strlen($invoice) == strlen($pattern_invoice)) {
+                    echo $invoice . ' matched should fix' . "\n";
+                    array_push($fixed_list, $prefix_invoice . $invoice);
+                } else {
+                    //new invoice block, refresh the pattern lookup
+                    $hyphen_index = strrpos($invoice, '-');
+                    $pattern_invoice = substr($invoice, $hyphen_index + 1);
+                    $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+                    echo 'new block change pattern to ' . $pattern_invoice . "\n";
+                    array_push($fixed_list, $invoice);
                 }
+            } else {
+                echo 'first read auto post ' . $invoice . "\n";
+                $hyphen_index = strrpos($invoice, '-');
+                $pattern_invoice = substr($invoice, $hyphen_index + 1);
+                $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+                echo 'pattern to look for ' . $pattern_invoice . "\n";
+                $first = true;
+                array_push($fixed_list, $invoice);
             }
-        } 
+        }
+        foreach ($fixed_list as $match) {
+            $stmt_duplicate -> bindParam(':shipping_invoice', $match);
+            $stmt_duplicate -> execute();
+            $duplicate = $stmt_duplicate -> fetch(PDO::FETCH_ASSOC);
+
+            if (!$duplicate) {
+                $stmt_invoice -> bindParam(':shipment_details_ref', $shipment_details_ref);
+                $stmt_invoice -> bindParam(':shipping_invoice', $match);
+                $stmt_invoice -> execute();
+            }
+        }
     }
 
     $conn = null;

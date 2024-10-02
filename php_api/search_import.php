@@ -53,7 +53,7 @@
     $stmt->execute();
 
     $invoices = [];
-    $pattern = '/([A-Za-z0-9-_]+)/';
+    $pattern = '/([A-Za-z0-9-_()]+)/';
     $empty = true;
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $empty = false;

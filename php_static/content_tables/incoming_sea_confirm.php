@@ -16,9 +16,6 @@ $stmt->execute();
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo <<<HTML
         <tr data-value="{$row['container']}" onclick="loaddata(this)" id="{$row['shipment_details_ref']}" class="modal-trigger" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal">
-            <td>{$row['bl_number']}</td>
-            <td>{$row['container']}</td>
-            <td>{$row['commercial_invoice']}</td>
             <td>
                 <form action="../php_api/sea_confirm_departure.php" method="POST">
                     <input type="hidden" readonly value="{$row['shipment_details_ref']}" name="shipment_details_ref">
@@ -31,6 +28,9 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     <button type="submit" class="btn bg-danger btn-block">Delete</button>
                 </form>
             </td>
+            <td>{$row['bl_number']}</td>
+            <td>{$row['container']}</td>
+            <td>{$row['commercial_invoice']}</td>
         </tr>
     HTML;
 }

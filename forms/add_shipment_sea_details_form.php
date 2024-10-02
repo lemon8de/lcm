@@ -117,7 +117,7 @@
     </div>
     <div class="row">
         <div class="col-4 mx-auto mt-3">
-            <button type="submit" class="btn bg-primary btn-block">Add</button>
+            <button type="submit" class="btn bg-primary btn-block">Create Shipment</button>
         </div>
     </div>
 </form>

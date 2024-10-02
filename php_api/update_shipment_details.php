@@ -103,7 +103,7 @@
     if ($confirm_departure and $invoices_old != $commercial_invoice) {
         //means there are information on the import data table, DELETE and insert into new ones
         //$invoices - grabbed from earlier needs to split still
-        $pattern = '/([A-Za-z0-9-_]+)/';
+        $pattern = '/([A-Za-z0-9-_()]+)/';
         if (preg_match_all($pattern, $invoices_old, $matches)) {
             $invoices_old = $matches[0];
         } 
