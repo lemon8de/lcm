@@ -1,3 +1,3 @@
 <?php
-    header('location: ../template/sea_forwarder_file.csv');
+    header('location: ../template/SEA_FORWARDERS[10-02-2024].csv');
     exit;

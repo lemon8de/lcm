@@ -1,15 +1,29 @@
 <?php 
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
-    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    //why is there so many of these if we just want csv files smh
+    //$csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    $csvMimes = array('text/csv', 'application/csv');
 
     if (!empty($_FILES['import_sea_shipment_file']['name']) && in_array($_FILES['import_sea_shipment_file']['type'],$csvMimes)) {
         if (is_uploaded_file($_FILES['import_sea_shipment_file']['tmp_name'])) {
             //READ FILE
             $csvFile = fopen($_FILES['import_sea_shipment_file']['tmp_name'],'r');
             // SKIP FIRST LINE
-            fgetcsv($csvFile);
-            // PARSE
+            $headers = fgets($csvFile);
+            $expectedHeaders = "NO,Vessel Name,ETA MNL (YYYY/MM/DD),ATA MNL  (YYYY/MM/DD),ATB  (YYYY/MM/DD),BL NUMBER,CONTAINER,CONTAINER SIZE / CBM,COMMERCIAL INVOICE,COMMODITY,SHIPPING LINES,FORWARDER'S NAME,ORIGIN,SHIPMENT STATUS,DESTINATION PORT,TSAD NUMBER";
+
+            // Trim any whitespace and compare with expected headers
+            if (trim($headers) !== $expectedHeaders) {
+                $notification = [
+                    "icon" => "error",
+                    "text" => "Wrong / Outdated Template File",
+                ];
+                $_SESSION['notification'] = json_encode($notification);
+                //header('location: ../pages/incoming_sea.php');
+                header('location: ../pages/add_shipment_sea.php');
+                exit();
+            }
 
             $created = 0;
             $updated = 0;
@@ -241,8 +255,23 @@
             header('location: ../pages/add_shipment_sea.php');
             exit();
         } else {
-            //file not uploaded
+            //i don't think this will ever happen but sure let it live here
+            $notification = [
+                "icon" => "warning",
+                "text" => "No file uploaded",
+            ];
+            $_SESSION['notification'] = json_encode($notification);
+            //header('location: ../pages/incoming_sea.php');
+            header('location: ../pages/add_shipment_sea.php');
+            exit();
         }
     } else {
-        //invalid file format
+        $notification = [
+            "icon" => "error",
+            "text" => "Uploaded file is not a CSV",
+        ];
+        $_SESSION['notification'] = json_encode($notification);
+        //header('location: ../pages/incoming_sea.php');
+        header('location: ../pages/add_shipment_sea.php');
+        exit();
     }
