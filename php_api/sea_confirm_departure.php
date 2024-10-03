@@ -133,7 +133,7 @@
     if ($nothing_done) {
         $notification = [
             "icon" => "warning",
-            "text" => "All selected were already confirmed",
+            "text" => "Selected already confirmed",
         ];
     } else {
         $notification = [
