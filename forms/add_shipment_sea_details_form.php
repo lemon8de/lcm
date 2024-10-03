@@ -79,7 +79,7 @@
         <div class="row mb-2">
             <div class="col-3">
                 <label>CONTAINER</label>
-                <input type="text" class="form-control containers" required>
+                <input type="text" class="form-control containers" required pattern=".{11}">
             </div>
             <div class="col-3">
                 <label>CONTAINER SIZE / CBM</label>
@@ -191,6 +191,7 @@
         containerInput.type = 'text';
         containerInput.className = 'form-control containers';
         containerInput.required = true;
+        containerInput.pattern = ".{11}";
         containerDiv.appendChild(containerLabel);
         containerDiv.appendChild(containerInput);
         // Create the "CONTAINER SIZE / CBM" section
