@@ -159,8 +159,49 @@
             }
         });
     }
+    let selectedIds = [];
     function confirm_shipment() {
-        console.log('test');
+        const selectedCheckboxes = document.querySelectorAll('.ck-blnumber:checked');
+        selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.id);
+        if (selectedIds.length == 0) {
+            Toast.fire({
+		        icon: "info",
+		        title: "None selected",
+	        })
+        } else {
+            $.ajax({
+            url: '../php_api/sea_confirm_departure.php',
+            type: 'POST',
+            data: {
+                'bl_numbers' : selectedIds,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                }
+
+            }
+        });
+        }
+    }
+    function delete_shipment() {
+        const selectedCheckboxes = document.querySelectorAll('.ck-blnumber:checked');
+        selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.id);
+        if (selectedIds.length == 0) {
+            Toast.fire({
+		        icon: "info",
+		        title: "None selected",
+	        })
+        } else {
+            console.log(selectedIds);
+        }
     }
 
     function search_bl_number() {
@@ -215,9 +256,7 @@
         });
     }
 
-    function delete_shipment() {
-        console.log('test2');
-    }
+    
 
     function debounce(method, delay) {
         clearTimeout(method._tId);
