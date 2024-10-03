@@ -20,7 +20,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-8">
-            <div class="container" id="DocumentationMainContainer">
+            <div class="container" id="DocumentationMainContainer" style="max-height:70vh;overflow-y:auto;">
                 <?php
                     $sql = "SELECT distinct bl_number, max(forwarder_name) as forwarder_name, max(commercial_invoice) as commercial_invoice, max(shipment_status) as shipment_status, max(commodity) as commodity, max(eta_mnl) as eta_mnl, max(ata_mnl) as ata_mnl, min(confirm_departure) as confirm_departure from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref group by bl_number;";
                     $stmt_get_cards = $conn -> prepare($sql);
