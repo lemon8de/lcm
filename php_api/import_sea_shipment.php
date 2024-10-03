@@ -86,9 +86,9 @@
                 $vessel_name = $line[1];
 
                 //date parsing, and null defaults on some cases
-                $eta_mnl = $line[2] == "" || $line[2] == 'TDB' ? null : date("Y-m-d", strtotime($line[2]));
-                $ata_mnl = $line[3] == "" || $line[3] == 'TDB' ? null : date("Y-m-d", strtotime($line[3]));
-                $atb = $line[4] == "" || $line[4] == 'TDB' ? null : date("Y-m-d", strtotime($line[4]));
+                $eta_mnl = $line[2] == "" || $line[2] == 'TBA' ? null : date("Y-m-d", strtotime($line[2]));
+                $ata_mnl = $line[3] == "" || $line[3] == 'TBA' ? null : date("Y-m-d", strtotime($line[3]));
+                $atb = $line[4] == "" || $line[4] == 'TBA' ? null : date("Y-m-d", strtotime($line[4]));
 
                 $bl_number = $line[5];
                 $container = $line[6];

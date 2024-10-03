@@ -52,10 +52,20 @@
             <label>SHIPMENT STATUS</label>
             <select name="shipment_status" class="form-control" required>
                 <option value="" disabled selected>Select Status</option>
-                <option>Waiting for Validated Manifest</option>
-                <option>Waiting for PEZA Endorsement</option>
-                <option>Documents at the Manifest</option>
-                <option>Gate Pass Available</option>
+                <?php
+                    $sql = "SELECT shipment_status from m_shipment_status";
+                    $stmt_shipment_status = $conn -> prepare($sql);
+                    $stmt_shipment_status -> execute();
+
+                    while ($data = $stmt_shipment_status -> fetch(PDO::FETCH_ASSOC)) {
+                        if ($data['shipment_status'] == "default") {
+                            break;
+                        }
+                ?>
+                <option><?php echo $data['shipment_status']; ?></option>
+                <?php
+                    }
+                ?>
             </select>
         </div>
         <div class="col-3">
