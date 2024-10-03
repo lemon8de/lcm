@@ -1,5 +1,4 @@
 <div class="container">
-<form id="">
     <div class="container">
         <div class="row mb-3">
             <div class="col-12 d-flex">
@@ -14,11 +13,10 @@
                         <a class="dropdown-item" onclick="delete_shipment()">Delete Shipment</a>
                     </div>
                 </div>
-                <input class="form-control ml-3 w-25" placeholder="BL NUMBER" name="bl_number" onkeyup="debounce(import_search, 350)">
+                <input class="form-control ml-3 w-25" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_bl_number, 350)">
             </div>
         </div>
     </div>
-</form>
 </div>
 <div class="container-fluid">
     <div class="row">
@@ -112,7 +110,7 @@
                         while ($filter_option = $stmt -> fetch(PDO::FETCH_ASSOC)) {
                             echo <<<HTML
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="{$filter_option['shipment_status']}">
+                                    <input type="checkbox" class="form-check-input ck-shipment-status" onchange="filter_shipment(this)" id="{$filter_option['shipment_status']}">
                                     <label class="form-check-label" for="{$filter_option['shipment_status']}">{$filter_option['shipment_status']}&nbsp;<span class="right badge badge-danger">{$filter_option['count']}</span></label>
                                 </div>
                             HTML;
@@ -123,29 +121,48 @@
         </div>
     </div>
 </div>
-<h3>-------</h3>
-<form id="DocumentationSearchForm">
-    <div class="container">
-        <div class="row mb-3">
-            <div class="col-4">
-                <input class="form-control" placeholder="BL NUMBER" name="bl_number" onkeyup="debounce(import_search, 350)">
-            </div>
-            <div class="col-4">
-                <input class="form-control" placeholder="CONTAINER" name="container" onkeyup="debounce(import_search, 350)">
-            </div>
-            <div class="col-4">
-                <input class="form-control" placeholder="INVOICE" name="commercial_invoice" onkeyup="debounce(import_search, 350)">
-            </div>
-        </div>
-    </div>
-</form>
-<div class="container table-responsive">
-    <?php include '../php_static/content_tables/incoming_sea_confirm.php';?>
-</div>
 
 <script>
     function confirm_shipment() {
         console.log('test');
+    }
+
+    function search_bl_number() {
+        //you cant search for shipment status when you do a bl search,
+        checkboxes = document.querySelectorAll('.ck-shipment-status');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        data = {
+            "bl_number" : document.getElementById('bl_number_search').value
+        };
+        console.log(data);
+
+    }
+
+    function filter_shipment(initiator) {
+        //you cant search for bl number and status at the same time, it will be lowkey retarded
+        document.getElementById('bl_number_search').value = "";
+        checkboxes = document.querySelectorAll('.ck-shipment-status');
+        checkboxes.forEach(checkbox => {
+            if (checkbox != initiator) {
+                checkbox.checked = false;
+            }
+        });
+
+        //now build the formdata and make the ajax request
+        data = {"shipment_status" : ""};
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked == true) {
+                data = {
+                    "shipment_status" : checkbox.id
+                };
+                //something with illegal bulshit idk this commented out will work fine
+                //break;
+            }
+        });
+        console.log(data);
     }
 
     function delete_shipment() {
@@ -161,23 +178,10 @@
 
     let ck_bl_status = true;
     function select_all_bl(source) {
-        const checkboxes = document.querySelectorAll('.ck-blnumber');
+        checkboxes = document.querySelectorAll('.ck-blnumber');
         checkboxes.forEach(checkbox => {
             checkbox.checked = ck_bl_status;
         });
         ck_bl_status = !ck_bl_status;
-    }
-
-    function import_search() {
-        var formData = $('#DocumentationSearchForm').serialize();
-        $.ajax({
-            type: 'GET',
-            url: '../php_api/search_documentation.php',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                document.getElementById('ConfirmIncomingSeaTableBody').innerHTML = response.inner_html;
-            },
-        });
     }
 </script>
