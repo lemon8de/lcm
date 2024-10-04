@@ -87,20 +87,20 @@
 		                title: response.notification.text,
 	                });
                 }
+                //this block is retarded and disgusting
+                //only one case
+                //if you delete everything from a filter
+                //the first load will be empty, because you queried with a filter, where you deleted
+                //everything from
+                //so this next one, staggered because they actually race each other, redoes the query, but this time
+                // the emptied filter is not selected anymore, well because it don't exist anymore
+                search_documentation();
+                setTimeout(() => {
+                    search_documentation();
+                }, 500); // 2000 milliseconds = 2 seconds
             }
         });
-
-        //this block is retarded and disgusting
-        //only one case
-        //if you delete everything from a filter
-        //the first load will be empty, because you queried with a filter, where you deleted
-        //everything from
-        //so this next one, staggered because they actually race each other, redoes the query, but this time
-        // the emptied filter is not selected anymore, well because it don't exist anymore
-        search_documentation();
-        setTimeout(() => {
-            search_documentation();
-        }, 500); // 2000 milliseconds = 2 seconds
+        ck_bl_status = true; //makes the select all button work again
 
         $('#confirm_deletion_modal').modal('hide');
     }

@@ -154,6 +154,7 @@
 		                icon: response.notification.icon,
 		                title: response.notification.text,
 	                })
+                    ck_bl_status = true; //makes the select all button work again
                     search_documentation(false);
                 }
 
