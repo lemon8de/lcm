@@ -1,22 +1,21 @@
 <?php
     require 'db_connection.php';
-    $bl_number = isset($_GET['bl_number']) ? $_GET['bl_number'] : null;
-    $shipment_status = isset($_GET['shipment_status']) ? $_GET['shipment_status'] : null;
+    $bl_number = isset($_GET['bl_number']) ? $_GET['bl_number'] : "";
+    $shipment_status = isset($_GET['shipment_status']) ? $_GET['shipment_status'] : "";
+    $refresh_filters = $_GET['refresh_filters'];
+    $month = $_GET['month'];
+    $year = $_GET['year'];
+    $response_body = [];
 
-    if ($bl_number !== null) {
-        $bl_number .= "%";
-        $sql = "SELECT distinct bl_number, max(forwarder_name) as forwarder_name, max(commercial_invoice) as commercial_invoice, max(shipment_status) as shipment_status, max(commodity) as commodity, max(eta_mnl) as eta_mnl, max(ata_mnl) as ata_mnl, min(confirm_departure) as confirm_departure from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref where bl_number like :bl_number group by bl_number;";
-        $stmt_get_cards = $conn -> prepare($sql);
-        $stmt_get_cards -> bindParam(":bl_number", $bl_number);
-        $stmt_get_cards -> execute();
-    } else {
-        $shipment_status = "%" . $shipment_status . "%";
-        $sql = "SELECT distinct bl_number, max(forwarder_name) as forwarder_name, max(commercial_invoice) as commercial_invoice, max(shipment_status) as shipment_status, max(commodity) as commodity, max(eta_mnl) as eta_mnl, max(ata_mnl) as ata_mnl, min(confirm_departure) as confirm_departure from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref where shipment_status like :shipment_status group by bl_number;";
-        $stmt_get_cards = $conn -> prepare($sql);
-        $stmt_get_cards -> bindParam(":shipment_status", $shipment_status);
-        $stmt_get_cards -> execute();
-
-    }
+    $sql = "EXEC SearchBLCardsThisMonth :BlNumber, :ShipmentStatus, :StartYear, :StartMonth";
+    $stmt_get_cards = $conn -> prepare($sql);
+    $bl_number = "%" . $bl_number . "%";
+    $shipment_status = "%" . $shipment_status . "%";
+    $stmt_get_cards -> bindParam(":BlNumber", $bl_number);
+    $stmt_get_cards -> bindParam(":ShipmentStatus", $shipment_status);
+    $stmt_get_cards -> bindParam(":StartYear", $year);
+    $stmt_get_cards -> bindParam(":StartMonth", $month);
+    $stmt_get_cards -> execute();
 
     $sql = "SELECT shipment_status, color from m_shipment_status";
     $stmt_callout_colors = $conn -> prepare($sql);
@@ -26,6 +25,31 @@
     // Fetch the data and build the associative array
     while ($row = $stmt_callout_colors->fetch(PDO::FETCH_ASSOC)) {
         $colors[$row['shipment_status']] = $row['color'];
+    }
+
+    //this query will be used to wipe the filters clean and replace it
+    //will only occur when you change month, year, bl_number
+    //don't wipe it if shipment status is not '' 
+    if ($refresh_filters == 'true') {
+        $sql = "EXEC SearchFiltersThisMonth :BlNumber, :StartYear, :StartMonth";
+        $stmt_get_filters = $conn -> prepare($sql);
+        $bl_number = "%" . $bl_number . "%";
+        $stmt_get_filters -> bindParam(":BlNumber", $bl_number);
+        $stmt_get_filters -> bindParam(":StartYear", $year);
+        $stmt_get_filters -> bindParam(":StartMonth", $month);
+        $stmt_get_filters -> execute();
+
+        $inner_html_filter = "";
+        while ($data = $stmt_get_filters -> fetch(PDO::FETCH_ASSOC)) {
+            $color = $colors[$data['shipment_status']] ?? $colors['default'];
+            $inner_html_filter .= <<<HTML
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input ck-shipment-status" onchange="filter_shipment(this)" id="{$data['shipment_status']}">
+                    <label class="form-check-label" for="{$data['shipment_status']}">{$data['shipment_status']}&nbsp;<span class="right badge" style="color:#fff;background-color:{$color};">{$data['count']}</span></label>
+                </div>
+            HTML;
+        }
+        $response_body['inner_html_filter'] = $inner_html_filter;
     }
 
     $inner_html = "";
@@ -110,5 +134,6 @@
             </div>
         HTML;
     }
+
     $response_body['inner_html'] = $inner_html;
     echo json_encode($response_body);

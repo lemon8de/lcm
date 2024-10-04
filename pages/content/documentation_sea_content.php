@@ -12,18 +12,52 @@
                         <a class="dropdown-item" onclick="delete_shipment()">Delete Shipment</a>
                     </div>
                 </div>
-                <input class="form-control ml-3 w-25" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_bl_number, 350)">
+                <input class="form-control ml-3 w-25" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_documentation, 350)">
+                <div>
+                <select class="form-control ml-2" id="month_search" onchange="search_documentation()">
+                    <?php 
+                        $month_today = date('n');
+                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        for ($i = 1; $i <= 12; $i++) {
+                    ?>
+                        <option value="<?php echo $i; ?>"<?php echo $i == $month_today ? " selected" : ""; ?>><?php echo $months[$i - 1]; ?></option>
+                    <?php
+                        }
+                    ?>
+                    </select>
+                </div>
+                <div>
+                <select class="form-control ml-3" id="year_search" onchange="search_documentation()">
+                        <?php
+                            $current_year = date("Y");
+                            $end_year = $current_year - 10;
+                            for ($year = $current_year; $year >= $end_year; $year--) {
+                                echo <<<HTML
+                                    <option>{$year}</option>
+                                HTML;
+                            }
+                        ?>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-8">
+            <div class="alert alert-info" style="display:none;" id="HistoricalAlert">
+                <span><i class="icon fas fa-info"></i>&nbsp;Viewing NON-Active Shipments of Selected Month and Year</span>
+            </div>
             <div class="container" id="DocumentationMainContainer" style="max-height:70vh;overflow-y:auto;">
                 <?php
-                    $sql = "SELECT distinct bl_number, max(forwarder_name) as forwarder_name, max(commercial_invoice) as commercial_invoice, max(shipment_status) as shipment_status, max(commodity) as commodity, max(eta_mnl) as eta_mnl, max(ata_mnl) as ata_mnl, min(confirm_departure) as confirm_departure from m_shipment_sea_details as a left join m_vessel_details as b on a.shipment_details_ref = b.shipment_details_ref group by bl_number;";
+                    $sql = "EXEC GetBLCardsThisMonth :StartYear, :StartMonth"; //mssql server stored procedure
                     $stmt_get_cards = $conn -> prepare($sql);
+                    $month = date('n');
+                    $year = date('Y');
+                    $stmt_get_cards -> bindParam(':StartYear', $year);
+                    $stmt_get_cards -> bindParam(':StartMonth', $month);
                     $stmt_get_cards -> execute();
 
                     $sql = "SELECT shipment_status, color from m_shipment_status";
@@ -123,10 +157,12 @@
                 <div class="card-header">
                     <h3 class="card-title">Status Filter</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="FilterContent">
                     <?php
-                        $sql = "SELECT distinct a.shipment_status, count(*) as count from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where confirm_departure = 0 or b.actual_received_at_falp is null group by a.shipment_status";
+                        $sql = "EXEC GetFiltersThisMonth :StartYear, :StartMonth"; //mssql server stored procedure
                         $stmt = $conn -> prepare($sql);
+                        $stmt -> bindParam(':StartYear', $year);
+                        $stmt -> bindParam(':StartMonth', $month);
                         $stmt -> execute();
 
                         while ($filter_option = $stmt -> fetch(PDO::FETCH_ASSOC)) {
@@ -159,6 +195,57 @@
             }
         });
     }
+
+    function search_documentation(refresh_filters = true) {
+        ck_bl_status = true; //makes the select all button work again
+
+        //extract the shipment status
+        shipment_status = "";
+        checkboxes = document.querySelectorAll('.ck-shipment-status');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked == true) {
+                shipment_status = checkbox.id;
+            }
+        });
+        //build the data, unfortunately this won't be a form serialize
+        data = {
+            "bl_number" : document.getElementById('bl_number_search').value,
+            "month" : document.getElementById('month_search').value,
+            "year" : document.getElementById('year_search').value,
+            //a bit special, we need to get it using jquery
+            "shipment_status" :shipment_status,
+            "refresh_filters" : refresh_filters
+        };
+
+        //show historical warning alert
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // 0 for January, 1 for February, etc.
+        const currentYear = currentDate.getFullYear();
+
+        if (data['month'] !== currentMonth.toString() || data['year'] !== currentYear.toString()) {
+            console.log('show');
+            document.getElementById('HistoricalAlert').style.display = 'block';
+        } else {
+            console.log('hide');
+            document.getElementById('HistoricalAlert').style.display = 'none';
+        }
+
+        //ajax now
+        $.ajax({
+            url: '../php_api/search_documentation.php',
+            type: 'GET',
+            data: data,
+            dataType: 'json',
+            success: function (response) {
+                //console.log(response);
+                document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
+                if (refresh_filters) {
+                    document.getElementById("FilterContent").innerHTML = response.inner_html_filter;
+                }
+            }
+        });
+    }
+
     let selectedIds = [];
     function confirm_shipment() {
         const selectedCheckboxes = document.querySelectorAll('.ck-blnumber:checked');
@@ -204,59 +291,16 @@
         }
     }
 
-    function search_bl_number() {
-        ck_bl_status = true;
-        //you cant search for shipment status when you do a bl search,
-        checkboxes = document.querySelectorAll('.ck-shipment-status');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        $.ajax({
-            url: '../php_api/search_documentation.php',
-            type: 'GET',
-            data: {
-                "bl_number" : document.getElementById('bl_number_search').value
-            },
-            dataType: 'json',
-            success: function (response) {
-                document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
-            }
-        });
-    }
-
     function filter_shipment(initiator) {
-        ck_bl_status = true;
-        //you cant search for bl number and status at the same time, it will be lowkey retarded
-        document.getElementById('bl_number_search').value = "";
+        //retarded radio button logic
         checkboxes = document.querySelectorAll('.ck-shipment-status');
         checkboxes.forEach(checkbox => {
             if (checkbox != initiator) {
                 checkbox.checked = false;
             }
         });
-        //now build the formdata and make the ajax request
-        data = {"shipment_status" : ""};
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked == true) {
-                data = {
-                    "shipment_status" : checkbox.id
-                };
-                //something with illegal bulshit idk this commented out will work fine
-                //break;
-            }
-        });
-        $.ajax({
-            url: '../php_api/search_documentation.php',
-            type: 'GET',
-            data: data,
-            dataType: 'json',
-            success: function (response) {
-                document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
-            }
-        });
+        search_documentation(false);
     }
-
-    
 
     function debounce(method, delay) {
         clearTimeout(method._tId);
