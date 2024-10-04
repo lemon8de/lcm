@@ -110,10 +110,8 @@
         const currentYear = currentDate.getFullYear();
 
         if (data['month'] !== currentMonth.toString() || data['year'] !== currentYear.toString()) {
-            console.log('show');
             document.getElementById('HistoricalAlert').style.display = 'block';
         } else {
-            console.log('hide');
             document.getElementById('HistoricalAlert').style.display = 'none';
         }
 
@@ -173,6 +171,21 @@
 	        })
         } else {
             console.log(selectedIds);
+            //ajax here to update the modal information, just show the blnumber and stuff
+            $.ajax({
+                url: '../php_api/sea_get_confirm_deletion_details.php',
+                type: 'GET',
+                data: {
+                    'bl_numbers' : selectedIds,
+                },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    document.getElementById('ConfirmDeletionContent').innerHTML = response.inner_html;
+                }
+            });
+            $('#confirm_deletion_modal').modal('show');
+            confirm_deletion_modal_start_timer();
         }
     }
 

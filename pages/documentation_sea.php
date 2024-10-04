@@ -28,6 +28,6 @@
             <?php include '../php_static/web/footer.php'?>
         </div>
     </body>
-    <?php include '../modals/documentation_view_shipment_sea_modal.php';?>
+    <?php include '../modals/confirm_deletion_modal.php';?>
     <?php include '../php_static/web/notification_handler.php';?>
 </html>

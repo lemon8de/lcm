@@ -153,6 +153,12 @@
                     $stmt_update_shipment_sea_details -> bindValue(':bl_number', $bl_number);
                     $stmt_update_shipment_sea_details -> bindValue(':container', $container);
                     $stmt_update_shipment_sea_details -> bindValue(':container_size', $container_size);
+                    //problematic
+                    //timelime:
+                    //created shipment (thru file or manual) > confirmed
+                    //manual editing: editing invoice will wipe itself and make new one based on edit : GOOD
+                    //file editing: if the invoice from the file changes, edits will be done but import data stays
+                    //  the same, BAD
                     $stmt_update_shipment_sea_details -> bindValue(':commercial_invoice', $commercial_invoice);
                     $stmt_update_shipment_sea_details -> bindValue(':commodity', $commodity);
                     $stmt_update_shipment_sea_details -> bindValue(':type_of_expense', $type_of_expense);

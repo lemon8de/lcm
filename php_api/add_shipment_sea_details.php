@@ -52,7 +52,6 @@
     //we should loop here now based on the amount of containers and container sizes
     //note since we are going on a loop here, this breaking out on duplicate is unreliable since it would have data which are not duplicate
     //one good change here is to change the container logged check to just be BL, this has been done
-    //if statement to figure out if we do an insert into or update
     if ($bl_logged) {
         $notification = [
             "icon" => "warning",

@@ -1,18 +1,27 @@
 <?php
     require 'db_connection.php';
+    $bl_numbers = $_POST['bl_numbers'];
 
-    $shipment_details_ref = $_POST['shipment_details_ref'];
+    $placeholders = rtrim(str_repeat('?,', count($bl_numbers)), ',');
+    $sql = "SELECT STRING_AGG(shipment_details_ref, ', ') as shipment_details_ref from m_shipment_sea_details where bl_number in ($placeholders)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($bl_numbers);
 
-    $sql = "DELETE from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
-    $stmt = $conn->prepare($sql);
-    $stmt -> bindValue('shipment_details_ref', $shipment_details_ref);
-    $stmt -> execute();
+    $sql = "EXEC CompleteDeletion :ShipmentDetailsRef";
+    $stmt_god_helpme = $conn -> prepare($sql);
 
-    $sql = "DELETE from m_vessel_details where shipment_details_ref = :shipment_details_ref";
-    $stmt = $conn->prepare($sql);
-    $stmt -> bindValue('shipment_details_ref', $shipment_details_ref);
-    $stmt -> execute();
-    $conn = null;
+    if ($shipment_details_ref_list = $stmt -> fetch(PDO::FETCH_COLUMN)) {
+        $shipment_details_ref_list = explode(", ", $shipment_details_ref_list);
+        foreach ($shipment_details_ref_list as $shipment_details_ref) {
+            $stmt_god_helpme -> bindParam(":ShipmentDetailsRef", $shipment_details_ref);
+            $stmt_god_helpme -> execute();
+        }
+    }
 
-    header('location: ../pages/documentation_sea.php');
-    exit();
+    $notification = [
+        "icon" => "success",
+        "text" => "DELETED",
+    ];
+    $return_body = [];
+    $return_body['notification'] = $notification;
+    echo json_encode($return_body);
