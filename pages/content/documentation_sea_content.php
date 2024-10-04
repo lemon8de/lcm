@@ -110,7 +110,7 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-6">
-                                <?php echo $data['shipment_status']; ?>
+                                <span style="font-size:75%;font-weight:700;border-radius:.25rem;padding:.25em .4em;color:#fff;background-color:<?php echo $colors[$data['shipment_status']] ?? $colors['default']; ?>"><?php echo $data['shipment_status']; ?></span>
                             </div>
                             <div class="col-6">
                                 <?php echo $data['commodity']; ?>
