@@ -103,8 +103,8 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <a class="collapsed text-primary" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
-                                View More
+                            <a class="collapsed text-primary" style="text-decoration:none;" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
+                                <i class="fas fa-search"></i>&nbsp;View
                             </a>
                         </div>
                     </div>
@@ -129,6 +129,14 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="row">
+                        <a class="collapsed text-primary ml-3 mr-3" style="text-decoration:none;" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
+                            <i class="fas fa-box"></i>&nbsp;Edit Container
+                        </a>
+                        <a class="collapsed text-primary ml-3 mr-3" style="text-decoration:none;" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
+                            <i class="fas fa-file-invoice"></i>&nbsp;Edit Invoice
+                        </a>
                     </div>
                 </div>
             </div>
