@@ -269,9 +269,7 @@
 		                icon: response.notification.icon,
 		                title: response.notification.text,
 	                })
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
+                    search_documentation();
                 }
 
             }
