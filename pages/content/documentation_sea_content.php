@@ -269,7 +269,7 @@
 		                icon: response.notification.icon,
 		                title: response.notification.text,
 	                })
-                    search_documentation();
+                    search_documentation(false);
                 }
 
             }
