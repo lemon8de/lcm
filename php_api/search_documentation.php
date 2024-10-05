@@ -54,11 +54,8 @@
 
     $inner_html = "";
     while ($data = $stmt_get_cards -> fetch(PDO::FETCH_ASSOC)) {
-
-        $border_color = $colors[$data['shipment_status']] ?? $colors['default'];
-
         if ($data['confirm_departure'] == '0') {
-            $not_confirmed = "<p class='badge' style='color:#fff; background-color:#dc3545'>NOT YET CONFIRMED</p>";
+            $not_confirmed = "<p class='badge' style='color:#fff; background-color:#dc3545'><i class='fas fa-box'></i>&nbsp;&nbsp;<i class='fas fa-times'></i></p>";
         } else {
             $not_confirmed = "";
         }
@@ -70,10 +67,45 @@
             $date_to_show = "ETA: " . substr($data['eta_mnl'], 0, 10);
         }
 
+        $shipment_status_breakdown = "";
+        $shipment_statuses = explode(', ', $data['shipment_status']);
+        // Count the occurrences of each value
+        $valueCounts = array_count_values($shipment_statuses);
+    
+        // Filter the array to keep only values that occur more than once
+        $uniqueValues = array_filter($valueCounts, function($count) {
+            return $count; // Keep only values that occur more than once
+        });
+
+        $shipment_statuses = array_keys($uniqueValues);
+
+        foreach ($shipment_statuses as $shipment_status) {
+            $border_color_multiple = $colors[$shipment_status] ?? $colors['default'];
+            $shipment_status_breakdown .= <<<HTML
+                <span style="font-size:75%;font-weight:700;border-radius:.25rem;padding:.25em .4em;color:#fff;background-color:{$border_color_multiple}">{$shipment_status}</span> 
+            HTML;
+        }
+        $border_color = $colors[$shipment_statuses[0]] ?? $colors['default'];
+
+
+        if (isset($data['favorite']) && $data['favorite'] == '1') {
+            $star = <<<HTML
+                <i class="fas fa-star" style="cursor:pointer;" id="star-{$data['bl_number']}" onclick="container_favorite(this, 'unfavorite')"></i>
+            HTML;
+        } else {
+            $star = <<<HTML
+                <i class="far fa-star" style="cursor:pointer;" id="star-{$data['bl_number']}" onclick="container_favorite(this, 'favorite')"></i>
+            HTML;
+        }
         $inner_html .= <<<HTML
             <div class="callout" style="border-left-color:{$border_color};">
                 <div class="container">
-                    {$not_confirmed}
+                    <div class="row">
+                        <div class="container d-flex justify-content-between text-warning" style="font-size: 115%;">
+                            <div class="text-left">{$not_confirmed}</div>
+                            <div class="text-right">{$star}</div>
+                        </div>
+                    </div>
                     <div class="row mb-2">
                         <div class="col-6">
                             <div class="form-check">
@@ -95,7 +127,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <span style="font-size:75%;font-weight:700;border-radius:.25rem;padding:.25em .4em;color:#fff;background-color:{$border_color}">{$data['shipment_status']}</span>
+                            {$shipment_status_breakdown}
                         </div>
                         <div class="col-6">
                             {$data['commodity']}
@@ -114,7 +146,8 @@
                         <table class="table table-head-fixed text-nowrap table-hover">
                             <thead>
                                 <tr style="border-bottom:1px solid black">
-                                    <th>CONTAINER NO.</th>
+                                    <th>AR@F</th>
+                                    <th>CONTAINER</th>
                                     <th>R. DELIVERY</th>
                                     <th>T. DELIVERY</th>
                                     <th>TABS</th>
@@ -131,10 +164,11 @@
                         </table>
                     </div>
                     <div class="row">
-                        <a class="collapsed text-primary ml-3 mr-3" style="text-decoration:none;" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
+                        <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal" onclick="edit_container_information(this)">
                             <i class="fas fa-box"></i>&nbsp;Edit Container
                         </a>
-                        <a class="collapsed text-primary ml-3 mr-3" style="text-decoration:none;" id="{$data['bl_number']}" data-toggle="collapse" href="#viewmore-{$data['bl_number']}" onclick="load_containers(this)">
+
+                        <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_invoice_modal" onclick="edit_invoice_information(this)">
                             <i class="fas fa-file-invoice"></i>&nbsp;Edit Invoice
                         </a>
                     </div>

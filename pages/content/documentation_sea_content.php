@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-8">
             <div class="alert alert-info" style="display:none;" id="HistoricalAlert">
-                <span><i class="icon fas fa-info"></i>&nbsp;Viewing NON-Active Shipments of Selected Month and Year</span>
+                <span style="font-weight:700; font-size:90%;"><i class="icon fas fa-info"></i>&nbsp;Viewing NON-Active Shipments of Selected Month and Year</span>
             </div>
             <div class="container" id="DocumentationMainContainer" style="max-height:70vh;overflow-y:auto;">
             </div>
@@ -215,5 +215,20 @@
             checkbox.checked = ck_bl_status;
         });
         ck_bl_status = !ck_bl_status;
+    }
+
+    function container_favorite(initiator, click_action) {
+        $.ajax({
+            url: '../php_api/documentation_container_favorite.php',
+            type: 'POST',
+            data: {
+                'bl_number' : initiator.id,
+                'action' :click_action
+            },
+            dataType: 'json',
+            success: function (response) {
+                search_documentation(false);
+            }
+        });
     }
 </script>

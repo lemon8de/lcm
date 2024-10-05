@@ -10,6 +10,8 @@
     $forwarder_name = $_POST['forwarder_name'];
     $origin_port = $_POST['origin_port'];
     $shipment_status = $_POST['shipment_status'];
+    $destination_port = $_POST['destination_port'];
+    $tsad_number = $_POST['tsad_number'];
 
     //check if changed, $commodity value is fucked and not the actual value on m_shipment_sea_details
     //why do i do this to myself
@@ -27,7 +29,7 @@
         $classification = $result['classification'];
     }
     //now we can check, saves on api processing; if we can just stop right here it would be nice
-    $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status, confirm_departure, polytainer_detail from m_shipment_sea_details left join list_commodity on commodity = display_name where shipment_details_ref = :shipment_details_ref";
+    $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status, destination_port, tsad_number, confirm_departure, polytainer_detail from m_shipment_sea_details left join list_commodity on commodity = display_name where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
@@ -39,7 +41,7 @@
         $has_polytainer = $a['polytainer_detail']; //needed by the polytainer edits below
         $invoices_old = $a['commercial_invoice'];
 
-        if ($bl_number == $a['bl_number'] and $container == $a['container'] and $container_size == $a['container_size'] and $commercial_invoice == $a['commercial_invoice'] and $commodity == $a['commodity'] and $shipping_lines == $a['shipping_lines'] and $forwarder_name == $a['forwarder_name'] and $origin_port == $a['origin_port'] and $shipment_status == $a['shipment_status']) {
+        if ($bl_number == $a['bl_number'] and $container == $a['container'] and $container_size == $a['container_size'] and $commercial_invoice == $a['commercial_invoice'] and $commodity == $a['commodity'] and $shipping_lines == $a['shipping_lines'] and $forwarder_name == $a['forwarder_name'] and $origin_port == $a['origin_port'] and $shipment_status == $a['shipment_status'] and $destination_port == $a['destination_port'] and $tsad_number == $a['tsad_number']) {
             $conn = null;
             //header('location: ../pages/incoming_sea.php');
             //exit();
@@ -59,7 +61,7 @@
     //so maybe get the old and new invoice first before anything so we can preserve those.
 
     //find what changed, and make m_change_history logs for all shipment_details_ref
-    $compare_set_user = [$bl_number, $container, $container_size, $commercial_invoice, $commodity, $shipping_lines, $forwarder_name, $origin_port, $shipment_status];
+    $compare_set_user = [$bl_number, $container, $container_size, $commercial_invoice, $commodity, $shipping_lines, $forwarder_name, $origin_port, $shipment_status, $destination_port, $tsad_number];
     $compare_set_database_values = array_values($a);
     $compare_set_database_keys = array_keys($a);
     //there is confirm_departure here, not need on compare but I need it later on for updating import_data
@@ -83,7 +85,7 @@
         }
     }
     //changes are now logged into history, we can proceed on updating now
-    $sql = "UPDATE m_shipment_sea_details set bl_number = :bl_number, container = :container, container_size = :container_size, commercial_invoice = :commercial_invoice, commodity = :commodity, type_of_expense = :type_of_expense, classification = :classification, shipping_lines = :shipping_lines, forwarder_name = :forwarder_name, origin_port = :origin_port, shipment_status = :shipment_status where shipment_details_ref = :shipment_details_ref";
+    $sql = "UPDATE m_shipment_sea_details set bl_number = :bl_number, container = :container, container_size = :container_size, commercial_invoice = :commercial_invoice, commodity = :commodity, type_of_expense = :type_of_expense, classification = :classification, shipping_lines = :shipping_lines, forwarder_name = :forwarder_name, origin_port = :origin_port, shipment_status = :shipment_status, destination_port = :destination_port, tsad_number = :tsad_number where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':bl_number', $bl_number);
     $stmt -> bindParam(':container', $container);
@@ -96,6 +98,8 @@
     $stmt -> bindParam(':forwarder_name', $forwarder_name);
     $stmt -> bindParam(':origin_port', $origin_port);
     $stmt -> bindParam(':shipment_status', $shipment_status);
+    $stmt -> bindParam(':destination_port', $destination_port);
+    $stmt -> bindParam(':tsad_number', $tsad_number);
     $stmt -> bindParam(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
 

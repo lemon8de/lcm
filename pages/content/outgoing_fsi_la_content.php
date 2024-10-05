@@ -52,15 +52,12 @@
             document.getElementById('OutgoingFsiLAReportContent').innerHTML = "";
         }
         var formData = $('#OutgoingFsiLASearchForm').serialize();
-        console.log('what');
         $.ajax({
             type: 'GET',
             url: '../php_api/report_outgoing_fsi_la.php',
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log('what');
-                console.log(response);
                 if (response.car_model) {
                     document.getElementById('car_model_select').innerHTML = response.car_model;
                 }

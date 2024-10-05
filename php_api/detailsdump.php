@@ -167,7 +167,7 @@
 
 
     //shipment details
-    $sql = "SELECT shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+    $sql = "SELECT shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, destination_port, tsad_number, shipment_status from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
@@ -238,6 +238,16 @@
                 <div class="col-6">
                     <label>SHIPMENT STATUS</label>
                     <input type="text" class="form-control" value="{$shipment['shipment_status']}" name="shipment_status" required>
+                </div>
+                <div class="col-6">
+                    <label>DESTINATION PORT</label>
+                    <input type="text" class="form-control" value="{$shipment['destination_port']}" name="destination_port" required>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <label>TSAD NUMBER</label>
+                    <input type="text" class="form-control" value="{$shipment['tsad_number']}" name="tsad_number" required>
                 </div>
             </div>
             <div class="row mb-2">
