@@ -2,9 +2,10 @@
     <thead>
         <tr style="border-bottom:1px solid black">
             <th>DATE MODIFIED</th>
+            <th>USERNAME</th>
             <th>DATA</th>
-            <th>CHANGED FROM</th>
-            <th>CHANGED TO</th>
+            <th style="background-color: #ffcecb;">CHANGED FROM</th>
+            <th style="background-color: #d1f8d9;">CHANGED TO</th>
         </tr>
     </thead>
     <tbody id="HistoryContent">

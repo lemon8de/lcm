@@ -328,7 +328,7 @@ if ($shipment) {
 }
 
 //history details
-$sql = "SELECT column_name, changed_from, changed_to, date_modified from m_change_history where shipment_details_ref = :outgoing_details_ref order by date_modified asc";
+$sql = "SELECT username, column_name, changed_from, changed_to, date_modified from m_change_history where shipment_details_ref = :outgoing_details_ref order by date_modified asc";
 $stmt = $conn -> prepare($sql);
 $stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
 $stmt -> execute();
@@ -341,9 +341,10 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $return_body['history'] .= <<<HTML
         <tr>
             <td>{$row['date_modified']}</td>
+            <td>{$row['username']}</td>
             <td>{$row['column_name']}</td>
-            <td>{$row['changed_from']}</td>
-            <td>{$row['changed_to']}</td>
+            <td style="background-color: #ffcecb;">{$row['changed_from']}</td>
+            <td style="background-color: #d1f8d9;">{$row['changed_to']}</td>
         </tr>
     HTML;
 }

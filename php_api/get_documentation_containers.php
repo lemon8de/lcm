@@ -29,8 +29,7 @@
         HTML;
         $inner_html .= <<<HTML
             <tr>
-                <td>{$received}</td>
-                <td>{$container_badge}</td>
+                <td style="font-family: monospace;">{$received}&nbsp;{$container_badge}</td>
                 <td>{$required_delivery_sched}</td>
                 <td>{$deliver_plan}</td>
                 <td>{$tabs}</td>

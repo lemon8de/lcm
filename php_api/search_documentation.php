@@ -149,7 +149,6 @@
                         <table class="table table-head-fixed text-nowrap table-hover">
                             <thead>
                                 <tr style="border-bottom:1px solid black">
-                                    <th>AR@F</th>
                                     <th>CONTAINER</th>
                                     <th>R. DELIVERY</th>
                                     <th>T. DELIVERY</th>
