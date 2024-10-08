@@ -72,8 +72,9 @@
     array_pop($compare_set_database_values);
     array_pop($compare_set_database_keys);
 
-    $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
+    $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
     $stmt_history = $conn -> prepare($sql_history);
+    $stmt_history -> bindParam(":username", $_SESSION['username']);
     $stmt_history -> bindValue(':table_name', 'm_shipment_sea_details');
     $stmt_history -> bindValue(':shipment_details_ref', $shipment_details_ref);
 

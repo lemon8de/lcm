@@ -56,8 +56,9 @@
     $compare_set_user = [$vessel_name, $eta_mnl, $ata_mnl, $atb];
     $compare_set_database_values = array_values($vessel_details);
     $compare_set_database_keys = array_keys($vessel_details);
-    $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
+    $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
     $stmt_history = $conn -> prepare($sql_history);
+    $stmt_history -> bindParam(":username", $_SESSION['username']);
     $stmt_history -> bindValue(':table_name', 'm_vessel_details');
 
     //so we now check for changes here

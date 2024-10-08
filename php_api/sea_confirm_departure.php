@@ -19,8 +19,9 @@
         $stmt -> execute();
 
         //log this in changes_table
-        $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
+        $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
         $stmt = $conn -> prepare($sql);
+        $stmt -> bindParam(":username", $_SESSION['username']);
         $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
         $stmt -> bindValue(':table_name', 'm_shipment_sea_details');
         $stmt -> bindValue(':column_name', 'confirm_departure');

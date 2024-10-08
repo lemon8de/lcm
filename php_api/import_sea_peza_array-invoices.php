@@ -18,8 +18,9 @@
             //$sql_check = "SELECT shipment_details_ref from import_data where shipping_invoice = :shipping_invoice";
             //$stmt_check = $conn -> prepare($sql_check);
 
-            $sql_update_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipping_invoice, :table_name, :column_name, :changed_from, :changed_to)";
+            $sql_update_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipping_invoice, :table_name, :column_name, :changed_from, :changed_to, :username)";
             $stmt_update_history = $conn -> prepare($sql_update_history);
+            $stmt_update_history -> bindParam(":username", $_SESSION['username']);
 
             $sql_get_details = "SELECT ip_number, gross_weight, total_custom_value, port from import_data where shipping_invoice = :shipping_invoice";
             $stmt_get_details = $conn -> prepare($sql_get_details);

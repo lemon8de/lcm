@@ -44,8 +44,9 @@
             $stmt_old_log = $conn->prepare($sql);
 
             //adding to history query
-            $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to)";
+            $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
             $stmt_add_history = $conn -> prepare($sql);
+            $stmt_add_history -> bindParam(":username", $_SESSION['username']);
 
             //updating query
             $sql = "UPDATE m_shipment_sea_details set bl_number = :bl_number, container = :container, container_size = :container_size, commercial_invoice = :commercial_invoice, commodity = :commodity, type_of_expense = :type_of_expense, classification = :classification, shipping_lines = :shipping_lines, forwarder_name = :forwarder_name, origin_port = :origin_port, destination_port = :destination_port, shipment_status = :shipment_status, tsad_number = :tsad_number where shipment_details_ref = :shipment_details_ref";

@@ -46,8 +46,9 @@
     }
 
     // compare_set, shipment_keys and shipment_values all have the same length and data format now, we compare
-    $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to) values (:shipping_invoice, :table_name, :column_name, :changed_from, :changed_to)";
+    $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(":username", $_SESSION['username']);
     $stmt -> bindValue(':shipping_invoice', $shipping_invoice);
     $stmt -> bindValue(':table_name', 'import_data');
 
