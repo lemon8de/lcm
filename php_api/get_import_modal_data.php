@@ -41,6 +41,7 @@
                     </div>
                 </div>
                 <input class="form-control" style="display:none;" readonly type="text" name="shipping_invoice" value="{$data['shipping_invoice']}">
+                <input class="form-control" style="display:none;" readonly type="text" name="shipment_details_ref" value="{$data['shipment_details_ref']}">
                 <div class="row mt-2 justify-content-center">
                     <div class="col-3">
                         <label>COMMODITY QUANTITY</label>

@@ -11,7 +11,7 @@
     $inner_html = "";
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $inner_html .= <<<HTML
-            <tr class="edit_invoice-tab" id="{$data['shipping_invoice']}" onclick="edit_invoice_focus(this)" style="cursor:pointer;">
+            <tr class="edit_invoice-tab" data-id="{$data['shipment_details_ref']}" id="{$data['shipping_invoice']}" onclick="edit_invoice_focus(this)" style="cursor:pointer;">
                 <td style="border-radius:.75em;">{$data['shipping_invoice']}</td>
             </tr>
         HTML;

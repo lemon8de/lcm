@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="container" style="height:400px;overflow-y:auto;">
                             <table class="table table-head-fixed text-nowrap table-hover mb-4">
                                 <thead class="text-center">
@@ -25,9 +25,57 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-8" style="height:400px;" id="choose_invoice_window">
+                    <div class="col-9" style="height:400px;" id="choose_invoice_window">
                         <div class="container d-flex justify-content-center align-items-center h-100">
                             <h5 class="text-secondary">CHOOSE AN INVOICE</h5>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="card card-secondary card-tabs" id="container-card-information-invoice" style="display:block;">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="#GeneralInvoice" role="tab">General</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#SpecificInvoice" role="tab">Invoice</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#HistoryTabDivInvoice" role="tab">History</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-one-tabContent">
+                                    <div class="tab-pane fade active show" id="GeneralInvoice" role="tabpanel">
+                                        <form id="GeneralInvoiceForm">
+                                            <div class="container" id="GeneralInvoiceContent">
+                                                <div class="row">
+                                                    <div class="col-12 text-center">
+                                                        <span class="text-muted">Make a selection to view its data.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="SpecificInvoice" role="tabpanel">
+                                        <form id="InvoiceSpecificForm">
+                                            <div class="container" id="InvoiceSpecificContent">
+                                                <div class="row">
+                                                    <div class="col-12 text-center">
+                                                        <span class="text-muted">Make a selection to view its data.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="HistoryTabDivInvoice" role="tabpanel">
+                                        <div style="max-height: 300px; overflow-y: auto;">
+                                            <h1>3</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -38,9 +86,9 @@
 
 <script>
     function edit_invoice_information(initiator) {
-        //document.getElementById('display_container').style.display = 'none';
-        //document.getElementById('container-card-information').style.display = "none";
-        //document.getElementById('choose_container_window').style.display = "block";
+        document.getElementById('display_invoice').style.display = 'none';
+        document.getElementById('container-card-information-invoice').style.display = "none";
+        document.getElementById('choose_invoice_window').style.display = "block";
 
         document.getElementById('invoice_bl_number_display').innerHTML = initiator.id;
         $.ajax({
@@ -51,6 +99,13 @@
             },
             dataType: 'json',
             success: function (response) {
+                if (response.inner_html === "") {
+                    console.log('fire');
+                    Toast.fire({
+		                icon: "warning",
+		                title: "Unconfirmed Shipment",
+	                })
+                }
                 document.getElementById('InvoiceSearch').innerHTML = response.inner_html;
             }
         });
@@ -58,11 +113,10 @@
 
     function edit_invoice_focus(initiator) {
         invoice_tabs = document.querySelectorAll('.edit_invoice-tab');
-        //document.getElementById('display_container').innerHTML = initiator.textContent;
-        //document.getElementById('display_container').style.display = "inline-block";
-        //document.getElementById('choose_container_window').style.display = "none";
-
-        //document.getElementById('container-card-information').style.display = "block";
+        document.getElementById('display_invoice').innerHTML = initiator.textContent;
+        document.getElementById('display_invoice').style.display = "inline-block";
+        document.getElementById('choose_invoice_window').style.display = "none";
+        document.getElementById('container-card-information-invoice').style.display = "block";
 
         invoice_tabs.forEach(invoice => {
             if (invoice !== initiator) {
@@ -73,6 +127,24 @@
                 invoice.style.color = 'black';
             }
         });
-        //get_container_details_api(initiator.id);
+
+        //old code still on the codebase but not needed for now
+        //console.log(initiator.getAttribute('data-id'));
+        get_invoice_details_api(initiator.id);
+    }
+
+    function get_invoice_details_api(shipping_invoice) {
+        $.ajax({
+            url: '../php_api/invoice_detailsdump.php',
+            type: 'GET',
+            data: {
+                'shipping_invoice' : shipping_invoice,
+            },
+            dataType: 'json',
+            success: function (response) {
+                document.getElementById('InvoiceSpecificContent').innerHTML = response.inner_html_invoice;
+                document.getElementById('GeneralInvoiceContent').innerHTML = response.inner_html_general;
+            }
+        });
     }
 </script>
