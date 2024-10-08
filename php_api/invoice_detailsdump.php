@@ -28,7 +28,7 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     $data['assessment_date'] = $data['assessment_date'] == null ? null : substr($data['assessment_date'], 0, 10);
 
     $inner_html_invoice .= <<<HTML
-        <input class="form-control" style="display:none;" readonly type="text" name="shipment_details_ref" value="{$data['shipment_details_ref']}">
+        <input class="form-control" style="display:none;" readonly type="text" name="shipping_invoice" value="{$data['shipping_invoice']}">
         <div class="row mt-2 justify-content-center">
             <div class="col-3">
                 <label>COMMODITY QUANTITY</label>
@@ -73,12 +73,7 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             <div class="col-3">
                 <input class="form-control" type="text" name="shipper" value="{$data['shipper']}">
             </div>
-            <div class="col-3">
-                <label>PORT</label>
-            </div>
-            <div class="col-3">
-                <input class="form-control" type="text" name="port" value="{$data['port']}">
-            </div>
+            <div class="col-6"></div>
         </div>
         <div class="row mt-2 justify-content-center">
             <div class="col-3">

@@ -150,7 +150,7 @@
                     document.getElementById('HistoryContent').innerHTML = response.history;
                     //console.log(response)
                 } else {
-                    document.getElementById('HistoryContent').innerHTML = "<td colspan='4' class='text-muted text-center'>NO DATA</td>";
+                    document.getElementById('HistoryContent').innerHTML = "<th colspan='5' class='text-muted text-center'>NO DATA</th>";
                 }
                 if (response.shipment) {
                     document.getElementById('ShipmentDetailsContent').innerHTML = response.shipment;

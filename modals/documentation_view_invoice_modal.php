@@ -71,7 +71,20 @@
                                     </div>
                                     <div class="tab-pane fade" id="HistoryTabDivInvoice" role="tabpanel">
                                         <div style="max-height: 300px; overflow-y: auto;">
-                                            <h1>3</h1>
+                                            <table class="table table-head-fixed table-hover mb-4">
+                                                <thead>
+                                                    <tr style="border-bottom:1px solid black">
+                                                        <th>DATE MODIFIED</th>
+                                                        <th>USERNAME</th>
+                                                        <th>DATA</th>
+                                                        <th style="background-color: #ffcecb;">CHANGED FROM</th>
+                                                        <th style="background-color: #d1f8d9;">CHANGED TO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="HistoryContentInvoice">
+                                                    <th colspan="5" class="text-muted text-center">Make a selection to view its data</th>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -85,6 +98,48 @@
 </div>
 
 <script>
+    $('#GeneralInvoiceForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Serialize the form data
+        var formData = $(this).serialize();
+        // Send the AJAX request
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/update_import_data.php', // Replace with your server endpoint
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+            },
+        });
+    });
+
+    $('#InvoiceSpecificForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Serialize the form data
+        var formData = $(this).serialize();
+        // Send the AJAX request
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/update_import_data.php', // Replace with your server endpoint
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+            },
+        });
+    });
+
     function edit_invoice_information(initiator) {
         document.getElementById('display_invoice').style.display = 'none';
         document.getElementById('container-card-information-invoice').style.display = "none";
