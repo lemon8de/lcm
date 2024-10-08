@@ -21,6 +21,7 @@
         //user found
         $_SESSION['username'] = $user['username'];
         $_SESSION['site_role'] = $user['site_role'];
+        $_SESSION['editing_privileges'] = $user['editing_privileges'];
 
         $notification = [
             "icon" => "success",

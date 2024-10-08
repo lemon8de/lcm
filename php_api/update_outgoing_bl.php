@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+require '../php_static/session_lookup.php';
 
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $bl_date = $_POST['bl_date'] == "" ? null : $_POST['bl_date'];

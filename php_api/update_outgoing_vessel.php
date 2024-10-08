@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+require '../php_static/session_lookup.php';
 
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $mode_of_shipment = $_POST['mode_of_shipment'] == "" ? null : $_POST['mode_of_shipment'];

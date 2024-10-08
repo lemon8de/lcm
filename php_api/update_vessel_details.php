@@ -1,5 +1,7 @@
 <?php
     require 'db_connection.php';
+    require '../php_static/session_lookup.php';
+    
     $shipment_details_ref = $_POST['shipment_details_ref'];
     $vessel_name = $_POST['vessel_name'];
     $eta_mnl = $_POST['eta_mnl'] == "" ? null : $_POST['eta_mnl'];

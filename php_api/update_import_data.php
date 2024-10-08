@@ -1,5 +1,7 @@
 <?php
     require 'db_connection.php';
+    require '../php_static/session_lookup.php';
+    
     function convert_empty_tonull ($string) {
         return $string == "" ? null : $string;
     }

@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+require '../php_static/session_lookup.php';
 
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $irregular_shipment = $_POST['irregular_shipment'] = "" ? null : $_POST['irregular_shipment'];

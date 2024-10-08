@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+require '../php_static/session_lookup.php';
 
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $shipping_terms = $_POST['shipping_terms'] == "" ? null : $_POST['shipping_terms'];

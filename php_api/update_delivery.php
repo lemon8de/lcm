@@ -1,5 +1,6 @@
 <?php
     require 'db_connection.php';
+    require '../php_static/session_lookup.php';
 
     $required_delivery_sched = $_POST['required_delivery_sched'] == "" ? null : $_POST['required_delivery_sched'];
     $shipment_details_ref = $_POST['shipment_details_ref'];

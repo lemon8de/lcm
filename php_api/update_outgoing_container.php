@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+require '../php_static/session_lookup.php';
 
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $falp_in_reuse = $_POST['falp_in_reuse'] == "" ? null : $_POST['falp_in_reuse'];

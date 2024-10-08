@@ -1,5 +1,6 @@
 <?php
     require 'db_connection.php';
+    require '../php_static/session_lookup.php';
     $bl_numbers = $_POST['bl_numbers'];
 
     $placeholders = rtrim(str_repeat('?,', count($bl_numbers)), ',');

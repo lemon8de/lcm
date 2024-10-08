@@ -1,5 +1,7 @@
 <?php
     require 'db_connection.php';
+    require '../php_static/session_lookup.php';
+
     $bl_number = isset($_GET['bl_number']) ? $_GET['bl_number'] : "";
     $shipment_status = isset($_GET['shipment_status']) ? $_GET['shipment_status'] : "";
     $refresh_filters = $_GET['refresh_filters'];
@@ -7,7 +9,7 @@
     $year = $_GET['year'];
     $response_body = [];
 
-    $sql = "EXEC SearchBLCardsThisMonth :BlNumber, :ShipmentStatus, :StartYear, :StartMonth";
+    $sql = "EXEC SearchBLCardsThisMonth :BlNumber, :ShipmentStatus, :StartYear, :StartMonth, :Username";
     $stmt_get_cards = $conn -> prepare($sql);
     $bl_number = "%" . $bl_number . "%";
     $shipment_status = "%" . $shipment_status . "%";
@@ -15,6 +17,7 @@
     $stmt_get_cards -> bindParam(":ShipmentStatus", $shipment_status);
     $stmt_get_cards -> bindParam(":StartYear", $year);
     $stmt_get_cards -> bindParam(":StartMonth", $month);
+    $stmt_get_cards -> bindParam(":Username", $_SESSION['username']);
     $stmt_get_cards -> execute();
 
     $sql = "SELECT shipment_status, color from m_shipment_status";
