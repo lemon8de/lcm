@@ -1,7 +1,9 @@
 <?php 
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
-    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    //why is there so many of these if we just want csv files smh
+    //$csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    $csvMimes = array('text/csv', 'application/csv');
 
     if (!empty($_FILES['import_sea_peza_file']['name']) && in_array($_FILES['import_sea_peza_file']['type'],$csvMimes)) {
         if (is_uploaded_file($_FILES['import_sea_peza_file']['tmp_name'])) {
@@ -11,7 +13,23 @@
             $lines = 0;
             $updated = 0;
             $matches = "";
-            $skip_lines = 6;
+            $skip_lines = 5; //reduced by 1 to be able to use the header validation
+
+            // SKIP FIRST LINE
+            $headers = fgets($csvFile);
+            $headers = preg_replace('/[\x00-\x1F\x7F\xEF\xBB\xBF]/', '', $headers);
+            $expectedHeaders = "Intercommerce Network Services,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+            // Trim any whitespace and compare with expected headers
+            if (trim($headers) !== $expectedHeaders) {
+                $notification = [
+                    "icon" => "error",
+                    "text" => "File uploaded is not a valid PEZA csv file",
+                ];
+                $_SESSION['notification'] = json_encode($notification);
+                //header('location: ../pages/incoming_sea.php');
+                header('location: ../pages/add_shipment_sea.php');
+                exit();
+            }
 
             //additions sep5 invoices on that csv are apparently comma separated sometimes, yikes
             //also this has to move down to the loop to regenerate based on whatever length that is
@@ -138,13 +156,26 @@
                 "text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated",
             ];
             $_SESSION['notification'] = json_encode($notification);
-            header('location: ../pages/edit_import_sea.php');
+            header('location: ../pages/add_shipment_sea.php');
             exit();
         } else {
-            //file not uploaded
-            echo 'file not uploaded';
+            //i don't think this will ever happen but sure let it live here
+            $notification = [
+                "icon" => "warning",
+                "text" => "No file uploaded",
+            ];
+            $_SESSION['notification'] = json_encode($notification);
+            //header('location: ../pages/incoming_sea.php');
+            header('location: ../pages/add_shipment_sea.php');
+            exit();
         }
     } else {
-        //invalid file format
-        echo 'invalid file format';
+        $notification = [
+            "icon" => "error",
+            "text" => "Uploaded file is not a CSV",
+        ];
+        $_SESSION['notification'] = json_encode($notification);
+        //header('location: ../pages/incoming_sea.php');
+        header('location: ../pages/add_shipment_sea.php');
+        exit();
     }
