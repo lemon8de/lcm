@@ -24,6 +24,16 @@
     $shipment_status = $_POST['shipment_status'];
     $vessel_name = $_POST['vessel_name'];
 
+    //9 OCT revision, validating the vessel_name input
+    //TS KAOHSIUNG V.24017S
+    //CALIDRIS    V.0134S
+    //CALIDRISV.     134S
+    //cases, too many spaces, no spaces, zero on the voyage number
+    $pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+    if (preg_match_all($pattern, $vessel_name, $matches)) {
+        $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
+    }
+
     $eta_mnl = $_POST['eta_mnl'] == "" ? null : $_POST['eta_mnl'];
     $ata_mnl = $_POST['ata_mnl'] == "" ? null : $_POST['ata_mnl'];
     $atb = $_POST['atb'] == "" ? null : $_POST['atb'];

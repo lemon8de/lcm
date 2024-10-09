@@ -1,6 +1,18 @@
 <?php
 require 'db_connection.php';
-$vessel_name = $_GET['vessel_name'];
+$vessel_name = trim($_GET['vessel_name']);
+
+//9 OCT revision, validating the vessel_name input
+//TS KAOHSIUNG V.24017S
+//CALIDRIS    V.0134S
+//CALIDRISV.     134S
+//cases, too many spaces, no spaces, zero on the voyage number
+$pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+if (preg_match_all($pattern, $vessel_name, $matches)) {
+    $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
+}
+
+
 $return_body = [];
 
 $sql = "SELECT top 1 eta_mnl, ata_mnl, atb, vessel_name from m_vessel_details where vessel_name = :vessel_name order by id desc";

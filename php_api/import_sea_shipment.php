@@ -86,6 +86,16 @@
                 $classification = "MASTERLIST FAILURE";
                 $vessel_name = $line[1];
 
+                //9 OCT revision, validating the vessel_name input
+                //TS KAOHSIUNG V.24017S
+                //CALIDRIS    V.0134S
+                //CALIDRISV.     134S
+                //cases, too many spaces, no spaces, zero on the voyage number
+                $pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+                if (preg_match_all($pattern, $vessel_name, $matches)) {
+                    $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
+                }
+
                 //date parsing, and null defaults on some cases
                 $eta_mnl = $line[2] == "" || $line[2] == 'TBA' ? null : date("Y-m-d", strtotime($line[2]));
                 $ata_mnl = $line[3] == "" || $line[3] == 'TBA' ? null : date("Y-m-d", strtotime($line[3]));
