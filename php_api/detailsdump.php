@@ -168,7 +168,7 @@
 
 
     //shipment details
-    $sql = "SELECT shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, destination_port, tsad_number, shipment_status from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+    $sql = "SELECT shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, destination_port, tsad_number, shipment_status, shipment_status_percentage from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
@@ -241,11 +241,15 @@
                     <input type="text" class="form-control" value="{$shipment['shipment_status']}" name="shipment_status" required>
                 </div>
                 <div class="col-6">
-                    <label>DESTINATION PORT</label>
-                    <input type="text" class="form-control" value="{$shipment['destination_port']}" name="destination_port" required>
+                    <label>SHIPMENT STATUS</label>
+                    <input type="number" class="form-control" value="{$shipment['shipment_status_percentage']}" name="shipment_status_percentage" required step="10">
                 </div>
             </div>
             <div class="row mb-2">
+                <div class="col-6">
+                    <label>DESTINATION PORT</label>
+                    <input type="text" class="form-control" value="{$shipment['destination_port']}" name="destination_port" required>
+                </div>
                 <div class="col-6">
                     <label>TSAD NUMBER</label>
                     <input type="text" class="form-control" value="{$shipment['tsad_number']}" name="tsad_number" required>
