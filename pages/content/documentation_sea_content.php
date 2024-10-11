@@ -2,8 +2,8 @@
     <div class="col-8">
         <!-- top searching -->
         <div class="col-12 d-flex" style="margin-top:-0.4em;">
-            <div class="btn-group">
-                <button type="button" class="btn btn-success" onclick="select_all_bl(this)">Select&nbsp;All</button>
+            <div class="btn-group ml-1 mr-1">
+                <button type="button" class="btn btn-success" onclick="select_all_bl(this)"><i class="fas fa-check"></i></button>
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -12,9 +12,11 @@
                     <a class="dropdown-item" onclick="delete_shipment()">Delete Shipment</a>
                 </div>
             </div>
-            <input class="form-control ml-3 w-25" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_documentation, 350)">
-            <div>
-            <select class="form-control ml-2" id="month_search" onchange="search_documentation()">
+            <div class="flex-grow-1 ml-1 mr-1">
+                <input class="form-control w-100" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_documentation, 350)">
+            </div>
+            <div class="ml-1 mr-1">
+            <select class="form-control" id="month_search" onchange="search_documentation()">
                 <?php 
                     $month_today = date('n');
                     $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -26,8 +28,8 @@
                 ?>
                 </select>
             </div>
-            <div>
-            <select class="form-control ml-3" id="year_search" onchange="search_documentation()">
+            <div class="ml-1 mr-1">
+            <select class="form-control" id="year_search" onchange="search_documentation()">
                     <?php
                         $current_year = date("Y");
                         $end_year = $current_year - 10;
@@ -39,6 +41,9 @@
                     ?>
                 </select>
             </div>
+            <div class="ml-1 mr-1">
+                <button class="btn btn-block btn-info" style="border-radius:1rem;padding:.375rem .375rem" onclick="search_documentation()"><i class="fas fa-redo"></i>&nbsp;Refresh</button>
+            </div>
         </div>
 
         <!-- history alert -->
@@ -47,7 +52,7 @@
         </div>
 
         <!-- main content -->
-        <div class="col-12 mt-1" id="DocumentationMainContainer" style="max-height:70vh;overflow-y:auto;">
+        <div class="col-12 mt-3" id="DocumentationMainContainer" style="max-height:70vh;overflow-y:auto;">
         </div>
     </div>
 
