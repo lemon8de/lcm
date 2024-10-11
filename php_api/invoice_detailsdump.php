@@ -208,7 +208,31 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         </div>
     HTML;
 }
+
+//history details
+    $sql = "SELECT username, column_name, changed_from, changed_to, date_modified from m_change_history where shipment_details_ref = :shipping_invoice order by date_modified asc";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindValue(':shipping_invoice', $shipping_invoice);
+    $stmt -> execute();
+
+    $inner_html_history = "";
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['date_modified'] = date("Y/m/d", strtotime($row["date_modified"]));
+        $row['changed_from'] = $row['changed_from'] == null ? "N/A" : $row['changed_from'];
+        $row['changed_to'] = $row['changed_to'] == null ? "N/A" : $row['changed_to'];
+        $inner_html_history .= <<<HTML
+            <tr>
+                <td>{$row['date_modified']}</td>
+                <td>{$row['username']}</td>
+                <td>{$row['column_name']}</td>
+                <td style="background-color: #ffcecb;">{$row['changed_from']}</td>
+                <td style="background-color: #d1f8d9;">{$row['changed_to']}</td>
+            </tr>
+        HTML;
+    }
+
 $response_body['inner_html_general'] = $inner_html_general;
 $response_body['inner_html_invoice'] = $inner_html_invoice;
+$response_body['inner_html_history'] = $inner_html_history;
 echo json_encode($response_body);
 

@@ -198,6 +198,7 @@
             success: function (response) {
                 document.getElementById('InvoiceSpecificContent').innerHTML = response.inner_html_invoice;
                 document.getElementById('GeneralInvoiceContent').innerHTML = response.inner_html_general;
+                document.getElementById('HistoryContentInvoice').innerHTML = response.inner_html_history;
             }
         });
     }
