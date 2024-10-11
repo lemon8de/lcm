@@ -149,15 +149,15 @@
             $inner_html_storage_filter .= <<<HTML
                 <div class="form-check flex-fill">
                     <input onchange="search_documentation(false)" class="form-check-input" id="radio-orange" type="radio" value="orange" name="radio">
-                    <label class="form-check-label" for="radio-orange"><span class="text-right badge" style="background-color:#ff851b;color:#ffffff">{$data['orange']}</span>&nbsp;1 - 4</label>
+                    <label class="form-check-label" for="radio-orange"><span class="text-right badge" style="background-color:#ff851b;color:#ffffff">{$data['orange']}</span>&nbsp;1&nbsp;-&nbsp;4</label>
                 </div>
                 <div class="form-check flex-fill">
                     <input onchange="search_documentation(false)" class="form-check-input" id="radio-red" type="radio" value="red" name="radio">
-                    <label class="form-check-label" for="radio-red"><span class="text-right badge" style="background-color:#dc3545;color:#ffffff">{$data['red']}</span>&nbsp;5 - 7</label>
+                    <label class="form-check-label" for="radio-red"><span class="text-right badge" style="background-color:#dc3545;color:#ffffff">{$data['red']}</span>&nbsp;5&nbsp;-&nbsp;7</label>
                 </div>
                 <div class="form-check flex-fill">
                     <input onchange="search_documentation(false)" class="form-check-input" id="radio-purple" type="radio" value="purple" name="radio">
-                    <label class="form-check-label" for="radio-purple"><span class="text-right badge" style="background-color:#6610f2;color:#ffffff">{$data['purple']}</span>&nbsp;8 beyond</label>
+                    <label class="form-check-label" for="radio-purple"><span class="text-right badge" style="background-color:#6610f2;color:#ffffff">{$data['purple']}</span>&nbsp;8&nbsp;beyond</label>
                 </div>
             HTML;
         }

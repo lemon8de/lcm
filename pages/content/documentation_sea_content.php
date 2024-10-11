@@ -87,7 +87,7 @@
         <div class="card card-default col-12">
             <div class="card-header d-flex justify-content-between" style="padding:.40rem .40rem">
                 <div class="flex-grow-1">
-                    <i class="fas fa-pallet"></i></i>&nbsp;Storage &emsp;
+                    <i class="fas fa-pallet"></i></i>&nbsp;In-Storage Breakdown
                 </div>
                 <div>
                     <button class="btn btn-block btn-secondary" onclick="clear_radio_storage()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;">Clear</button>
@@ -164,7 +164,6 @@
             "vessel" : vessel,
             "storage" : storage
         };
-        console.log(data);
 
         //show historical warning alert
         const currentDate = new Date();
