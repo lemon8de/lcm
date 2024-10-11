@@ -155,7 +155,6 @@
             dataType: 'json',
             success: function (response) {
                 if (response.inner_html === "") {
-                    console.log('fire');
                     Toast.fire({
 		                icon: "warning",
 		                title: "Unconfirmed Shipment",

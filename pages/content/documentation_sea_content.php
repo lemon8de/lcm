@@ -94,30 +94,8 @@
                 </div>
             </div>
             <form id="ShipmentStorageRadio">
-            <div class="card-body d-flex" style="padding:1px;">
-                <div class="container" id="StorageFilterContent">
-                    <div class="d-flex">
-                <div class="flex-fill ml-1 mt-1 mb-1">
-                    <button type="button" data-value="1-4" class="btn btn-block storage_button" onclick="clear_radio_storage()"><span style="font-family:monospace;font-size:145%;">999</span><br><span class="badge" style="color:#000000; background-color:#ff851b;">1 - 4</span></button>
-                </div>
-                <div class="flex-fill ml-1 mt-1 mb-1">
-                    <button type="button" data-value="5-7" class="btn btn-block storage_button" onclick="clear_radio_storage()"><span style="font-family:monospace;font-size:145%">9</span><br><span class="badge" style="color:#000000; background-color:#dc3545;">5 - 7</span></button>
-                </div>
-                <div class="flex-fill ml-1 mt-1 mb-1">
-                    <button type="button" data-value="8" class="btn btn-block storage_button" onclick="clear_radio_storage()"><span style="font-family:monospace;font-size:145%">999</span><br><span class="badge" style="color:#000000; background-color:#6f42c1;">> 8</span></button>
-                </div>
-                    </div>
-                </div>
+            <div class="card-body d-flex mt-1 mb-1" style="padding:1px;" id="StorageFilterContent">
             </div>
-            <style>
-                .storage_button {
-                    line-height:1;
-                    padding:.375rem .375rem;
-                    border-radius:.25rem;
-                    background-color:white;
-                    border-color:#343a40;
-                }
-            </style>
             </form>
         </div>
     </div>
@@ -130,11 +108,15 @@
 
     function clear_radio_status() {
         document.getElementById("ShipmentPercentageRadio").reset();
-        search_documentation();
+        search_documentation(false);
     }
     function clear_radio_vessel() {
         document.getElementById("ShipmentVesselRadio").reset();
-        search_documentation();
+        search_documentation(false);
+    }
+    function clear_radio_storage() {
+        document.getElementById("ShipmentStorageRadio").reset();
+        search_documentation(false);
     }
     function load_containers(initiator) {
         $.ajax({
@@ -152,24 +134,37 @@
 
     function search_documentation(refresh_filters = true) {
         ck_bl_status = true; //makes the select all button work again
+        var selectedValue = document.getElementById('ShipmentPercentageRadio').querySelector('input[name="radio"]:checked');
+        if (selectedValue) {
+            percentage = selectedValue.value;
+        } else {
+            percentage = "";
+        }
+        var selectedValue = document.getElementById('ShipmentVesselRadio').querySelector('input[name="radio"]:checked');
+        if (selectedValue) {
+            vessel = selectedValue.value;
+        } else {
+            vessel = "";
+        }
+        var selectedValue = document.getElementById('ShipmentStorageRadio').querySelector('input[name="radio"]:checked');
+        if (selectedValue) {
+            storage = selectedValue.value;
+        } else {
+            storage = "";
+        }
 
-        //extract the shipment status
-        shipment_status = "";
-        checkboxes = document.querySelectorAll('.ck-shipment-status');
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked == true) {
-                shipment_status = checkbox.id;
-            }
-        });
+
         //build the data, unfortunately this won't be a form serialize
         data = {
             "bl_number" : document.getElementById('bl_number_search').value,
             "month" : document.getElementById('month_search').value,
             "year" : document.getElementById('year_search').value,
-            //a bit special, we need to get it using jquery
-            "shipment_status" :shipment_status,
-            "refresh_filters" : refresh_filters
+            "refresh_filters" : refresh_filters,
+            "percentage" : percentage,
+            "vessel" : vessel,
+            "storage" : storage
         };
+        console.log(data);
 
         //show historical warning alert
         const currentDate = new Date();
@@ -189,11 +184,11 @@
             data: data,
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
                 if (refresh_filters) {
                     document.getElementById("StatusFilterContent").innerHTML = response.inner_html_status_filter;
                     document.getElementById("VesselFilterContent").innerHTML = response.inner_html_vessel_filter;
+                    document.getElementById("StorageFilterContent").innerHTML = response.inner_html_storage_filter;
                 }
             }
         });
@@ -239,7 +234,6 @@
 		        title: "None selected",
 	        })
         } else {
-            console.log(selectedIds);
             //ajax here to update the modal information, just show the blnumber and stuff
             $.ajax({
                 url: '../php_api/sea_get_confirm_deletion_details.php',
@@ -249,7 +243,6 @@
                 },
                 dataType: 'json',
                 success: function (response) {
-                    console.log(response);
                     document.getElementById('ConfirmDeletionContent').innerHTML = response.inner_html;
                 }
             });

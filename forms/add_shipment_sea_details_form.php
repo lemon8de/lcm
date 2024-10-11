@@ -50,23 +50,7 @@
     <div class="row mb-4" id="TypeOfShipmentDropOff">
         <div class="col-3">
             <label>SHIPMENT STATUS</label>
-            <select name="shipment_status" class="form-control" required>
-                <option value="" disabled selected>Select Status</option>
-                <?php
-                    $sql = "SELECT shipment_status from m_shipment_status";
-                    $stmt_shipment_status = $conn -> prepare($sql);
-                    $stmt_shipment_status -> execute();
-
-                    while ($data = $stmt_shipment_status -> fetch(PDO::FETCH_ASSOC)) {
-                        if ($data['shipment_status'] == "default") {
-                            break;
-                        }
-                ?>
-                <option><?php echo $data['shipment_status']; ?></option>
-                <?php
-                    }
-                ?>
-            </select>
+            <input type="text" class="form-control" name="shipment_status" required>
         </div>
         <div class="col-3">
             <label>TSAD NUMBER</label>

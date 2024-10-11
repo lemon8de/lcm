@@ -3,21 +3,23 @@
     require '../php_static/session_lookup.php';
 
     $bl_number = isset($_GET['bl_number']) ? $_GET['bl_number'] : "";
-    $shipment_status = isset($_GET['shipment_status']) ? $_GET['shipment_status'] : "";
-    $shipment_status_percentage = isset($_GET['shipment_status_percentage']) ? $_GET['shipment_status_percentage'] : "";
+    $shipment_status_percentage = $_GET['percentage'];
+    $vessel_name = $_GET['vessel'];
+    $storage = $_GET['storage'];
     $refresh_filters = $_GET['refresh_filters'];
     $month = $_GET['month'];
     $year = $_GET['year'];
     $response_body = [];
 
     $bl_number = "%" . $bl_number . "%";
-    $shipment_status = "%" . $shipment_status . "%";
+    $vessel_name = "%" . $vessel_name . "%";
 
-    $sql = "EXEC SearchBLCardsThisMonth :BlNumber, :ShipmentStatus, :StartYear, :StartMonth, :ShipmentStatusPercentage";
+    $sql = "EXEC SearchBLCardsThisMonth :BlNumber, :StartYear, :StartMonth, :ShipmentStatusPercentage, :VesselName, :Storage";
     $stmt_get_cards = $conn -> prepare($sql);
     $stmt_get_cards -> bindParam(":BlNumber", $bl_number);
-    $stmt_get_cards -> bindParam(":ShipmentStatus", $shipment_status);
     $stmt_get_cards -> bindParam(":ShipmentStatusPercentage", $shipment_status_percentage);
+    $stmt_get_cards -> bindParam(":VesselName", $vessel_name);
+    $stmt_get_cards -> bindParam(":Storage", $storage);
     $stmt_get_cards -> bindParam(":StartYear", $year);
     $stmt_get_cards -> bindParam(":StartMonth", $month);
     $stmt_get_cards -> execute();
@@ -65,53 +67,52 @@
         $inner_html_status_filter = <<<HTML
             <div class="container">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="30" name="radio">
-                    <label class="form-check-label">30&nbsp;{$badges[3]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-30" type="radio" value="30" name="radio">
+                    <label class="form-check-label" for="radio-30">30&nbsp;{$badges[3]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="20" name="radio">
-                    <label class="form-check-label">20&nbsp;{$badges[2]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-20" type="radio" value="20" name="radio">
+                    <label class="form-check-label" for="radio-20">20&nbsp;{$badges[2]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="10" name="radio">
-                    <label class="form-check-label">10&nbsp;{$badges[1]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-10" type="radio" value="10" name="radio">
+                    <label class="form-check-label" for="radio-10">10&nbsp;{$badges[1]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="0" name="radio">
-                    <label class="form-check-label">0&nbsp;{$badges[0]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-0" type="radio" value="0" name="radio">
+                    <label class="form-check-label" for="radio-0">0&nbsp;{$badges[0]}</label>
                 </div>
             </div>
             <div class="container">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="70" name="radio">
-                    <label class="form-check-label">70&nbsp;{$badges[7]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-70" type="radio" value="70" name="radio">
+                    <label class="form-check-label" for="radio-70">70&nbsp;{$badges[7]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="60" name="radio">
-                    <label class="form-check-label">60&nbsp;{$badges[6]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-60" type="radio" value="60" name="radio">
+                    <label class="form-check-label" for="radio-60">60&nbsp;{$badges[6]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="50" name="radio">
-                    <label class="form-check-label">50&nbsp;{$badges[5]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-50" type="radio" value="50" name="radio">
+                    <label class="form-check-label" for="radio-50">50&nbsp;{$badges[5]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="40" name="radio">
-                    <label class="form-check-label">40&nbsp;{$badges[4]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-40" type="radio" value="40" name="radio">
+                    <label class="form-check-label" for="radio-40">40&nbsp;{$badges[4]}</label>
                 </div>
-                
             </div>
             <div class="container">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="100" name="radio">
-                    <label class="form-check-label">100&nbsp;{$badges[10]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-100" type="radio" value="100" name="radio">
+                    <label class="form-check-label" for="radio-100">100&nbsp;{$badges[10]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="90" name="radio">
-                    <label class="form-check-label">90&nbsp;{$badges[9]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-90" type="radio" value="90" name="radio">
+                    <label class="form-check-label" for="radio-90">90&nbsp;{$badges[9]}</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="80" name="radio">
-                    <label class="form-check-label">80&nbsp;{$badges[8]}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-80" type="radio" value="80" name="radio">
+                    <label class="form-check-label" for="radio-80">80&nbsp;{$badges[8]}</label>
                 </div>
             </div>
         HTML;
@@ -129,12 +130,38 @@
             $date = substr($data['date'],5,5);
             $inner_html_vessel_filter .= <<<HTML
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="{$data['vessel_name']}" name="radio">
-                    <label class="form-check-label"><span class="text-right badge" style="background-color:#007bff;color:#ffffff">{$date}</span>&nbsp;<span class="text-right badge" style="background-color:#17a2b8;color:#ffffff">{$data['count']}</span>&nbsp;{$data['vessel_name']}</label>
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-{$data['vessel_name']}" type="radio" value="{$data['vessel_name']}" name="radio">
+                    <label class="form-check-label" for="radio-{$data['vessel_name']}"><span class="text-right badge" style="background-color:#007bff;color:#ffffff">{$date}</span>&nbsp;<span class="text-right badge" style="background-color:#17a2b8;color:#ffffff">{$data['count']}</span>&nbsp;{$data['vessel_name']}</label>
                 </div>
             HTML;
         }
         $response_body['inner_html_vessel_filter'] = $inner_html_vessel_filter;
+
+        $sql = "EXEC SearchStorageThisMonth :BlNumber, :StartYear, :StartMonth";
+        $stmt_get_storage = $conn -> prepare($sql);
+        $stmt_get_storage -> bindParam(":BlNumber", $bl_number);
+        $stmt_get_storage -> bindParam(":StartYear", $year);
+        $stmt_get_storage -> bindParam(":StartMonth", $month);
+        $stmt_get_storage -> execute();
+
+        $inner_html_storage_filter = "";
+        if ($data = $stmt_get_storage -> fetch(PDO::FETCH_ASSOC)) {
+            $inner_html_storage_filter .= <<<HTML
+                <div class="form-check flex-fill">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-orange" type="radio" value="orange" name="radio">
+                    <label class="form-check-label" for="radio-orange"><span class="text-right badge" style="background-color:#ff851b;color:#ffffff">{$data['orange']}</span>&nbsp;1 - 4</label>
+                </div>
+                <div class="form-check flex-fill">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-red" type="radio" value="red" name="radio">
+                    <label class="form-check-label" for="radio-red"><span class="text-right badge" style="background-color:#dc3545;color:#ffffff">{$data['red']}</span>&nbsp;5 - 7</label>
+                </div>
+                <div class="form-check flex-fill">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-purple" type="radio" value="purple" name="radio">
+                    <label class="form-check-label" for="radio-purple"><span class="text-right badge" style="background-color:#6610f2;color:#ffffff">{$data['purple']}</span>&nbsp;8 beyond</label>
+                </div>
+            HTML;
+        }
+        $response_body['inner_html_storage_filter'] = $inner_html_storage_filter;
     }
 
     $inner_html = "";
