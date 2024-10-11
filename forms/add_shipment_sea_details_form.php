@@ -53,6 +53,10 @@
             <input type="text" class="form-control" name="shipment_status" required>
         </div>
         <div class="col-3">
+            <label>SHIPMENT STATUS PERCENTAGE</label>
+            <input type="text" class="form-control" name="shipment_status" required>
+        </div>
+        <div class="col-3">
             <label>TSAD NUMBER</label>
             <input type="text" class="form-control" name="tsad_number" required>
         </div>

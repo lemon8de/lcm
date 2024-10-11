@@ -199,7 +199,10 @@
             $urgent = "";
         }
 
-        $progress_bar_shipment_status = isset($data['shipment_status']) ? $data['shipment_status'] : '0';
+        $shipment_status = explode(", ", $data['shipment_status']);
+        $shipment_status = array_unique($shipment_status);
+        $shipment_status = implode(", ", $shipment_status);
+
         $inner_html .= <<<HTML
             <div class="callout" style="border-left-color:{$border_color};">
                 <div class="container">
@@ -233,10 +236,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <div class="progress progress-sm active" style="background-color:#adb5bd;border-radius:.25rem;">
-                                <div class="progress-bar progress-bar-striped" role="progressbar" style="width:{$data['shipment_status']}%; background-color:{$border_color};">
-                                </div>
-                            </div>
+                            {$shipment_status}
                         </div>
                         <div class="col-6">
                             {$data['commodity']}
