@@ -48,7 +48,7 @@
 
         <!-- history alert -->
         <div class="col-12 alert alert-info mt-1" style="display:none;" id="HistoricalAlert">
-            <span style="font-weight:700; font-size:90%;"><i class="icon fas fa-info"></i>&nbsp;Viewing NON-Active Shipments of Selected Month and Year</span>
+            <span style="font-weight:700; font-size:90%;"><i class="icon fas fa-info"></i>&nbsp;Viewing Shipments of Selected Month and Year</span>
         </div>
 
         <!-- main content -->
