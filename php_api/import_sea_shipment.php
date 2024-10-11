@@ -13,7 +13,7 @@
             $headers = fgets($csvFile);
             // Remove BOM and any non-printable characters
             $headers = preg_replace('/[\x00-\x1F\x7F\xEF\xBB\xBF]/', '', $headers);
-            $expectedHeaders = "NO,Vessel Name,ETA MNL (YYYY/MM/DD),ATA MNL  (YYYY/MM/DD),ATB  (YYYY/MM/DD),BL NUMBER,CONTAINER,CONTAINER SIZE / CBM,COMMERCIAL INVOICE,COMMODITY,SHIPPING LINES,FORWARDER'S NAME,ORIGIN,SHIPMENT STATUS,DESTINATION PORT,TSAD NUMBER";
+            $expectedHeaders = "NO,Vessel Name,ETA MNL (YYYY/MM/DD),ATA MNL  (YYYY/MM/DD),ATB  (YYYY/MM/DD),BL NUMBER,CONTAINER,CONTAINER SIZE / CBM,COMMERCIAL INVOICE,COMMODITY,SHIPPING LINES,FORWARDER'S NAME,ORIGIN,SHIPMENT STATUS,SHIPMENT STATUS PERCENTAGE,DESTINATION PORT,TSAD NUMBER";
 
             // Trim any whitespace and compare with expected headers
             if (trim($headers) !== $expectedHeaders) {
@@ -40,7 +40,7 @@
             $method = 'sea';
 
             //select query for comparing new and old values for history logging
-            $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, shipment_status, destination_port, tsad_number from m_shipment_sea_details where bl_number = :bl_number and container = :container";
+            $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, shipment_status, shipment_status_percentage, destination_port, tsad_number from m_shipment_sea_details where bl_number = :bl_number and container = :container";
             $stmt_old_log = $conn->prepare($sql);
 
             //adding to history query
@@ -49,7 +49,7 @@
             $stmt_add_history -> bindParam(":username", $_SESSION['username']);
 
             //updating query
-            $sql = "UPDATE m_shipment_sea_details set bl_number = :bl_number, container = :container, container_size = :container_size, commercial_invoice = :commercial_invoice, commodity = :commodity, type_of_expense = :type_of_expense, classification = :classification, shipping_lines = :shipping_lines, forwarder_name = :forwarder_name, origin_port = :origin_port, destination_port = :destination_port, shipment_status = :shipment_status, tsad_number = :tsad_number where shipment_details_ref = :shipment_details_ref";
+            $sql = "UPDATE m_shipment_sea_details set bl_number = :bl_number, container = :container, container_size = :container_size, commercial_invoice = :commercial_invoice, commodity = :commodity, type_of_expense = :type_of_expense, classification = :classification, shipping_lines = :shipping_lines, forwarder_name = :forwarder_name, origin_port = :origin_port, destination_port = :destination_port, shipment_status = :shipment_status,shipment_status_percentage = :shipment_status_percentage, tsad_number = :tsad_number where shipment_details_ref = :shipment_details_ref";
             $stmt_update_shipment_sea_details = $conn -> prepare($sql);
 
             //select query for the vessel details table
@@ -70,7 +70,7 @@
             $stmt_check_duplicate_ref = $conn->prepare($sql);
 
             $confirm_departure = 0;
-            $sql = "INSERT INTO m_shipment_sea_details (shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, destination_port, shipment_status, tsad_number, confirm_departure) values (:shipment_details_ref, :bl_number, :container, :container_size, :commercial_invoice, :commodity, :type_of_expense, :classification, :shipping_lines, :forwarder_name, :origin_port, :destination_port, :shipment_status, :tsad_number, :confirm_departure)";
+            $sql = "INSERT INTO m_shipment_sea_details (shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, destination_port, shipment_status, shipment_status_percentage, tsad_number, confirm_departure) values (:shipment_details_ref, :bl_number, :container, :container_size, :commercial_invoice, :commodity, :type_of_expense, :classification, :shipping_lines, :forwarder_name, :origin_port, :destination_port, :shipment_status, :shipment_status_percentage, :tsad_number, :confirm_departure)";
             $stmt_insert_shipment_details = $conn->prepare($sql);
 
             $sql = "INSERT INTO m_vessel_details (shipment_details_ref, vessel_name, eta_mnl, ata_mnl, atb) values (:shipment_details_ref, :vessel_name, :eta_mnl, :ata_mnl, :atb) ";
@@ -105,13 +105,40 @@
                 $container = $line[6];
                 $container_size = $line[7];
                 $commercial_invoice = $line[8];
+                $list = explode(", ", $commercial_invoice);
+                $fixed_list = [];
+                $first = false;
+                foreach ($list as $invoice) {
+                    //check if this invoice is cut or not
+                    //if not cut, i.e. start of the loop proceed immediately
+                    if ($first) {
+                        //now we can start
+                        if (strlen($invoice) == strlen($pattern_invoice)) {
+                            array_push($fixed_list, $prefix_invoice . $invoice);
+                        } else {
+                            //new invoice block, refresh the pattern lookup
+                            $hyphen_index = strrpos($invoice, '-');
+                            $pattern_invoice = substr($invoice, $hyphen_index + 1);
+                            $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+                            array_push($fixed_list, $invoice);
+                        }
+                    } else {
+                        $hyphen_index = strrpos($invoice, '-');
+                        $pattern_invoice = substr($invoice, $hyphen_index + 1);
+                        $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+                        $first = true;
+                        array_push($fixed_list, $invoice);
+                    }
+                }
+                $commercial_invoice = implode(", ", $fixed_list);
                 $commodity_lookup = $line[9];
                 $shipping_lines = $line[10];
                 $forwarder_name = $line[11];
                 $origin_port = $line[12];
                 $shipment_status = $line[13];
-                $destination_port = $line[14];
-                $tsad_number = $line[15];
+                $shipment_status_percentage = $line[14];
+                $destination_port = $line[15];
+                $tsad_number = $line[16];
 
                 //check if the bl_number + container combination exists
                 $stmt_duplicate -> bindValue(':bl_number', $bl_number);
@@ -141,7 +168,7 @@
                     $stmt_old_log -> execute();
                     $shipment = $stmt_old_log->fetch(PDO::FETCH_ASSOC);
 
-                    $compare_set = array($bl_number, $container, $container_size, $commercial_invoice, $commodity, $type_of_expense, $classification, $shipping_lines, $forwarder_name, $origin_port, $shipment_status, $destination_port, $tsad_number);
+                    $compare_set = array($bl_number, $container, $container_size, $commercial_invoice, $commodity, $type_of_expense, $classification, $shipping_lines, $forwarder_name, $origin_port, $shipment_status, $shipment_status_percentage, $destination_port, $tsad_number);
                     if ($shipment) {
                         $shipment_keys = array_keys($shipment);
                         $shipment_values = array_values($shipment);
@@ -179,6 +206,7 @@
                     $stmt_update_shipment_sea_details -> bindValue(':origin_port', $origin_port);
                     $stmt_update_shipment_sea_details -> bindValue(':destination_port', $destination_port);
                     $stmt_update_shipment_sea_details -> bindValue(':shipment_status', $shipment_status);
+                    $stmt_update_shipment_sea_details -> bindValue(':shipment_status_percentage', $shipment_status_percentage);
                     $stmt_update_shipment_sea_details -> bindValue(':tsad_number', $tsad_number);
                     $stmt_update_shipment_sea_details -> bindValue(':shipment_details_ref', $shipment_details_ref);
                     $stmt_update_shipment_sea_details -> execute();
@@ -268,6 +296,7 @@
                     $stmt_insert_shipment_details -> bindValue(':origin_port', $origin_port);
                     $stmt_insert_shipment_details -> bindValue(':destination_port', $destination_port);
                     $stmt_insert_shipment_details -> bindValue(':shipment_status', $shipment_status);
+                    $stmt_insert_shipment_details -> bindValue(':shipment_status_percentage', $shipment_status_percentage);
                     $stmt_insert_shipment_details -> bindValue(':tsad_number', $tsad_number);
                     $stmt_insert_shipment_details -> bindValue(':confirm_departure', $confirm_departure);
                     $stmt_insert_shipment_details -> execute();

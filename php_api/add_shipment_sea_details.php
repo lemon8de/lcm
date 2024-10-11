@@ -11,7 +11,34 @@
     $container_sizes = $_POST['container_sizes'];
     $container_size_suffix = isset($_POST['container_size_suffix']) ? $_POST['container_size_suffix'] : null;
 
-    $commercial_invoice = $_POST['commercial_invoice'];
+    $commercial_invoice = trim($_POST['commercial_invoice']);
+    //removes shortcutting of invoices
+    $list = explode(", ", $commercial_invoice);
+    $fixed_list = [];
+    $first = false;
+    foreach ($list as $invoice) {
+        //check if this invoice is cut or not
+        //if not cut, i.e. start of the loop proceed immediately
+        if ($first) {
+            //now we can start
+            if (strlen($invoice) == strlen($pattern_invoice)) {
+                array_push($fixed_list, $prefix_invoice . $invoice);
+            } else {
+                //new invoice block, refresh the pattern lookup
+                $hyphen_index = strrpos($invoice, '-');
+                $pattern_invoice = substr($invoice, $hyphen_index + 1);
+                $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+                array_push($fixed_list, $invoice);
+            }
+        } else {
+            $hyphen_index = strrpos($invoice, '-');
+            $pattern_invoice = substr($invoice, $hyphen_index + 1);
+            $prefix_invoice = substr($invoice, 0, $hyphen_index + 1);
+            $first = true;
+            array_push($fixed_list, $invoice);
+        }
+    }
+    $commercial_invoice = implode(", ", $fixed_list);
     $commodity_lookup = $_POST['commodity'];
     $shipping_lines = $_POST['shipping_lines'];
     $forwarder_name = $_POST['forwarder_name'];
@@ -22,6 +49,7 @@
     $tsad_number = $_POST['tsad_number'];
 
     $shipment_status = $_POST['shipment_status'];
+    $shipment_status_percentage = $_POST['shipment_status_percentage'];
     $vessel_name = $_POST['vessel_name'];
 
     //9 OCT revision, validating the vessel_name input
@@ -77,7 +105,7 @@
         $stmt_find_duplicate = $conn->prepare($sql);
 
         $confirm_departure = 0;
-        $sql = "INSERT INTO m_shipment_sea_details (shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, destination_port, shipment_status, tsad_number, confirm_departure) values (:shipment_details_ref, :bl_number, :container, :container_size, :commercial_invoice, :commodity, :type_of_expense, :classification, :shipping_lines, :forwarder_name, :origin_port, :destination_port, :shipment_status, :tsad_number, :confirm_departure)";
+        $sql = "INSERT INTO m_shipment_sea_details (shipment_details_ref, bl_number, container, container_size, commercial_invoice, commodity, type_of_expense, classification, shipping_lines, forwarder_name, origin_port, destination_port, shipment_status, shipment_status_percentage, tsad_number, confirm_departure) values (:shipment_details_ref, :bl_number, :container, :container_size, :commercial_invoice, :commodity, :type_of_expense, :classification, :shipping_lines, :forwarder_name, :origin_port, :destination_port, :shipment_status, :shipment_status_percentage, :tsad_number, :confirm_departure)";
         $stmt_insert_shipment = $conn->prepare($sql);
 
         $sql = "INSERT INTO m_vessel_details (shipment_details_ref, vessel_name, eta_mnl, ata_mnl, atb) values (:shipment_details_ref, :vessel_name, :eta_mnl, :ata_mnl, :atb) ";
@@ -110,6 +138,7 @@
             $stmt_insert_shipment -> bindValue(':origin_port', $origin_port);
             $stmt_insert_shipment -> bindValue(':destination_port', $destination_port);
             $stmt_insert_shipment -> bindValue(':shipment_status', $shipment_status);
+            $stmt_insert_shipment -> bindValue(':shipment_status_percentage', $shipment_status_percentage);
             $stmt_insert_shipment -> bindValue(':tsad_number', $tsad_number);
             $stmt_insert_shipment -> bindValue(':confirm_departure', $confirm_departure);
             $stmt_insert_shipment -> execute();
