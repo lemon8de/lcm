@@ -2,7 +2,7 @@
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
 
-    $bl_number = isset($_GET['bl_number']) ? $_GET['bl_number'] : "";
+    $bl_number = $_GET['bl_number'];
     $shipment_status_percentage = $_GET['percentage'];
     $vessel_name = $_GET['vessel'];
     $storage = $_GET['storage'];
@@ -179,8 +179,9 @@
             $date_to_show = "ETA: " . substr($data['eta_mnl'], 0, 10);
         }
 
-        $rounded = round($data['shipment_status'] ?? '0', -1, PHP_ROUND_HALF_DOWN);
-        $border_color = $colors[$rounded];
+        //$rounded = round($data['shipment_status'] ?? '0', -1, PHP_ROUND_HALF_DOWN);
+        //$border_color = $colors[$rounded];
+        $border_color = 'white';
 
         // if (isset($data['favorite']) && $data['favorite'] == '1') {
         //     $star = <<<HTML
