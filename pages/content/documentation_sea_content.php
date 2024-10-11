@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="flex-grow-1 ml-1 mr-1">
-                <input class="form-control w-100" placeholder="BL NUMBER" name="bl_number" id="bl_number_search" onkeyup="debounce(search_documentation, 350)">
+                <input class="form-control w-100" placeholder="BL# / CONTAINER# / INVOICE#" name="bl_number" id="bl_number_search" onkeyup="debounce(search_documentation, 350)">
             </div>
             <div class="ml-1 mr-1">
             <select class="form-control" id="month_search" onchange="search_documentation()">
