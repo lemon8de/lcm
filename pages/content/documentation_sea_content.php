@@ -169,7 +169,6 @@
             "vessel" : vessel,
             "storage" : storage
         };
-        console.log(data);
         //show historical warning alert
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1; // 0 for January, 1 for February, etc.
@@ -188,7 +187,6 @@
             data: data,
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
                 if (refresh_filters) {
                     document.getElementById("StatusFilterContent").innerHTML = response.inner_html_status_filter;
