@@ -200,9 +200,10 @@
             $urgent = "";
         }
 
-        //$shipment_status = explode(", ", $data['shipment_status']);
-        //$shipment_status = array_unique($shipment_status);
-        //$shipment_status = implode(", ", $shipment_status);
+        $shipment_status = explode(", ", $data['shipment_status']);
+        $shipment_status = array_unique($shipment_status);
+        $shipment_status = implode(", ", $shipment_status);
+        $shipment_status = str_replace(", ", "<br>", $shipment_status);
 
         $inner_html .= <<<HTML
             <div class="callout" style="border-left-color:{$border_color};">
@@ -237,6 +238,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
+                            {$shipment_status}
                         </div>
                         <div class="col-6">
                             {$data['commodity']}
