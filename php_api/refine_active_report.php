@@ -15,11 +15,21 @@
     $stmt -> bindParam(':start_month', $start_month);
     $stmt -> bindParam(':start_month2', $start_month);
     $stmt -> execute();
+    $data = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    $return_body = [];
 
+    $count = count($data);
+    $inner_html_summation = <<<HTML
+        <div class="ml-1">
+            <div class="bg-info pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
+                <h4 style="font-weight:700;line-height:1.5;">{$count}<span style="font-size:75%;font-weight:500;">&nbsp;Total</span></h4>
+            </div>
+        </div>
+    HTML;
+    $return_body['inner_html_summation'] = $inner_html_summation;
     $inner_html = "";
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    foreach ($data as $row) {
         $row['commercial_invoice'] =$row['commercial_invoice'] == null ? null : str_replace(" ", "<br>", $row['commercial_invoice']);
-
         $row['eta_mnl'] = $row['eta_mnl'] == null ? null : substr($row['eta_mnl'], 0, 10);
         $row['ata_mnl'] = $row['ata_mnl'] == null ? null : substr($row['ata_mnl'], 0, 10);
         $row['atb'] = $row['atb'] == null ? null : substr($row['atb'], 0, 10);

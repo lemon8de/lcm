@@ -1,5 +1,5 @@
-<table id="" class="table table-head-fixed text-nowrap table-hover mb-4">
-    <thead>
+<table id="" class="table table-head-fixed table-hover mb-4">
+    <thead class="text-nowrap">
         <tr style="border-bottom:1px solid black">
             <th>FORWARDER'S NAME</th>
             <th>VESSEL NAME</th>
@@ -34,9 +34,10 @@
                 $row['atb'] = $row['atb'] == null ? null : substr($row['atb'], 0, 10);
                 $row['required_delivery_sched'] = $row['required_delivery_sched'] == null ? null : substr($row['required_delivery_sched'], 0, 10);
                 $row['deliver_plan'] = $row['deliver_plan'] == null ? null : substr($row['deliver_plan'], 0, 10);
+                $row['no_days_port'] = $row['no_days_port'] == "0" ? null : $row['no_days_port'];
 
                 echo <<<HTML
-                <tr style="border-bottom:1px solid black">
+                <tr style="border-bottom:1px solid black;line-height:1;">
                     <td>{$row['forwarder_name']}</td>
                     <td>{$row['vessel_name']}</td>
                     <td>{$row['eta_mnl']}</td>
