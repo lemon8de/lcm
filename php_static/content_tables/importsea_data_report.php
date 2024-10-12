@@ -2,8 +2,8 @@
     <thead>
         <tr style="border-bottom:1px solid black">
             <th>SHIPPER</th>
-            <th>ORIGIN</th>
-            <th>PORT</th>
+            <th>ORIGIN PORT</th>
+            <th>DESTINATION PORT</th>
             <th>SHIPPING INVOICE</th>
             <th>COMMODITY</th>
             <th>CLASSIFICATION</th>

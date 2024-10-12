@@ -23,7 +23,7 @@
         $pending = $data['pending'];
     }
 ?>
-<div class="container">
+<div class="container mt-2">
     <div class="d-flex align-items-center mb-3">
         <div class="d-flex w-50 m-1 p-2 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
             <div class="col-5 form-check">
@@ -90,7 +90,7 @@
     </form>
 </div>
 
-<div class="card p-2 m-2 container" style="max-height: 400px; overflow-y: auto;" id="ImportDataMain">
+<div class="card p-2 m-2 container" style="max-height: 350px; overflow-y: auto;" id="ImportDataMain">
     <?php include '../php_static/content_tables/active_sea_report.php';?>
 </div>
 

@@ -23,7 +23,9 @@
 
     $return_body = [];
     $inner_html = "";
+    $count = 0;
     while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        $count++;
         foreach ($row as $key => $value) {
             if (is_numeric($value)) {
                 $row[$key] = round((float)$value, 2);
@@ -43,7 +45,7 @@
             <tr id = "{$row['shipping_invoice']}" onclick="show_breakdown.call(this)">
                 <td>{$row['shipper']}</td>
                 <td>{$row['origin_port']}</td>
-                <td>{$row['port']}</td>
+                <td>{$row['destination_port']}</td>
                 <td>{$row['shipping_invoice']}</td>
                 <td>{$row['commodity']}</td>
                 <td>{$row['classification']}</td>
@@ -96,4 +98,11 @@
         HTML;
     }
     $return_body['inner_html'] = $inner_html;
+    $return_body['counter'] = <<<HTML
+        <div class="ml-1">
+            <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
+                <h4 style="font-weight:700;line-height:1.5;">{$count}<span style="font-size:75%;font-weight:500;">&nbsp;Invoices</span></h4>
+            </div>
+        </div>
+    HTML;
     echo json_encode($return_body);

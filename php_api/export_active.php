@@ -38,7 +38,6 @@ $output = fopen('php://output', 'w');
 
 fputcsv($output, $headers);
 foreach ($csv_data as $row) {
-    $adf= ' asdf';
     fputcsv($output, $row);
 }
 

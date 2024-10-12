@@ -68,7 +68,7 @@
     </form>
 </div>
 
-<div class="container table-responsive">
+<div class="card p-2 m-2 container" style="max-height: 350px; overflow-y: auto;">
     <?php include '../php_static/content_tables/polytainer_report.php';?>
 </div>
 
