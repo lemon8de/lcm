@@ -24,7 +24,7 @@
     }
 ?>
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center mb-3">
         <div class="d-flex w-50 m-1 p-2 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
             <div class="col-5 form-check">
                 <input class="form-check-input" type="checkbox" checked onchange="historical_mode.call(this)">
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="d-flex" id="SummationContainer">
-            <div class="ml-1">
+            <!-- <div class="ml-1">
                 <div class="bg-info pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
                     <h4 style="font-weight:700;line-height:1.5;"><?php echo $total; ?><span style="font-size:75%;font-weight:500;">&nbsp;Total</span></h4>
                 </div>
@@ -46,10 +46,10 @@
                 <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
                     <h4 style="font-weight:700;line-height:1.5;"><?php echo $received; ?><span style="font-size:75%;font-weight:500;">&nbsp;Received</span></h4>
                 </div>
-            </div>
+            </div> -->
             <div class="ml-1">
                 <div class="bg-warning pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                    <h4 style="font-weight:700;line-height:1.5;"><?php echo $pending; ?><span style="font-size:75%;font-weight:500;">&nbsp;Pending</span></h4>
+                    <h4 style="font-weight:700;line-height:1.5;"><?php echo $pending; ?><span style="font-size:75%;font-weight:500;">&nbsp;Active</span></h4>
                 </div>
             </div>
         </div>
