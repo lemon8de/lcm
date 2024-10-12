@@ -1,14 +1,14 @@
-<table id="" class="table table-head-fixed text-nowrap table-hover mb-4">
+<table id="PolytainerReportTable" class="table table-head-fixed text-nowrap table-hover mb-4">
     <thead>
         <tr>
-            <th colspan="6"></th>
+            <th colspan="5"></th>
             <th colspan="3" style="border: 1px solid black; text-align: center">GREEN POLY</th>
             <th colspan="6" style="border: 1px solid black; text-align: center">GRAY POLY</th>
             <th colspan="4" style="border: 1px solid black; text-align: center">OTHERS</th>
             <th colspan="2"></th>
         </tr>
         <tr>
-            <th colspan="6"></th>
+            <th colspan="5"></th>
             <th style="border: 1px solid black; text-align: center;"></th>
             <th style="border: 1px solid black; text-align: center;">M SIZE POLYTAINER</th>
             <th style="border: 1px solid black; text-align: center;">L SIZE POLYTAINER</th>
@@ -21,7 +21,6 @@
         </tr>
         <tr>
             <th>VESSEL NAME</th>
-            <th>SHIPMENT STATUS</th>
             <th>ORIGIN PORT</th>
             <th>ETD</th>
             <th>NO. OF TRANSIT DAYS</th>

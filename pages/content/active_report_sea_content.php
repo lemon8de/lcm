@@ -27,7 +27,7 @@
     <div class="d-flex align-items-center mb-3">
         <div class="d-flex w-50 m-1 p-2 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
             <div class="col-5 form-check">
-                <input class="form-check-input" type="checkbox" checked onchange="historical_mode.call(this)">
+                <input class="form-check-input" id="show_active_only_box" type="checkbox" checked onchange="historical_mode.call(this)">
                 <label class="form-check-label">Show Active Only<br><span class="text-muted small">&nbsp;Disable for Historical Logs</span></label>
             </div>
             <div class="col-4">
@@ -57,7 +57,7 @@
     <form id="ActiveReportSearchForm">
     <div class="row mb-3" id="ActiveReportSearchBars" style="display:none;">
         <div class="col-3">
-            <select class="form-control" name="month" onchange="search_active_report()">
+            <select class="form-control" id="active_month" name="month" onchange="search_active_report()">
                 <option value="" selected disabled>Select Month</option>
                 <option value="1">January</option>
                 <option value="2">February</option>
@@ -74,7 +74,7 @@
             </select>
         </div>
         <div class="col-2">
-            <select class="form-control" name="year" onchange="search_active_report()">
+            <select class="form-control" id="active_year" name="year" onchange="search_active_report()">
                 <?php
                     $current_year = date("Y");
                     $end_year = $current_year - 10;
@@ -134,12 +134,19 @@
 
     $('#ExportForm').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
+        //gather data, if show active only, month and year
         $.ajax({
             url: '../php_api/export_active.php',
             type: 'POST',
+            data: {
+                'show_active_only' : document.getElementById('show_active_only_box').checked,
+                'month' : document.getElementById('active_month').value,
+                'year' : document.getElementById('active_year').value,
+            },
             xhrFields: {
                 responseType: 'blob' // Set the response type to blob
             },
+
             success: function(data) {
                 // Create a link element
                 var link = document.createElement('a');
