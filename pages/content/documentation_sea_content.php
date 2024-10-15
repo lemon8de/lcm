@@ -42,7 +42,7 @@
                 </select>
             </div>
             <div class="ml-1 mr-1">
-                <button class="btn btn-block btn-info" style="border-radius:1rem;padding:.375rem .375rem" onclick="search_documentation()"><i class="fas fa-redo"></i>&nbsp;Refresh</button>
+                <button class="btn btn-block btn-info" style="border-radius:1rem;padding:.375rem .375rem" onclick="refresh_all()"><i class="fas fa-redo"></i>&nbsp;Refresh</button>
             </div>
         </div>
 
@@ -239,7 +239,7 @@
             Toast.fire({
 		        icon: "info",
 		        title: "None selected",
-	        })
+	        });
         } else {
             //ajax here to update the modal information, just show the blnumber and stuff
             $.ajax({
@@ -299,5 +299,17 @@
                 //search_documentation(false);
             //}
         //});
+    }
+
+    function refresh_all() {
+        document.getElementById('bl_number_search').value = "";
+        document.getElementById("ShipmentPercentageRadio").reset();
+        document.getElementById("ShipmentVesselRadio").reset();
+        document.getElementById("ShipmentStorageRadio").reset();
+        search_documentation();
+        Toast.fire({
+		    icon: "success",
+		    title: "Documentation Refreshed",
+	    });
     }
 </script>
