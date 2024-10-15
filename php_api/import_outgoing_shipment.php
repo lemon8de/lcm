@@ -22,12 +22,12 @@
             $no_cartons = [];
             $pack_qty = [];
 
-            $sql_insert_fsib = "INSERT into m_outgoing_fsib (outgoing_details_ref, invoice_no, container_no, destination_service_center, destination, car_model, ship_out_date, no_pallets, no_cartons, pack_qty, invoice_amount) values (:outgoing_details_ref, :invoice_no, :container_no, :destination_service_center, :destination, :car_model, :ship_out_date, :no_pallets, :no_cartons, :pack_qty, :invoice_amount); INSERT into m_outgoing_vessel_details (outgoing_details_ref, mode_of_shipment) values (:outgoing_details_ref2, :mode_of_shipment)";
+            $sql_insert_fsib = "INSERT into m_outgoing_fsib (outgoing_details_ref, invoice_no, container_no, destination_service_center, destination, car_model, ship_out_date, no_pallets, no_cartons, pack_qty, invoice_amount) values (:outgoing_details_ref, :invoice_no, :container_no, :destination_service_center, :destination, :car_model, :ship_out_date, :no_pallets, :no_cartons, :pack_qty, :invoice_amount); INSERT into m_outgoing_vessel_details (outgoing_details_ref, mode_of_shipment) values (:outgoing_details_ref2, :mode_of_shipment); INSERT into m_outgoing_bl_details (outgoing_details_ref, bl_date) values (:outgoing_details_ref3, :bl_date)";
             $stmt_insert_fsib = $conn -> prepare($sql_insert_fsib);
 
             //destination and car model is problematic, the system will clear those fields if you were to update it
             //$sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, destination = :destination, car_model = :car_model, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref";
-            $sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref";
+            $sql_update_fsib = "UPDATE m_outgoing_fsib set container_no = :container_no, destination_service_center = :destination_service_center, ship_out_date = :ship_out_date, no_pallets = :no_pallets, no_cartons = :no_cartons, pack_qty = :pack_qty, invoice_amount = :invoice_amount where invoice_no = :invoice_no; UPDATE m_outgoing_vessel_details set mode_of_shipment = :mode_of_shipment where outgoing_details_ref = :outgoing_details_ref; UPDATE m_outgoing_bl_details set bl_date = :bl_date where outgoing_details_ref = :outgoing_details_ref2";
             $stmt_update_fsib = $conn -> prepare($sql_update_fsib);
 
             $sql_uniqueid_duplicate = "SELECT COUNT(id) from m_outgoing_fsib where outgoing_details_ref = :outgoing_details_ref";
@@ -56,6 +56,7 @@
                     $no_cartons = array_sum($no_cartons);
                     $pack_qty = array_sum($pack_qty);
 
+                    //this should be removed soon, looks like data to be inputted here can't be anticipated, make it a manual input type of deal
                     $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
                     $stmt_destination -> execute();
                     if ($data = $stmt_destination -> fetch(PDO::FETCH_ASSOC)) {
@@ -83,6 +84,8 @@
                         $stmt_update_fsib -> bindParam(":invoice_no", $last_invoice);
                         $stmt_update_fsib -> bindParam(":mode_of_shipment", $mode_of_shipment);
                         $stmt_update_fsib -> bindParam(":outgoing_details_ref", $has_duplicate['outgoing_details_ref']);
+                        $stmt_update_fsib -> bindParam(":outgoing_details_ref2", $has_duplicate['outgoing_details_ref']);
+                        $stmt_update_fsib -> bindParam(":bl_date", $bl_date);
                         $stmt_update_fsib -> execute();
                     } else {
                         $created++;
@@ -96,6 +99,7 @@
     
                         $stmt_insert_fsib -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
                         $stmt_insert_fsib -> bindParam(":outgoing_details_ref2", $outgoing_details_ref);
+                        $stmt_insert_fsib -> bindParam(":outgoing_details_ref3", $outgoing_details_ref);
                         $stmt_insert_fsib -> bindParam(":invoice_no", $last_invoice);
                         $stmt_insert_fsib -> bindParam(":container_no", $container_no);
                         $stmt_insert_fsib -> bindParam(":destination_service_center", $destination_service_center);
@@ -107,6 +111,7 @@
                         $stmt_insert_fsib -> bindParam(":pack_qty", $pack_qty);
                         $stmt_insert_fsib -> bindParam(":invoice_amount", $invoice_amount);
                         $stmt_insert_fsib -> bindParam(":mode_of_shipment", $mode_of_shipment);
+                        $stmt_insert_fsib -> bindParam(":bl_date", $bl_date);
                         $stmt_insert_fsib -> execute();
 
                         $stmt_init_tables -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
@@ -141,6 +146,7 @@
                     $mode_of_shipment = "TBA";
                 }
                 $destination_service_center = $line[11];
+                $bl_date = $line[13] = "" ? null : $line[13];
                 //$destination = $line[11];
                 $car_model = null;// change this to null on insert
                 if (in_array($destination_service_center, ['LANGELES1W', 'LANGELES1', 'LONGBEACHW'])) {
