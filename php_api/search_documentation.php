@@ -205,6 +205,22 @@
         $shipment_status = implode(", ", $shipment_status);
         $shipment_status = str_replace(", ", "<br>", $shipment_status);
 
+        if ($_SESSION['editing_privileges'] != null) {
+            $edit_buttons = <<<HTML
+                <div class="row">
+                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal" onclick="edit_container_information(this)">
+                        <i class="fas fa-box"></i>&nbsp;Edit Container
+                    </a>
+
+                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_invoice_modal" onclick="edit_invoice_information(this)">
+                        <i class="fas fa-file-invoice"></i>&nbsp;Edit Invoice
+                    </a>
+                </div>
+            HTML;
+        } else {
+            $edit_buttons = "";
+        }
+
         $inner_html .= <<<HTML
             <div class="callout" style="border-left-color:{$border_color};">
                 <div class="container">
@@ -273,15 +289,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal" onclick="edit_container_information(this)">
-                            <i class="fas fa-box"></i>&nbsp;Edit Container
-                        </a>
-
-                        <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_invoice_modal" onclick="edit_invoice_information(this)">
-                            <i class="fas fa-file-invoice"></i>&nbsp;Edit Invoice
-                        </a>
-                    </div>
+                    {$edit_buttons}
                 </div>
             </div>
         HTML;

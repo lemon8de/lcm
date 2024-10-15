@@ -18,6 +18,9 @@
             //list buffer arrays, to get the sum, count, or whatever
             $tw_no = [];
             $invoice_amount = [];
+            //15 oct additions of pack qty and no of cartons
+            $no_cartons = [];
+            $pack_qty = [];
 
             $sql_insert_fsib = "INSERT into m_outgoing_fsib (outgoing_details_ref, invoice_no, container_no, destination_service_center, destination, car_model, ship_out_date, no_pallets, no_cartons, pack_qty, invoice_amount) values (:outgoing_details_ref, :invoice_no, :container_no, :destination_service_center, :destination, :car_model, :ship_out_date, :no_pallets, :no_cartons, :pack_qty, :invoice_amount); INSERT into m_outgoing_vessel_details (outgoing_details_ref, mode_of_shipment) values (:outgoing_details_ref2, :mode_of_shipment)";
             $stmt_insert_fsib = $conn -> prepare($sql_insert_fsib);
@@ -49,6 +52,9 @@
                 if ($last_invoice !== $invoice_no && $last_invoice !== "") {
                     $no_pallets = count(array_unique($tw_no));
                     $invoice_amount = array_sum($invoice_amount);
+
+                    $no_cartons = array_sum($no_cartons);
+                    $pack_qty = array_sum($pack_qty);
 
                     $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
                     $stmt_destination -> execute();
@@ -114,10 +120,15 @@
 
                     $tw_no = [];
                     $invoice_amount = [];
+                    $no_cartons = [];
+                    $pack_qty = [];
                 }
                 $last_invoice = $invoice_no;
                 array_push($tw_no, $line[3]);
                 array_push($invoice_amount, ceil(floatval($line[19])));
+                array_push($no_cartons, intval($line[17]));
+                array_push($pack_qty, intval($line[6]));
+
 
                 //the good flow should not be this. this occurs every line read, even when we do not plan to do an insert into.
                 //no action done to optimize this
@@ -131,8 +142,6 @@
                 }
                 $destination_service_center = $line[11];
                 //$destination = $line[11];
-                $no_cartons = 0;
-                $pack_qty = 0;
                 $car_model = null;// change this to null on insert
                 if (in_array($destination_service_center, ['LANGELES1W', 'LANGELES1', 'LONGBEACHW'])) {
                     $car_model = "HONDA";
@@ -147,6 +156,8 @@
             //dirty i know but it has to be this way i am so sorry
             $no_pallets = count(array_unique($tw_no));
             $invoice_amount = array_sum($invoice_amount);
+            $no_cartons = array_sum($no_cartons);
+            $pack_qty = array_sum($pack_qty);
 
             //this will be removed in the future, I don't think this should exist
             $stmt_destination -> bindParam(":destination_service_center", $destination_service_center);
