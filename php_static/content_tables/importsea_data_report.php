@@ -1,4 +1,4 @@
-<table id="" class="table table-head-fixed text-nowrap table-hover mb-4">
+<table id="" class="table table-head-fixed text-nowrap table-hover mb-4" style="line-height:1;">
     <thead>
         <tr style="border-bottom:1px solid black">
             <th>SHIPPER</th>

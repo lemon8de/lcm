@@ -27,6 +27,7 @@ $csv_data = [];
 $sql = "SELECT container, actual_received_at_falp from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where commercial_invoice like :shipping_invoice";
 $stmt_containers = $conn -> prepare($sql);
 
+$max_header_count_highest = 0;
 while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     if ($headers == "") {
         $headers = array_keys($data);
@@ -40,9 +41,16 @@ while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 
     //stitch this container to this one, fuck this i wanna go home
     $container_breakdown = [];
+    $max_header_count_this = 0;
     for ($i = 0; $i < count($containers); $i++) {
         $container_breakdown = array_merge($container_breakdown, [$containers[$i], $dates[$i]]);
+        $max_header_count_this++;
     }
+
+    if ($max_header_count_this > $max_header_count_highest) {
+        $max_header_count_highest = $max_header_count_this;
+    }
+
     $giga = array_merge(array_values($data), $container_breakdown);
     array_push($csv_data, $giga);
 }
@@ -50,6 +58,13 @@ while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 header('Content-Type: text/csv');
 $output = fopen('php://output', 'w');
 
+$extra_container_headers = [];
+for ($i = 1; $i <= $max_header_count_highest; $i++) {
+    array_push($extra_container_headers, 'CONTAINER NUMBER' . $i);
+    array_push($extra_container_headers, 'RECEIVED DATE' . $i);
+}
+
+$headers = array_merge($headers, $extra_container_headers);
 fputcsv($output, $headers);
 foreach ($csv_data as $row) {
     fputcsv($output, $row);

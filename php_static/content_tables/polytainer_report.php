@@ -1,4 +1,4 @@
-<table id="PolytainerReportTable" class="table table-head-fixed text-nowrap table-hover mb-4">
+<table id="PolytainerReportTable" class="table table-head-fixed text-nowrap table-hover mb-4" style="line-height:1;">
     <thead>
         <tr>
             <th colspan="5"></th>
