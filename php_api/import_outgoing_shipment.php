@@ -146,7 +146,7 @@
                     $mode_of_shipment = "TBA";
                 }
                 $destination_service_center = $line[11];
-                $bl_date = $line[13] = "" ? null : $line[13];
+                $bl_date = $line[13] == "" ? null : $line[13];
                 //$destination = $line[11];
                 $car_model = null;// change this to null on insert
                 if (in_array($destination_service_center, ['LANGELES1W', 'LANGELES1', 'LONGBEACHW'])) {
