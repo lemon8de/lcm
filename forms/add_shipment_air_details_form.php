@@ -17,7 +17,7 @@
         </div>
         <div class="col-3">
             <label>ETA</label>
-            <input type="date" class="form-control" name="eta" required>
+            <input type="date" class="form-control" name="eta">
         </div>
     </div>
     <div class="row mb-2">
@@ -62,8 +62,13 @@
             <input type="text" class="form-control" name="shipment_status" required>
         </div>
         <div class="col-3">
-            <label>SHIPMENT STATUS PERCENTAGE</label>
-            <input type="number" step="10" class="form-control" name="shipment_status_percentage" required>
+            <label>SHIPMENT STATUS PROGRESS</label>
+            <select class="form-control" name="shipment_status_progress" required>
+                <option disabled value="" selected>Select Shipment Progress</option>
+                <option>ACTIVE</option>
+                <option>FOR RELEASE</option>
+                <option>DELIVERED</option>
+            </select>
         </div>
     </div>
     <div class="row mb-1">
@@ -92,7 +97,7 @@
     <div class="row mb-2">
         <div class="col-3">
             <label>RECEIVED BY</label>
-            <input type="date" class="form-control" name="received_by">
+            <input type="text" class="form-control" name="received_by">
         </div>
     </div>
 
@@ -130,6 +135,10 @@
                     }, 2000); // 2000 milliseconds = 2 seconds
                 }
             },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
+            }
         });
     });
 </script>

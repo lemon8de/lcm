@@ -155,8 +155,10 @@
                 //"text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated<br>{$matches}",
                 "text" => "File Imported Successfully<br> {$lines} items loaded<br>{$updated} matched and updated",
             ];
+            $link_back = explode('/', $_SERVER['HTTP_REFERER']);
+            $link_back = end($link_back);
             $_SESSION['notification'] = json_encode($notification);
-            header('location: ../pages/add_shipment_sea.php');
+            header('location: ../pages/' . $link_back);
             exit();
         } else {
             //i don't think this will ever happen but sure let it live here
@@ -164,9 +166,10 @@
                 "icon" => "warning",
                 "text" => "No file uploaded",
             ];
+            $link_back = explode('/', $_SERVER['HTTP_REFERER']);
+            $link_back = end($link_back);
             $_SESSION['notification'] = json_encode($notification);
-            //header('location: ../pages/incoming_sea.php');
-            header('location: ../pages/add_shipment_sea.php');
+            header('location: ../pages/' . $link_back);
             exit();
         }
     } else {
@@ -174,8 +177,9 @@
             "icon" => "error",
             "text" => "Uploaded file is not a CSV",
         ];
+        $link_back = explode('/', $_SERVER['HTTP_REFERER']);
+        $link_back = end($link_back);
         $_SESSION['notification'] = json_encode($notification);
-        //header('location: ../pages/incoming_sea.php');
-        header('location: ../pages/add_shipment_sea.php');
+        header('location: ../pages/' . $link_back);
         exit();
     }

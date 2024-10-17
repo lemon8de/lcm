@@ -8,6 +8,8 @@
             <th>ATB</th>
             <th>BL NUMBER</th>
             <th>CONTAINER</th>
+            <th>POLYTAINER SIZE</th>
+            <th>POLYTAINER QUANTITY</th>
             <th>COMMERCIAL INVOICE</th>
             <th>COMMODITY</th>
             <th>REQUIRED DELIVERY SCHEDULE</th>
@@ -45,6 +47,8 @@
                     <td>{$row['atb']}</td>
                     <td>{$row['bl_number']}</td>
                     <td>{$row['container']}</td>
+                    <td>{$row['polytainer_size']}</td>
+                    <td>{$row['polytainer_quantity']}</td>
                     <td>{$row['commercial_invoice']}</td>
                     <td>{$row['commodity']}</td>
                     <td>{$row['required_delivery_sched']}</td>
