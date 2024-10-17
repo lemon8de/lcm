@@ -90,7 +90,7 @@
     </form>
 </div>
 
-<div class="card p-2 m-2 container" style="max-height: 70vh; overflow-y: auto;" id="ImportDataMain">
+<div class="card p-2 m-2 container-fluid" style="max-height: 70vh; overflow-y: auto;" id="ImportDataMain">
     <?php include '../php_static/content_tables/active_sea_report.php';?>
 </div>
 

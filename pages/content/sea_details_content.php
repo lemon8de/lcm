@@ -68,7 +68,7 @@
     </form>
 </div>
 
-<div class="card p-2 m-2 container" style="max-height: 70vh; overflow-y: auto;">
+<div class="card p-2 m-2 container-fluid" style="max-height: 70vh; overflow-y: auto;">
     <?php include '../php_static/content_tables/polytainer_report.php';?>
 </div>
 

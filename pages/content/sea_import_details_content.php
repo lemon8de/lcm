@@ -68,11 +68,11 @@
     </form>
 </div>
 
-<div class="card p-2 m-2 container" style="max-height:70vh; overflow-y: auto;" id="ImportDataMain">
+<div class="card p-2 m-2 container-fluid" style="max-height:70vh; overflow-y: auto;" id="ImportDataMain">
     <?php include '../php_static/content_tables/importsea_data_report.php';?>
 </div>
 
-<div class="card p-2 m-2 container" style="max-height:70vh;overflow-y:auto;display:none;" id="ContainerBreakdownSwitch">
+<div class="card p-2 m-2 container-fluid" style="max-height:70vh;overflow-y:auto;display:none;" id="ContainerBreakdownSwitch">
     <?php include '../php_static/content_tables/container_breakdown.php';?>
 </div>
 
