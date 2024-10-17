@@ -19,6 +19,7 @@
         //meaning shipment_details_ref is not null, meaning the button clicked is the update general
         $shipper = convert_empty_tonull($_POST['shipper']);
         $gross_weight = convert_empty_tonull($_POST['gross_weight']);
+        $brokerage_fee = convert_empty_tonull($_POST['brokerage_fee']);
         $incoterm = convert_empty_tonull($_POST['incoterm']);
         $ip_number = convert_empty_tonull($_POST['ip_number']);
         $dr_number = convert_empty_tonull($_POST['dr_number']);
@@ -46,13 +47,13 @@
         $stmt_getall -> execute();
         $shipping_invoices = $stmt_getall -> fetchAll(PDO::FETCH_COLUMN);
 
-        $sql = "SELECT top 1 shipper, gross_weight, incoterm, ip_number, dr_number, received_by, time_received, total_custom_value, duitable_value, rate, customs_duty, landed_cost, vat, bank_charges, wharfage, arrastre_charges, entry_no, or_number, assessment_date from import_data where shipment_details_ref = :shipment_details_ref";
+        $sql = "SELECT top 1 shipper, gross_weight, incoterm, ip_number, dr_number, received_by, time_received, total_custom_value, duitable_value, rate, customs_duty, landed_cost, vat, bank_charges, wharfage, arrastre_charges, entry_no, or_number, assessment_date, brokerage_fee from import_data where shipment_details_ref = :shipment_details_ref";
         $stmt = $conn-> prepare($sql);
         $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
         $stmt -> execute();
         $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $compare_set = array($shipper, $gross_weight, $incoterm, $ip_number, $dr_number, $received_by, $time_received, $total_custom_value, $duitable_value, $rate, $customs_duty, $landed_cost, $vat, $bank_charges, $wharfage, $arrastre_charges, $entry_no, $or_number, $assessment_date);
+        $compare_set = array($shipper, $gross_weight, $incoterm, $ip_number, $dr_number, $received_by, $time_received, $total_custom_value, $duitable_value, $rate, $customs_duty, $landed_cost, $vat, $bank_charges, $wharfage, $arrastre_charges, $entry_no, $or_number, $assessment_date, $brokerage_fee);
         if ($shipment) {
             $shipment_keys = array_keys($shipment);
             $shipment_values = array_values($shipment);
@@ -70,7 +71,7 @@
             }
         }
         //history log done now update
-        $sql = "UPDATE import_data SET shipper = :shipper, gross_weight = :gross_weight, incoterm = :incoterm, ip_number = :ip_number, dr_number = :dr_number, received_by = :received_by, time_received = :time_received, total_custom_value = :total_custom_value, duitable_value = :duitable_value, rate = :rate, customs_duty = :customs_duty, landed_cost = :landed_cost, vat = :vat, bank_charges = :bank_charges, wharfage = :wharfage, arrastre_charges = :arrastre_charges, entry_no = :entry_no, or_number = :or_number, assessment_date = :assessment_date WHERE shipment_details_ref = :shipment_details_ref";
+        $sql = "UPDATE import_data SET shipper = :shipper, gross_weight = :gross_weight, incoterm = :incoterm, ip_number = :ip_number, dr_number = :dr_number, received_by = :received_by, time_received = :time_received, total_custom_value = :total_custom_value, duitable_value = :duitable_value, rate = :rate, customs_duty = :customs_duty, landed_cost = :landed_cost, vat = :vat, bank_charges = :bank_charges, wharfage = :wharfage, arrastre_charges = :arrastre_charges, entry_no = :entry_no, or_number = :or_number, assessment_date = :assessment_date, brokerage_fee = :brokerage_fee WHERE shipment_details_ref = :shipment_details_ref";
         $stmt = $conn -> prepare($sql);
         $stmt->bindValue(':shipper', $shipper);
         $stmt->bindValue(':gross_weight', $gross_weight);
@@ -92,6 +93,7 @@
         $stmt->bindValue(':or_number', $or_number);
         $stmt->bindValue(':assessment_date', $assessment_date);
         $stmt->bindValue(':shipment_details_ref', $shipment_details_ref);
+        $stmt->bindValue(':brokerage_fee', $brokerage_fee);
         $stmt -> execute();
 
         $conn = null;

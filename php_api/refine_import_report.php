@@ -10,9 +10,20 @@
     }
 
     if ($remove_active == 'on') {
-        $sql = "SELECT a.*, b.*, c.*, d.*, e.*, f.*, g.* from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
+        //fuck you i won't bother fixing spaces here, fuckyou , fuckyou, fuckyou , fuckyou
+        $sql = "SELECT 
+(
+	SELECT string_agg(container, '<br>') from m_shipment_sea_details where bl_number = b.bl_number
+) as container_list, bl_number,
+a.*, b.*, c.*, d.*, e.*, f.*, g.* 
+from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
     } else {
-        $sql = "SELECT a.*, b.*, c.*, d.*, e.*, f.*, g.* from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
+        $sql = "SELECT 
+(
+	SELECT string_agg(container, '<br>') from m_shipment_sea_details where bl_number = b.bl_number
+) as container_list, bl_number,
+a.*, b.*, c.*, d.*, e.*, f.*, g.* 
+from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
     }
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':start_year', $start_year);
@@ -61,7 +72,7 @@
                 <td>{$row['eta_mnl']}</td>
                 <td>{$row['ata_mnl']}</td>
                 <td>{$row['atb']}</td>
-                <td>{$row['container']}</td>
+                <td style="font-family:monospace;">{$row['container_list']}</td>
                 <td>{$row['container_size']}</td>
                 <td>{$row['shipping_lines']}</td>
                 <td>{$row['shipment_status']}</td>
@@ -93,6 +104,7 @@
                 <td>{$row['arrastre_charges']}</td>
                 <td>{$row['entry_no']}</td>
                 <td>{$row['or_number']}</td>
+                <td>{$row['brokerage_fee']}</td>
                 <td>{$row['assessment_date']}</td>
             </tr>
         HTML;

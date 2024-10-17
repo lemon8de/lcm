@@ -72,7 +72,7 @@
 
         $sql_invoice = "INSERT into import_data (shipment_details_ref, shipping_invoice) values (:shipment_details_ref, :shipping_invoice)";
         $stmt_invoice = $conn -> prepare($sql_invoice);
-
+        
         $invoices  = $stmt -> fetch(PDO::FETCH_COLUMN);
         //revisions some invoices are shorthand
         //if ($invoices) {

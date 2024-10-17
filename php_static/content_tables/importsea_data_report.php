@@ -1,5 +1,5 @@
-<table id="" class="table table-head-fixed text-nowrap table-hover mb-4" style="line-height:1;">
-    <thead>
+<table id="" class="table table-head-fixed table-hover mb-4" style="line-height:1;">
+    <thead class="text-nowrap">
         <tr style="border-bottom:1px solid black">
             <th>SHIPPER</th>
             <th>ORIGIN PORT</th>
@@ -51,6 +51,7 @@
             <th>ARRASTRE CHARGES</th>
             <th>ENTRY NO (CUSTOM REFERENCE NUMBER)</th>
             <th>OR NUMBER (REFERENCE NO)</th>
+            <th>BROKERAGE FEE</th>
             <th>ASSESSMENT DATE</th>
         </tr>
     </thead>

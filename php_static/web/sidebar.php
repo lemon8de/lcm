@@ -12,15 +12,16 @@
 					<i class="fas fa-chart-line"></i><p>&nbsp;Dashboard</p>
 					</a>
 				</li>
+				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' active ' : ''?>">
-					<i class="fas fa-ship"></i></i><p>&nbsp;Sea Incoming Delivery<i class="right fas fa-angle-left"></i></p>
+					<i class="fas fa-ship"></i></i><p>&nbsp;Sea Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' style="display:block;"' : '';?>>
 						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
 						<li class="nav-item">
-							<a href="add_shipment_sea.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment" ? ' active': '');?>">
-							<i class="fas fa-plus"></i></i>&nbsp;<p>Add/Update Shipment</p>
+							<a href="add_shipment_sea.php" / Update class="nav-link<?php echo ($bar_whois_active == "add_shipment" ? ' active': '');?>">
+							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Shipment</p>
 							</a>
 						</li>
 						<?php } ?>
@@ -48,7 +49,7 @@
 				</li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['sea_active_details', 'sea_details', 'sea_import_details']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['sea_active_details', 'sea_details', 'sea_import_details']) ? ' active ' : ''?>">
-					<i class="fas fa-file-export"></i>&nbsp;<p>Sea Report Generation<i class="right fas fa-angle-left"></i></p>
+					<i class="fas fa-file-export"></i>&nbsp;<p>Sea Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['sea_import_details', 'sea_details', 'sea_active_details']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
@@ -68,14 +69,35 @@
 						</li>
 					</ul>
 				</li>
+				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' active ' : ''?>">
+					<i class="fas fa-plane-departure"></i><p>&nbsp;Air Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' style="display:block;"' : '';?>>
+						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
+						<li class="nav-item">
+							<a href="add_shipment_air.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment_air" ? ' active': '');?>">
+							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Shipment</p>
+							</a>
+						</li>
+						<?php } ?>
+						<li class="nav-item">
+							<a href=".php" class="nav-link<?php echo ($bar_whois_active == "" ? ' active': '');?>">
+							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_outgoing' ,'add_outgoing']) ? ' active ' : ''?>">
-						<i class="nav-icon far fa-circle"></i><p>Outgoing Shipment<i class="right fas fa-angle-left"></i></p>
+					<i class="fas fa-industry" style="margin-right:3px;"></i><i class="fas fa-arrow-right"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="add_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "add_outgoing" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Add Outgoing</p>
+								<i class="far fa-circle nav-icon"></i><p>Add / Update Outgoing</p>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -87,7 +109,7 @@
 				</li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' active ' : ''?>">
-						<i class="nav-icon far fa-circle"></i><p>Outgoing Report Generation<i class="right fas fa-angle-left"></i></p>
+						<i class="nav-icon far fa-circle"></i><p>Outgoing Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
@@ -102,12 +124,14 @@
 						</li>
 					</ul>
 				</li>
+				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
 				<li class="nav-item">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ? ' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>
 				</li>
+				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
 				<?php } ?>
 				<li class="nav-item">
 					<a href="../php_api/logout_api.php" class="nav-link">

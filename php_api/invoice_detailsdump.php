@@ -13,6 +13,7 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     //floating point rounding
     $data['commercial_invoice_amount'] = $data['commercial_invoice_amount'] == null ? "" : round((float)$data['commercial_invoice_amount'], 2);
     $data['gross_weight'] = $data['gross_weight'] == null ? "" : round((float)$data['gross_weight'], 2);
+    $data['brokerage_fee'] = $data['brokerage_fee'] == null ? "" : round((float)$data['brokerage_fee'], 2);
     $data['total_custom_value'] = $data['total_custom_value'] == null ? "" : round((float)$data['total_custom_value'], 2);
     $data['duitable_value'] = $data['duitable_value'] == null ? "" : round((float)$data['duitable_value'], 2);
     $data['rate'] = $data['rate'] == null ? "" : round((float)$data['rate'], 2);
@@ -73,7 +74,12 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             <div class="col-3">
                 <input class="form-control" type="text" name="shipper" value="{$data['shipper']}">
             </div>
-            <div class="col-6"></div>
+            <div class="col-3">
+                <label>BROKERAGE FEE</label>
+            </div>
+            <div class="col-3">
+                <input class="form-control" type="number" step="0.01" name="brokerage_fee" value="{$data['brokerage_fee']}">
+            </div>
         </div>
         <div class="row mt-2 justify-content-center">
             <div class="col-3">
