@@ -1,7 +1,7 @@
 <?php
     require '../php_static/session_lookup.php';
-    $directory = " / Incoming Delivery / SEA / Documentation";
-    $bar_whois_active = "shipment_documentation";
+    $directory = " / Incoming Delivery / AIR / Documentation";
+    $bar_whois_active = "shipment_documentation_air";
     require '../php_static/block_urlcreep.php';
     require '../php_api/db_connection.php';
 ?>
@@ -21,15 +21,16 @@
             <div class="content-wrapper">
                 <div class="content-header">
                     <div class="container-fluid">
-                        <?php include 'content/documentation_sea_content.php'?>
+                        <?php //include 'content/documentation_sea_content.php'?>
+                        <?php include 'content/documentation_air_content.php'?>
                     </div>
                 </div>
             </div>
             <?php include '../php_static/web/footer.php'?>
         </div>
     </body>
-    <?php include '../modals/confirm_deletion_modal.php';?>
-    <?php include '../modals/documentation_view_shipment_sea_modal.php';?>
-    <?php include '../modals/documentation_view_invoice_modal.php';?>
-    <?php include '../php_static/web/notification_handler.php';?>
+    <?php //include '../modals/confirm_deletion_modal.php';?>
+    <?php //include '../modals/documentation_view_shipment_sea_modal.php';?>
+    <?php //include '../modals/documentation_view_invoice_modal.php';?>
+    <?php //include '../php_static/web/notification_handler.php';?>
 </html>

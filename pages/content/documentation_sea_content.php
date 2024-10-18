@@ -3,13 +3,13 @@
         <!-- top searching -->
         <div class="col-12 d-flex" style="margin-top:-0.4em;">
             <div class="btn-group ml-1 mr-1">
-                <button type="button" class="btn btn-success" onclick="select_all_bl(this)"><i class="fas fa-check"></i></button>
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-info" onclick="select_all_bl(this)"><i class="fas fa-check"></i></button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
-                <div class="dropdown-menu" role="menu" style="cursor:pointer;">
-                    <a class="dropdown-item" onclick="confirm_shipment()">Confirm Shipment</a>
-                    <a class="dropdown-item" onclick="delete_shipment()">Delete Shipment</a>
+                <div class="dropdown-menu" role="menu" style="cursor:pointer;background-color:transparent;padding:0">
+                    <a class="dropdown-item bg-success" onclick="confirm_shipment()">Confirm Shipment</a>
+                    <a class="dropdown-item bg-danger" onclick="delete_shipment()">Delete Shipment</a>
                 </div>
             </div>
             <div class="flex-grow-1 ml-1 mr-1">
@@ -78,7 +78,7 @@
                     <i class="fas fa-ship"></i>&nbsp;Vessels &emsp;
                 </div>
                 <div>
-                    <button class="btn btn-block btn-secondary" onclick="clear_radio_vessel()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;">Clear</button>
+                    <button class="btn btn-block btn-secondary" onclick="clear_radio_vessel()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;display:none">Clear</button>
                 </div>
             </div>
             <form id="ShipmentVesselRadio">
@@ -95,7 +95,7 @@
                     <i class="fas fa-pallet"></i></i>&nbsp;In-Storage Breakdown
                 </div>
                 <div>
-                    <button class="btn btn-block btn-secondary" onclick="clear_radio_storage()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;">Clear</button>
+                    <button class="btn btn-block btn-secondary" onclick="clear_radio_storage()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;display:none;">Clear</button>
                 </div>
             </div>
             <form id="ShipmentStorageRadio">
@@ -113,15 +113,18 @@
 
     function clear_radio_status() {
         document.getElementById("ShipmentPercentageRadio").reset();
-        search_documentation(false);
-    }
-    function clear_radio_vessel() {
         document.getElementById("ShipmentVesselRadio").reset();
-        search_documentation(false);
-    }
-    function clear_radio_storage() {
         document.getElementById("ShipmentStorageRadio").reset();
         search_documentation(false);
+    }
+    //18 oct request for making only 1 clear button
+    function clear_radio_vessel() {
+        //document.getElementById("ShipmentVesselRadio").reset();
+        //search_documentation(false);
+    }
+    function clear_radio_storage() {
+        //document.getElementById("ShipmentStorageRadio").reset();
+        //search_documentation(false);
     }
     function load_containers(initiator) {
         $.ajax({

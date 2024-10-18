@@ -70,11 +70,11 @@
 					</ul>
 				</li>
 				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
-				<li class="nav-item<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' menu-is-opening menu-open' : ''?>">
-					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' active ' : ''?>">
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' active ' : ''?>">
 					<i class="fas fa-plane-departure"></i><p>&nbsp;Air Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment_air']) ? ' style="display:block;"' : '';?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' style="display:block;"' : '';?>>
 						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
 						<li class="nav-item">
 							<a href="add_shipment_air.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment_air" ? ' active': '');?>">
@@ -83,7 +83,7 @@
 						</li>
 						<?php } ?>
 						<li class="nav-item">
-							<a href=".php" class="nav-link<?php echo ($bar_whois_active == "" ? ' active': '');?>">
+							<a href="documentation_air.php" class="nav-link<?php echo ($bar_whois_active == "shipment_documentation_air" ? ' active': '');?>">
 							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>
 							</a>
 						</li>
