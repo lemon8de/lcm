@@ -1,64 +1,21 @@
-<?php 
-    $sql = "SELECT 
-        COUNT(*) AS total, 
-        SUM(CASE WHEN e.actual_received_at_falp IS NOT NULL THEN 1 ELSE 0 END) AS received, 
-        SUM(CASE WHEN e.actual_received_at_falp IS NULL THEN 1 ELSE 0 END) AS pending 
-    FROM 
-        m_shipment_sea_details AS a 
-    LEFT JOIN 
-        m_vessel_details AS b ON a.shipment_details_ref = b.shipment_details_ref 
-    LEFT JOIN 
-        m_delivery_plan AS c ON a.shipment_details_ref = c.shipment_details_ref 
-    LEFT JOIN 
-        m_mmsystem AS d ON a.shipment_details_ref = d.shipment_details_ref 
-    LEFT JOIN 
-        m_completion_details AS e ON a.shipment_details_ref = e.shipment_details_ref 
-    WHERE 
-        a.confirm_departure = '1';";
-    $stmt = $conn -> prepare($sql);
-    $stmt -> execute();
-    if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-        $total = $data['total'];
-        $received = $data['received'];
-        $pending = $data['pending'];
-    }
-?>
 <div class="container mt-2">
+    <form id="ActiveReportSearchForm">
     <div class="d-flex align-items-center mb-3">
         <div class="d-flex w-50 m-1 p-2 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
             <div class="col-5 form-check">
-                <input class="form-check-input" id="show_active_only_box" type="checkbox" checked onchange="historical_mode.call(this)">
+                <input class="form-check-input" name="show_active" id="show_active_only_box" type="checkbox" checked onchange="historical_mode.call(this)">
                 <label class="form-check-label">Show Active Only<br><span class="text-muted small">&nbsp;Disable for Historical Logs</span></label>
             </div>
             <div class="col-4">
-                <form id="ExportForm">
-                    <button type="submit" class="btn btn-block btn-primary">Export Data</button>
-                </form>
+                <button type="button" onclick="export_button()" class="btn btn-block btn-primary">Export Data</button>
             </div>
         </div>
         <div class="d-flex" id="SummationContainer">
-            <!-- <div class="ml-1">
-                <div class="bg-info pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                    <h4 style="font-weight:700;line-height:1.5;"><?php echo $total; ?><span style="font-size:75%;font-weight:500;">&nbsp;Total</span></h4>
-                </div>
-            </div>
-            <div class="ml-1">
-                <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                    <h4 style="font-weight:700;line-height:1.5;"><?php echo $received; ?><span style="font-size:75%;font-weight:500;">&nbsp;Received</span></h4>
-                </div>
-            </div> -->
-            <div class="ml-1">
-                <div class="bg-warning pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                    <h4 style="font-weight:700;line-height:1.5;"><?php echo $pending; ?><span style="font-size:75%;font-weight:500;">&nbsp;Active</span></h4>
-                </div>
-            </div>
         </div>
     </div>
-    <form id="ActiveReportSearchForm">
     <div class="row mb-3" id="ActiveReportSearchBars" style="display:none;">
         <div class="col-3">
             <select class="form-control" id="active_month" name="month" onchange="search_active_report()">
-                <option value="" selected disabled>Select Month</option>
                 <option value="1">January</option>
                 <option value="2">February</option>
                 <option value="3">March</option>
@@ -72,6 +29,13 @@
                 <option value="11">November</option>
                 <option value="12">December</option>
             </select>
+            <script>
+                // Get the current month (0-11)
+                const currentMonth = new Date().getMonth();
+                // Select the month in the dropdown
+                const monthSelect = document.getElementById('active_month');
+                monthSelect.selectedIndex = currentMonth;
+            </script>
         </div>
         <div class="col-2">
             <select class="form-control" id="active_year" name="year" onchange="search_active_report()">
@@ -91,10 +55,39 @@
 </div>
 
 <div class="card p-2 m-2 container-fluid" style="max-height: 70vh; overflow-y: auto;" id="ImportDataMain">
-    <?php include '../php_static/content_tables/active_sea_report.php';?>
+    <table id="" class="table table-head-fixed table-hover mb-4">
+        <thead class="text-nowrap">
+            <tr style="border-bottom:1px solid black">
+                <th>FORWARDER</th>
+                <th>ORIGIN</th>
+                <th>HAWB / AWB</th>
+                <th>ETA</th>
+                <th>GROSS WEIGHT (KG)</th>
+                <th>CHARGEABLE WEIGHT (KG)</th>
+                <th>NO. OF PACKAGES</th>
+                <th>INVOICE NO.</th>
+                <th>COMMODITY</th>
+                <th>CLASSIFICATION</th>
+                <th>TYPE OF EXPENSE</th>
+                <th>INCOTERM</th>
+                <th>SHIPMENT STATUS</th>
+                <th>SHIPMENT STATUS PROGRESS</th>
+                <th>TENTATIVE DELIVERY SCHEDULE</th>
+                <th>REQUIRED DELIVERY</th>
+                <th>ACTUAL DATE OF DELIVERY</th>
+                <th>TIME RECEIVED</th>
+                <th>RECEIVED BY</th>
+            </tr>
+        </thead>
+        <tbody id="ActiveReportContent">
+        </tbody>
+    </table>
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        search_active_report();
+    });
     function historical_mode() {
         //this is a cheeky way lol, so the active table will autoreload and will load again when you
         //check the box
@@ -104,25 +97,27 @@
         // IDK IDKDIDKD IDKD IDK
         if (this.checked) {
             document.getElementById("ActiveReportSearchBars").style.display = 'none';
-            location.reload();
             //do an ajax request here of empty search parameters to reload it
             //probably recall the function or just copy it here
+            monthSelect.selectedIndex = currentMonth;
         } else {
             document.getElementById("ActiveReportSearchBars").style.display = 'flex';
             document.getElementById("ActiveReportContent").innerHTML = '';
         }
+        search_active_report();
     }
     function search_active_report() {
         var formData = $('#ActiveReportSearchForm').serialize();
+        console.log(formData);
         $.ajax({
             type: 'GET',
-            url: '../php_api/refine_active_report.php',
+            url: '../php_api/refine_active_air_report.php',
             data: formData,
             dataType: 'json',
             success: function(response) {
                 if (!response.exited) {
                     document.getElementById("ActiveReportContent").innerHTML = response.inner_html;
-                    document.getElementById("SummationContainer").innerHTML = response.inner_html_summation;
+                    document.getElementById("SummationContainer").innerHTML = response.inner_html_count;
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -132,17 +127,13 @@
         });
     }
 
-    $('#ExportForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+    function export_button() {
+        var formData = $('#ActiveReportSearchForm').serialize();
         //gather data, if show active only, month and year
         $.ajax({
-            url: '../php_api/export_active.php',
+            url: '../php_api/export_active_air.php',
             type: 'POST',
-            data: {
-                'show_active_only' : document.getElementById('show_active_only_box').checked,
-                'month' : document.getElementById('active_month').value,
-                'year' : document.getElementById('active_year').value,
-            },
+            data: formData,
             xhrFields: {
                 responseType: 'blob' // Set the response type to blob
             },
@@ -158,7 +149,7 @@
                 const year = currentDate.getFullYear(); // 4-digit year
                 // Format as MM/YYYY
                 const formattedDate = `${month}/${year}`;
-                link.download = 'LCM-SEA-ACTIVE[' + formattedDate +  '].csv'; // Set the file name
+                link.download = 'LCM-AIR-ACTIVE[' + formattedDate +  '].csv'; // Set the file name
                 document.body.appendChild(link);
                 link.click(); // Simulate click to download
                 document.body.removeChild(link); // Remove the link
@@ -167,5 +158,5 @@
                 alert('Error exporting data.');
             }
         });
-    });
+    }
 </script>

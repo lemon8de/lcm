@@ -47,7 +47,7 @@
                 <td>{$row['container']}</td>
                 <td>{$row['polytainer_size']}</td>
                 <td>{$row['polytainer_quantity']}</td>
-                <td>{$row['commercial_invoice']}</td>
+                <td class="text-nowrap">{$row['commercial_invoice']}</td>
                 <td>{$row['commodity']}</td>
                 <td>{$row['required_delivery_sched']}</td>
                 <td>{$row['deliver_plan']}</td>

@@ -44,8 +44,17 @@
             $stmt -> execute();
         }
     }
+    #type_of_expense validation
+    $sql = "SELECT type_of_expense from list_commodity where method = 'air' and classification = :classification";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':classification', $classification);
+    $stmt -> execute();
 
-    $sql = "UPDATE t_shipment_air_details set forwarder = :forwarder, origin = :origin, hawb_awb = :hawb_awb, eta = :eta, gross_weight = :gross_weight, chargeable_weight = :chargeable_weight, no_packages = :no_packages, invoice_no = :invoice_no, commodity = :commodity, classification = :classification, shipment_status = :shipment_status, shipment_status_progress = :shipment_status_progress, incoterm = :incoterm where shipment_details_ref = :shipment_details_ref";
+    if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        $type_of_expense = $data['type_of_expense'];
+    }
+
+    $sql = "UPDATE t_shipment_air_details set forwarder = :forwarder, origin = :origin, hawb_awb = :hawb_awb, eta = :eta, gross_weight = :gross_weight, chargeable_weight = :chargeable_weight, no_packages = :no_packages, invoice_no = :invoice_no, commodity = :commodity, classification = :classification, type_of_expense = :type_of_expense, shipment_status = :shipment_status, shipment_status_progress = :shipment_status_progress, incoterm = :incoterm where shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt->bindParam(':forwarder', $forwarder);
     $stmt->bindParam(':origin', $origin);
@@ -57,6 +66,7 @@
     $stmt->bindParam(':invoice_no', $invoice_no);
     $stmt->bindParam(':commodity', $commodity);
     $stmt->bindParam(':classification', $classification);
+    $stmt->bindParam(':type_of_expense', $type_of_expense);
     $stmt->bindParam(':shipment_status', $shipment_status);
     $stmt->bindParam(':shipment_status_progress', $shipment_status_progress);
     $stmt->bindParam(':incoterm', $incoterm);

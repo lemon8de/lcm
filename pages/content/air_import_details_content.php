@@ -68,11 +68,54 @@
 </div>
 
 <div class="card p-2 m-2 container-fluid" style="max-height:70vh; overflow-y: auto;" id="ImportDataMain">
-    <?php include '../php_static/content_tables/importsea_data_report.php';?>
-</div>
-
-<div class="card p-2 m-2 container-fluid" style="max-height:70vh;overflow-y:auto;display:none;" id="ContainerBreakdownSwitch">
-    <?php include '../php_static/content_tables/container_breakdown.php';?>
+    <table id="" class="table table-head-fixed table-hover mb-4" style="line-height:1;">
+        <thead class="text-nowrap">
+            <tr style="border-bottom:1px solid black">
+                <th>FORWARDER</th>
+                <th>ORIGIN</th>
+                <th>HAWB / AWB</th>
+                <th>ETA</th>
+                <th>GROSS WEIGHT</th>
+                <th>CHARGEABLE WEIGHT</th>
+                <th>NO. OF PACKAGES</th>
+                <th>COMMODITY</th>
+                <th>CLASSIFICATION</th>
+                <th>TYPE OF EXPENSE</th>
+                <th>INCOTERM</th>
+                <th>SHIPMENT STATUS</th>
+                <th>SHIPMENT STATUS PROGRESS</th>
+                <th>TENTATIVE DELIVERY SCHEDULE</th>
+                <th>REQUIRED DELIVERY</th>
+                <th>ACTUAL DATE OF DELIVERY</th>
+                <th>SHIPPER</th>
+                <th>PORT</th>
+                <th>SHIPPING INVOICE</th>
+                <th>COMMODITY QUANTITY</th>
+                <th>COMMODITY UO</th>
+                <th>COMMERCIAL INVOICE CURRENCY</th>
+                <th>COMMERCIAL INVOICE AMOUNT</th>
+                <th>GROSS WEIGHT</th>
+                <th>INCOTERM</th>
+                <th>IP NUMBER</th>
+                <th>DR NUMBER</th>
+                <th>TOTAL CUSTOM VALUE</th>
+                <th>DUTIABLE VALUE</th>
+                <th>RATE</th>
+                <th>CUSTOMS DUTY</th>
+                <th>LANDED COST</th>
+                <th>VAT</th>
+                <th>BANK CHARGES</th>
+                <th>ENTRY NO</th>
+                <th>OR NUMBER</th>
+                <th>ASSESSMENT DATE</th>
+                <th>BROKERAGE FEE</th>
+                <th>FLIGHT NO.</th>
+            </tr>
+        </thead>
+        <tbody id="ImportReportContent">
+        
+        </tbody>
+    </table>
 </div>
 
 <script>
@@ -80,29 +123,11 @@
         search_import_report();
     });
 
-    function show_breakdown() {
-        $.ajax({
-            url: '../php_api/get_container_breakdown.php',
-            type: 'GET',
-            data: {
-                'shipping_invoice' : this.id,
-            },
-            dataType: 'json',
-            success: function (response) {
-                document.getElementById('ContainerBreakdownContent').innerHTML = response.html;
-                //hide the main table, show the table switch
-            }
-        });
-        //show and hide stuff
-        document.getElementById('ImportDataMain').style.display = 'none';
-        document.getElementById('ContainerBreakdownSwitch').style.display = 'block';
-    }
-
     function search_import_report() {
         var formData = $('#ImportReportSearchForm').serialize();
         $.ajax({
             type: 'GET',
-            url: '../php_api/refine_import_report.php',
+            url: '../php_api/refine_import_air_report.php',
             data: formData,
             dataType: 'json',
             success: function(response) {
@@ -114,17 +139,11 @@
         });
     }
     function export_button() {
-        var import_data = {
-            'show_active_only' : document.getElementById('show_active_only_box').checked,
-            'month' : document.getElementById('monthSelect').value,
-            'year' : document.getElementById('active_year').value,
-
-        }
-        console.log(import_data);
+        var formData = $('#ImportReportSearchForm').serialize();
         $.ajax({
-            url: '../php_api/export_import_data.php',
+            url: '../php_api/export_import_data_air.php',
             type: 'POST',
-            data: import_data,
+            data: formData,
             xhrFields: {
                 responseType: 'blob' // Set the response type to blob
             },
@@ -140,7 +159,7 @@
                 const year = currentDate.getFullYear(); // 4-digit year
                 // Format as MM/YYYY
                 const formattedDate = `${month}/${year}`;
-                link.download = 'LCM-SEA-IMPORTDATA[' + formattedDate +  '].csv'; // Set the file name
+                link.download = 'LCM-AIR-IMPORTDATA[' + formattedDate +  '].csv'; // Set the file name
                 document.body.appendChild(link);
                 link.click(); // Simulate click to download
                 document.body.removeChild(link); // Remove the link

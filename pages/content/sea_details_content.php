@@ -28,7 +28,6 @@
         <div class="row mb-3">
             <div class="col-3">
                 <select class="form-control" id="monthSelect" name="month" onchange="search_polytainer_report()">
-                    <option value="" selected disabled>Select Month</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
                     <option value="3">March</option>
@@ -44,7 +43,7 @@
                 </select>
                 <script>
                     // Get the current month (0-11)
-                    const currentMonth = new Date().getMonth() + 1;
+                    const currentMonth = new Date().getMonth();
 
                     // Select the month in the dropdown
                     const monthSelect = document.getElementById('monthSelect');
@@ -115,7 +114,7 @@
         const year = currentDate.getFullYear(); // 4-digit year
         // Format as MM/YYYY
         const formattedDate = `${month}/${year}`;
-        var filename = 'LCM-ACTIVE[' + formattedDate +  '].csv'; // Set the file name
+        var filename = 'LCM-SEA-ACTIVE[' + formattedDate +  '].csv'; // Set the file name
 
         link.setAttribute('download', filename);
         document.body.appendChild(link);

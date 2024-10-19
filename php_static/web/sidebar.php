@@ -12,7 +12,7 @@
 					<i class="fas fa-chart-line"></i><p>&nbsp;Dashboard</p>
 					</a>
 				</li>
-				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' active ' : ''?>">
 					<i class="fas fa-ship"></i></i><p>&nbsp;Sea Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
@@ -69,7 +69,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' active ' : ''?>">
 					<i class="fas fa-plane-departure"></i><p>&nbsp;Air Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
@@ -89,7 +89,24 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['air_active_details', 'air_import_details']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['air_active_details', 'air_import_details']) ? ' active ' : ''?>">
+					<i class="fas fa-file-export"></i>&nbsp;<p>Air Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['air_active_details', 'air_import_details']) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
+							<a href="air_active_details.php" class="nav-link<?php echo ($bar_whois_active == "air_active_details" ? ' active': '');?>">
+							<i class="fas fa-box-open"></i>&nbsp;<p>Active</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="air_import_details.php" class="nav-link<?php echo ($bar_whois_active == "air_import_details" ? ' active': '');?>">
+							<i class="fas fa-money-check-alt"></i>&nbsp;<p>Import</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_outgoing' ,'add_outgoing']) ? ' active ' : ''?>">
 					<i class="fas fa-industry" style="margin-right:3px;"></i><i class="fas fa-arrow-right"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
@@ -124,14 +141,14 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
 				<li class="nav-item">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ? ' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>
 				</li>
-				<li class="nav-header" style="margin:2px 0px; background-color:#727f8c;border-radius:0.450rem;padding:2px;"></li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<?php } ?>
 				<li class="nav-item">
 					<a href="../php_api/logout_api.php" class="nav-link">
