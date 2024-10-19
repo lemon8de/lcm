@@ -30,7 +30,8 @@
         </div>
     </body>
     <?php //include '../modals/confirm_deletion_modal.php';?>
-    <?php //include '../modals/documentation_view_shipment_sea_modal.php';?>
-    <?php //include '../modals/documentation_view_invoice_modal.php';?>
-    <?php //include '../php_static/web/notification_handler.php';?>
+    <?php include '../modals/documentation_view_shipment_air_modal.php';?>
+    <?php include '../modals/documentation_view_invoice_modal_air.php';?>
+    <?php include '../php_static/web/notification_handler.php';?>
+
 </html>

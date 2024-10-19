@@ -67,7 +67,12 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 
     $inner_html_general .= <<<HTML
         <input class="form-control" style="display:none;" readonly type="text" name="shipment_details_ref" value="{$data['shipment_details_ref']}">
-        <input class="form-control" style="display:none;" readonly type="text" name="flight_no" value="">
+
+        <input style="display:none;" readonly type="text" name="time_received" value="">
+        <input style="display:none;" readonly type="text" name="arrastre_charges" value="">
+        <input style="display:none;" readonly type="text" name="wharfage" value="">
+        <input style="display:none;" readonly type="text" name="received_by" value="">
+
         <div class="row mt-2 justify-content-center">
             <div class="col-3">
                 <label>SHIPPER</label>
@@ -108,20 +113,6 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             </div>
             <div class="col-3">
                 <input class="form-control" type="text" name="dr_number" value="{$data['dr_number']}">
-            </div>
-        </div>
-        <div class="row mt-2 justify-content-center">
-            <div class="col-3">
-                <label>RECEIVED BY</label>
-            </div>
-            <div class="col-3">
-                <input class="form-control" type="text" name="received_by" value="{$data['received_by']}">
-            </div>
-            <div class="col-3">
-                <label>TIME RECEIVED</label>
-            </div>
-            <div class="col-3">
-                <input class="form-control" type="text" name="time_received" value="{$data['time_received']}">
             </div>
         </div>
         <div class="row mt-2 justify-content-center">
@@ -174,20 +165,6 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
                 <input class="form-control" type="number" step="0.01" name="bank_charges" value="{$data['bank_charges']}">
             </div>
             <div class="col-3">
-                <label>WHARFAGE</label>
-            </div>
-            <div class="col-3">
-                <input class="form-control" type="number" step="0.01" name="wharfage" value="{$data['wharfage']}">
-            </div>
-        </div>
-        <div class="row mt-2 justify-content-center">
-            <div class="col-3">
-                <label>ARRASTRE CHARGES</label>
-            </div>
-            <div class="col-3">
-                <input class="form-control" type="number" step="0.01" name="arrastre_charges" value="{$data['arrastre_charges']}">
-            </div>
-            <div class="col-3">
                 <label>ENTRY NO</label>
             </div>
             <div class="col-3">
@@ -207,6 +184,15 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             <div class="col-3">
                 <input class="form-control" type="date" name="assessment_date" value="{$data['assessment_date']}">
             </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-3">
+                <label>FLIGHT NO.</label>
+            </div>
+            <div class="col-3">
+                <input class="form-control" type="text" name="flight_no" value="{$data['flight_no']}">
+            </div>
+            <div class="col-6"></div>
         </div>
         <div class="row mt-3">
             <div class="col-4 mx-auto">

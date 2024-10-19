@@ -261,6 +261,7 @@
         }
     }
 
+    //no onei s using this? what the fuck jay?
     function filter_shipment(initiator) {
         //retarded radio button logic
         checkboxes = document.querySelectorAll('.ck-shipment-status');

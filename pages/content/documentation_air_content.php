@@ -2,7 +2,7 @@
     <div class="col-8">
         <!-- top searching -->
         <div class="col-12 d-flex" style="margin-top:-0.4em;">
-            <div class="btn-group ml-1 mr-1">
+            <div class="btn-group ml-1 mr-1" style="display:none;">
                 <button type="button" class="btn btn-info" onclick="select_all_bl(this)"><i class="fas fa-check"></i></button>
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
@@ -62,11 +62,11 @@
                     <i class="fas fa-tasks"></i>&nbsp;Status Progress
                 </div>
                 <div>
-                    <button class="btn btn-block btn-secondary" onclick="" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;">Clear</button>
+                    <button class="btn btn-block btn-secondary" onclick="clear_radio_status()" style="line-height:1;padding:.375rem .875rem;border-radius:1rem;">Clear</button>
                 </div>
             </div>
             <form id="ShipmentProgressRadio">
-            <div class="card-body d-flex" style="padding:1px;font-size:85%;" id="ProgressFilterContent">
+            <div class="card-body mt-1 mb-1 pl-4" style="padding:1px;font-size:85%;" id="ProgressFilterContent">
             </div>
             </form>
         </div>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <form id="ShipmentStorageRadio">
-            <div class="card-body d-flex mt-1 mb-1" style="padding:1px;" id="StorageFilterContent">
+            <div class="card-body mt-1 mb-1 pl-4" style="padding:1px;" id="StorageFilterContent">
             </div>
             </form>
         </div>
@@ -92,9 +92,18 @@
     document.addEventListener('DOMContentLoaded', function() {
         search_documentation();
     });
-    function search_documentation(refresh_filters = true) {
-        //ck_bl_status = true; //makes the select all button work again
 
+    let ck_bl_status = true;
+    function select_all_bl(source) {
+        checkboxes = document.querySelectorAll('.ck-blnumber');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = ck_bl_status;
+        });
+        ck_bl_status = !ck_bl_status;
+    }
+
+    function search_documentation(refresh_filters = true) {
+        ck_bl_status = true; //makes the select all button work again
         var selectedValue = document.getElementById('ShipmentStorageRadio').querySelector('input[name="radio"]:checked');
         if (selectedValue) {
             storage = selectedValue.value;
@@ -139,8 +148,8 @@
             success: function (response) {
                 document.getElementById("DocumentationMainContainer").innerHTML = response.inner_html;
                 if (refresh_filters) {
-                    document.getElementById("ProgressFilterContent").innerHTML = response.inner_html_progress_filter;
-                    document.getElementById("StorageFilterContent").innerHTML = response.inner_html_storage_filter;
+                    document.getElementById("ProgressFilterContent").innerHTML = response.inner_html_progress;
+                    document.getElementById("StorageFilterContent").innerHTML = response.inner_html_storage;
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -181,5 +190,11 @@
                 document.getElementById('breakdown-' + initiator.id).innerHTML = response.inner_html;
             }
         });
+    }
+
+    function clear_radio_status() {
+        document.getElementById("ShipmentProgressRadio").reset();
+        document.getElementById("ShipmentStorageRadio").reset();
+        search_documentation(false);
     }
 </script>

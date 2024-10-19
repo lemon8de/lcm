@@ -23,8 +23,68 @@
 
     if ($refresh_filters == 'true') {
         //need to build the filters
-    } 
+        $sql = "EXEC SearchAirProgressFilter :HAWB, :StartYear, :StartMonth";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> bindParam(":HAWB", $hawb_awb);
+        $stmt -> bindParam(":StartYear", $year);
+        $stmt -> bindParam(":StartMonth", $month);
+        $stmt -> execute();
 
+        $shipment_progress_color = [
+            "ACTIVE" => "#2962ff",
+            "FOR RELEASE" => "#f34c41",
+            "DELIVERED" => "#45bf55",
+        ];
+
+        if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+            $inner_html_progress = <<<HTML
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-active" type="radio" value="ACTIVE" name="radio">
+                    <label class="form-check-label" for="radio-active"><span class="text-right badge" style="background-color:{$shipment_progress_color['ACTIVE']};color:#ffffff">{$data['ACTIVE']}</span>&nbsp;ACTIVE</label>
+                </div>
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-forrelease" type="radio" value="FOR RELEASE" name="radio">
+                    <label class="form-check-label" for="radio-forrelease"><span class="text-right badge" style="background-color:{$shipment_progress_color['FOR RELEASE']};color:#ffffff">{$data['FOR_RELEASE']}</span>&nbsp;FOR RELEASE</label>
+                </div>
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-delivered" type="radio" value="DELIVERED" name="radio">
+                    <label class="form-check-label" for="radio-delivered"><span class="text-right badge" style="background-color:{$shipment_progress_color['DELIVERED']};color:#ffffff">{$data['DELIVERED']}</span>&nbsp;DELIVERED</label>
+                </div>
+            HTML;
+        }
+        $response_body['inner_html_progress'] = $inner_html_progress;
+
+        $sql = "EXEC SearchStorageAirShipment :HAWB, :StartYear, :StartMonth";
+        $stmt = $conn -> prepare($sql);
+        $stmt -> bindParam(":HAWB", $hawb_awb);
+        $stmt -> bindParam(":StartYear", $year);
+        $stmt -> bindParam(":StartMonth", $month);
+        $stmt -> execute();
+
+        $storage_color = [
+            "orange" => "#ff851b",
+            "red" => "#dc3545",
+            "purple" => "#6610f2",
+        ];
+
+        if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+            $inner_html_storage = <<<HTML
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-orange" type="radio" value="orange" name="radio">
+                    <label class="form-check-label" for="radio-orange"><span class="text-right badge" style="background-color:#ff851b;color:#ffffff">{$data['orange']}</span>&nbsp;0&nbsp;-&nbsp;2</label>
+                </div>
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-red" type="radio" value="red" name="radio">
+                    <label class="form-check-label" for="radio-red"><span class="text-right badge" style="background-color:#dc3545;color:#ffffff">{$data['red']}</span>&nbsp;3&nbsp;-&nbsp;5</label>
+                </div>
+                <div class="form-check">
+                    <input onchange="search_documentation(false)" class="form-check-input" id="radio-purple" type="radio" value="purple" name="radio">
+                    <label class="form-check-label" for="radio-purple"><span class="text-right badge" style="background-color:#6610f2;color:#ffffff">{$data['purple']}</span>&nbsp;6&nbsp;beyond</label>
+                </div>
+            HTML;
+        }
+        $response_body['inner_html_storage'] = $inner_html_storage;
+    } 
     $inner_html = "";
     while ($data = $stmt_get_cards -> fetch(PDO::FETCH_ASSOC)) {
 
@@ -39,11 +99,11 @@
         if ($_SESSION['editing_privileges'] != null) {
             $edit_buttons = <<<HTML
                 <div class="row">
-                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['hawb_awb']}" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal" onclick="edit_container_information(this)">
+                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['hawb_awb']}" data-toggle="modal" data-target="#documentation_view_shipment_air_modal" onclick="edit_shipment_information(this)">
                         <i class="fas fa-box"></i>&nbsp;Edit Shipment
                     </a>
 
-                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['hawb_awb']}" data-toggle="modal" data-target="#documentation_view_invoice_modal" onclick="edit_invoice_information(this)">
+                    <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['shipment_details_ref']}" data-nameinvoice="{$data['hawb_awb']}" data-toggle="modal" data-target="#documentation_view_invoice_modal_air" onclick="edit_invoice_information(this)">
                         <i class="fas fa-file-invoice"></i>&nbsp;Edit Invoice
                     </a>
                 </div>
@@ -64,7 +124,7 @@
                     <div class="row" style="margin-bottom:-1em;">
                         <div class="col-6">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input ck-blnumber" id="{$data['hawb_awb']}">
+                                <input type="checkbox" class="form-check-input ck-blnumber" id="{$data['hawb_awb']}" style="visibility:hidden;">
                                 <label class="form-check-label" for="{$data['hawb_awb']}"><h4 style="font-family:monospace;">{$data['hawb_awb']}</h4></label>
                             </div>
                         </div>
