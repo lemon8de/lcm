@@ -27,7 +27,7 @@ if ($shipment) {
 $sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
 $stmt = $conn -> prepare($sql);
 $stmt -> bindParam(":username", $_SESSION['username']);
-$stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
+$stmt -> bindValue(':shipment_details_ref', $outgoing_details_ref);
 $stmt -> bindValue(':table_name', 'm_outgoing_container_details');
 
 for ($i = 0; $i < count($shipment_keys); $i++) {

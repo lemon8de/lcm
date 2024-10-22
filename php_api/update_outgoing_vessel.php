@@ -36,9 +36,9 @@ foreach ($outgoing_details_ref as $key => $item) {
 $sql = "SELECT * from m_outgoing_vessel_details where outgoing_details_ref = :outgoing_details_ref";
 $stmt_find = $conn->prepare($sql);
 
-$sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
-$stmt = $conn -> prepare($sql);
-$stmt -> bindParam(":username", $_SESSION['username']);
+$sql = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:outgoing_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
+$stmt_history = $conn -> prepare($sql);
+$stmt_history -> bindParam(":username", $_SESSION['username']);
 $stmt_history -> bindValue(':table_name', 'm_outgoing_vessel_details');
 
 

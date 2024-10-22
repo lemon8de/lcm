@@ -114,29 +114,29 @@
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="add_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "add_outgoing" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Add / Update Outgoing</p>
+							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Outgoing</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="edit_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "edit_outgoing" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>Edit Outgoing</p>
+							<i class="fas fa-file-alt"></i>&nbsp;<p>Edit Outgoing</p>
 							</a>
 						</li>
 					</ul>
 				</li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' active ' : ''?>">
-						<i class="nav-icon far fa-circle"></i><p>Outgoing Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					<i class="fas fa-file-export"></i>&nbsp;<p>Outgoing Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="outgoing_fsi_jp.php" class="nav-link<?php echo ($bar_whois_active == "fsi_jp" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>FSI JP</p>
+							<i class="fas fa-file-archive"></i>&nbsp;<p>FSI JP</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="outgoing_fsi_la.php" class="nav-link<?php echo ($bar_whois_active == "fsi_la" ? ' active': '');?>">
-								<i class="far fa-circle nav-icon"></i><p>FSI LA</p>
+							<i class="fas fa-file-archive"></i>&nbsp;<p>FSI LA</p>
 							</a>
 						</li>
 					</ul>
