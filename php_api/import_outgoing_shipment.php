@@ -42,6 +42,12 @@
             $sql_destination = "SELECT destination from m_outgoing_list_destination where destination_service_center = :destination_service_center";
             $stmt_destination = $conn -> prepare($sql_destination);
 
+            $pattern = '/(.+)-(.+)-(.+)-(.+)/';
+            $sql_status_check = "SELECT status_allowed from m_outgoing_status_list where switch_invoice_code = :switch_invoice_code";
+            $stmt_status_check = $conn -> prepare($sql_status_check);
+            $sql_status_add = "INSERT into m_outgoing_status_details (outgoing_details_ref, status, co_status) values (:outgoing_details_ref, 'N/A', 'N/A')";
+            $stmt_status_add = $conn -> prepare($sql_status_add);
+
             while (($line = fgetcsv($csvFile)) !== false) {
                 if (empty(implode('', $line))) {
                     continue; // Skip blank lines
@@ -121,6 +127,24 @@
                         $stmt_init_tables -> bindParam(":outgoing_details_ref5", $outgoing_details_ref);
                         $stmt_init_tables -> bindParam(":outgoing_details_ref6", $outgoing_details_ref);
                         $stmt_init_tables -> execute();
+
+                        //status monitoring, based on the status - switch invoice masterlist
+                        if (preg_match_all($pattern, $last_invoice, $matches)) {
+                            $switch_invoice_code = $matches[2];
+                        }
+                        $stmt_status_check -> bindParam(":switch_invoice_code", $switch_invoice_code[0]);
+                        $stmt_status_check -> execute();
+                        if ($data = $stmt_status_check -> fetch(PDO::FETCH_ASSOC)) {
+                            if ($data['status_allowed'] == '1') {
+                                
+                                $stmt_status_add -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+                                $stmt_status_add -> execute();
+                            } else {
+                                //this switch invoice do not need a status monitoring tab
+                            }
+                        } else {
+                            //masterlist failure
+                        }
                     }
 
                     $tw_no = [];
@@ -225,6 +249,24 @@
                 $stmt_init_tables -> bindParam(":outgoing_details_ref5", $outgoing_details_ref);
                 $stmt_init_tables -> bindParam(":outgoing_details_ref6", $outgoing_details_ref);
                 $stmt_init_tables -> execute();
+
+                //status monitoring, based on the status - switch invoice masterlist
+                if (preg_match_all($pattern, $last_invoice, $matches)) {
+                    $switch_invoice_code = $matches[2];
+                }
+                $stmt_status_check -> bindParam(":switch_invoice_code", $switch_invoice_code[0]);
+                $stmt_status_check -> execute();
+                if ($data = $stmt_status_check -> fetch(PDO::FETCH_ASSOC)) {
+                    if ($data['status_allowed'] == '1') {
+                                
+                        $stmt_status_add -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+                        $stmt_status_add -> execute();
+                    } else {
+                        //this switch invoice do not need a status monitoring tab
+                    }
+                } else {
+                    //masterlist failure
+                }
             }
 
             fclose($csvFile);

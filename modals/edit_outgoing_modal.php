@@ -31,6 +31,9 @@
                       <a class="nav-link" data-toggle="pill" href="#RTVDiv" role="tab">RTV</a>
                   </li>
                   <li class="nav-item">
+                      <a class="nav-link" data-toggle="pill" href="#StatusDiv" role="tab">Status</a>
+                  </li>
+                  <li class="nav-item">
                       <a class="nav-link" data-toggle="pill" href="#HistoryTabDiv" role="tab">History</a>
                   </li>
               </ul>
@@ -60,6 +63,9 @@
                     </div>
                     <div class="tab-pane fade" id="RTVDiv" role="tabpanel">
                         <?php include '../php_static/content_tables/outgoing_rtv.php';?>
+                    </div>
+                    <div class="tab-pane fade" id="StatusDiv" role="tabpanel">
+                        <?php include '../php_static/content_tables/outgoing_status.php';?>
                     </div>
                     <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
                         <div style="max-height: 300px; overflow-y: auto;">
@@ -95,8 +101,18 @@ function loaddata() {
                 document.getElementById('OutgoingContLineUpContent').innerHTML = response.outgoing_contlineup;
                 document.getElementById('OutgoingBLContent').innerHTML = response.outgoing_bl;
                 document.getElementById('OutgoingRTVContent').innerHTML = response.outgoing_rtv;
+                document.getElementById('OutgoingStatusContent').innerHTML = response.outgoing_status;
                 document.getElementById('HistoryContent').innerHTML = response.history;
             }
         });
+    }
+
+    function check_co_status(initiator) {
+        console.log(initiator.value);
+        if (initiator.value == "RECEIVED") {
+            document.getElementById('co_status_select').disabled = false;
+        } else {
+            document.getElementById('co_status_select').disabled = true;
+        }
     }
 </script>

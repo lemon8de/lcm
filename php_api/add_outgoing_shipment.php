@@ -85,6 +85,29 @@
     $stmt_init_tables -> bindParam(":outgoing_details_ref6", $outgoing_details_ref);
     $stmt_init_tables -> execute();
 
+    //status monitoring, based on the status - switch invoice masterlist
+    $pattern = '/(.+)-(.+)-(.+)-(.+)/';
+    if (preg_match_all($pattern, $invoice_no, $matches)) {
+        $switch_invoice_code = $matches[2];
+    }
+    $sql = "SELECT status_allowed from m_outgoing_status_list where switch_invoice_code = :switch_invoice_code";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(":switch_invoice_code", $switch_invoice_code[0]);
+    $stmt -> execute();
+
+    if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        if ($data['status_allowed'] == '1') {
+            $sql = "INSERT into m_outgoing_status_details (outgoing_details_ref, status, co_status) values (:outgoing_details_ref, 'N/A', 'N/A')";
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+            $stmt -> execute();
+        } else {
+            //this switch invoice do not need a status monitoring tab
+        }
+    } else {
+        //masterlist failure
+    }
+
     $notification = [
         "icon" => "success",
         "text" => "Invoice Added",

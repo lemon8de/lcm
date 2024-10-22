@@ -16,7 +16,7 @@
         $destination_service_center = $_GET['destination_service_center'];
     }
 
-    $sql_search_partial_s = "SELECT outgoing_details_ref, invoice_no, container_no, destination_service_center from m_outgoing_fsib where 1=1";
+    $sql_search_partial_s = "SELECT a.outgoing_details_ref, invoice_no, container_no, destination_service_center, status, co_status from m_outgoing_fsib as a left join m_outgoing_status_details as b on a.outgoing_details_ref = b.outgoing_details_ref where 1=1";
     $sql_destination = "SELECT distinct destination_service_center from m_outgoing_fsib where 1=1";
     if ($invoice_no != "") {
         //add invoice query
@@ -72,8 +72,10 @@
             <tr id="{$data['outgoing_details_ref']}" onclick="loaddata.call(this)" class="modal-trigger" data-toggle="modal" data-target="#edit_outgoing_modal">
                 <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td>
                 <td>{$data['invoice_no']}</td>
-                <td>{$data['container_no']}</td>
+                <!-- <td>{$data['container_no']}</td> -->
                 <td>{$data['destination_service_center']}</td>
+                <td>{$data['status']}</td>
+                <td>{$data['co_status']}</td>
             </tr>
         HTML;
     }

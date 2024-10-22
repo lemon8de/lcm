@@ -124,11 +124,11 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' menu-is-opening menu-open' : ''?>">
-					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' active ' : ''?>">
+				<li class="nav-item<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la", "outgoing_invoice"]) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la", "outgoing_invoice"]) ? ' active ' : ''?>">
 					<i class="fas fa-file-export"></i>&nbsp;<p>Outgoing Report Generation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la"]) ? ' style="display:block;"' : '';?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ["fsi_jp", "fsi_la", "outgoing_invoice"]) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="outgoing_fsi_jp.php" class="nav-link<?php echo ($bar_whois_active == "fsi_jp" ? ' active': '');?>">
 							<i class="fas fa-file-archive"></i>&nbsp;<p>FSI JP</p>
@@ -137,6 +137,11 @@
 						<li class="nav-item">
 							<a href="outgoing_fsi_la.php" class="nav-link<?php echo ($bar_whois_active == "fsi_la" ? ' active': '');?>">
 							<i class="fas fa-file-archive"></i>&nbsp;<p>FSI LA</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="outgoing_invoice.php" class="nav-link<?php echo ($bar_whois_active == "outgoing_invoice" ? ' active': '');?>">
+							<i class="fas fa-money-check-alt"></i>&nbsp;<p>Invoice Data</p>
 							</a>
 						</li>
 					</ul>

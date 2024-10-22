@@ -53,14 +53,16 @@
     </div>
 </div>
 
-<div class="container" style="max-height: 80vh; overflow-y:auto;">
+<div class="container-fluid" style="max-height: 80vh; overflow-y:auto;">
 <table class="table table-head-fixed text-nowrap table-hover">
     <thead>
         <tr style="border-bottom:1px solid black">
             <th><input type="checkbox" onchange="checkall(this)"></th>
             <th>INVOICE NO.</th>
-            <th>CONTAINER NO.</th>
+            <!-- <th>CONTAINER NO.</th> -->
             <th>DESTINATION (Service Center)</th>
+            <th>STATUS</th>
+            <th>CO-STATUS</th>
         </tr>
     </thead>
     <tbody id="OutgoingSearchTableBody">

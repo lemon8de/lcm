@@ -349,5 +349,128 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     HTML;
 }
 
+$sql = "SELECT status, co_status from m_outgoing_status_details where outgoing_details_ref = :outgoing_details_ref";
+$stmt = $conn -> prepare($sql);
+$stmt -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+$stmt -> execute();
+
+if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    switch ($data['status']) {
+        case 'N/A':
+            $status_select = <<<HTML
+                <option selected>N/A</option>
+                <option>FOR REQUEST</option>
+                <option>RECEIVED</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+    
+        case 'FOR REQUEST':
+            $status_select = <<<HTML
+                <option>N/A</option>
+                <option selected>FOR REQUEST</option>
+                <option>RECEIVED</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+
+        case 'RECEIVED':
+            $status_select = <<<HTML
+                <option>N/A</option>
+                <option>FOR REQUEST</option>
+                <option selected>RECEIVED</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+
+        case 'ONGOING':
+            $status_select = <<<HTML
+                <option>N/A</option>
+                <option>FOR REQUEST</option>
+                <option>RECEIVED</option>
+                <option selected>ONGOING</option>
+            HTML;
+            break;
+    
+        default:
+            //call jay if it went down here
+            break;
+    }
+    switch ($data['co_status']) {
+        case 'N/A':
+            $co_status_select = <<<HTML
+                <option selected>N/A</option>
+                <option>FOR REQUEST</option>
+                <option>COMPLETE</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+    
+        case 'FOR REQUEST':
+            $co_status_select = <<<HTML
+                <option>N/A</option>
+                <option selected>FOR REQUEST</option>
+                <option>COMPLETE</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+
+        case 'COMPLETE':
+            $co_status_select = <<<HTML
+                <option>N/A</option>
+                <option>FOR REQUEST</option>
+                <option selected>COMPLETE</option>
+                <option>ONGOING</option>
+            HTML;
+            break;
+
+        case 'ONGOING':
+            $co_status_select = <<<HTML
+                <option>N/A</option>
+                <option>FOR REQUEST</option>
+                <option>COMPLETE</option>
+                <option selected>ONGOING</option>
+            HTML;
+            break;
+    
+        default:
+            //call jay if it went down here
+            break;
+    }
+    if ($data['status'] !== 'RECEIVED') {
+        $disabled = " disabled";
+    } else {
+        $disabled = "";
+    }
+    $return_body['outgoing_status'] = <<<HTML
+        <input readonly style="display:none;" value="{$outgoing_details_ref}" type="text" name="outgoing_details_ref">
+        <div class="row mb-2">
+            <div class="col-6">
+                <label>STATUS</label>
+                <select class="form-control" name="status" onchange="check_co_status(this)">
+                    {$status_select}
+                </select>
+            </div>
+            <div class="col-6">
+                <label>CO STATUS</label>
+                <select class="form-control" id="co_status_select" name="co_status"{$disabled}>
+                    {$co_status_select}
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2 d-flex align-items-center">
+            <div class="col-3 ml-auto">
+                <button type="submit" class="btn bg-primary btn-block">Update</button>
+            </div>
+        </div>
+    HTML;
+} else {
+    $return_body['outgoing_status'] = <<<HTML
+        <div class="text-muted text-center">
+            <p>Selected Invoice does not support a Status page.</p>
+        </div>
+    HTML;
+}
+
 echo json_encode($return_body);
 exit();
