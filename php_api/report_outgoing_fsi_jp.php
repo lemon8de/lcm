@@ -23,7 +23,8 @@ if ($switch_invoice == null) {
     $response_body['switch_invoice'] = $switch_invoice_select;
 } else {
     //main table building is here, here we have month, year, and switch invoice available
-    $switch_invoice = "%" . $switch_invoice . "%";
+    //fix for bad like parameter, add the hypen
+    $switch_invoice = "%-" . $switch_invoice . "-%";
 
     $sql_data = "EXEC GetOutgoingFSI_JP :StartYear, :StartMonth, :SwitchInvoice"; //mssql server stored procedure
     $stmt_data = $conn -> prepare($sql_data);

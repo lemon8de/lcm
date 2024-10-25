@@ -1,7 +1,7 @@
+<div class="container mt-2"></div>
 <form id="OutgoingFsiLASearchForm">
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-2">
+    <div class="d-flex w-75 m-2 p-3 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
+            <div class="col-3">
                 <select class="form-control" name="month" onchange="outgoing_fsi_la_search(true)">
                     <option value="" selected disabled>Select Month</option>
                     <option value="1">January</option>
@@ -18,7 +18,7 @@
                     <option value="12">December</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" name="year" onchange="outgoing_fsi_la_search(true)">
                     <?php
                         $current_year = date("Y");
@@ -31,17 +31,18 @@
                     ?>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" name="car_model" onchange="outgoing_fsi_la_search(false)" id="car_model_select">
                     <option disabled selected value="">Car Model</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <button type="button" class="btn btn-block btn-primary">Export Data</button>
             </div>
         </div>
     </div>
 </form>
+</div>
 <div class="container" id="OutgoingFsiLAReportContent">
 </div>
 

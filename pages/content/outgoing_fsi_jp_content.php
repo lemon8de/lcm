@@ -1,7 +1,7 @@
+<div class="container mt-2"></div>
 <form id="OutgoingFsiJpSearchForm">
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-2">
+        <div class="d-flex w-75 m-2 p-3 align-items-center" style="background-color:#ffffff;box-shadow:0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);background-clip:border-box;border-radius:.25rem;">
+            <div class="col-3">
                 <select class="form-control" name="month" onchange="outgoing_fsi_jp_search(true)">
                     <option value="" selected disabled>Select Month</option>
                     <option value="1">January</option>
@@ -18,7 +18,7 @@
                     <option value="12">December</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" name="year" onchange="outgoing_fsi_jp_search(true)">
                     <?php
                         $current_year = date("Y");
@@ -31,21 +31,18 @@
                     ?>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" name="switch_invoice" onchange="outgoing_fsi_jp_search(false)" id="switch_invoice_select">
                     <option disabled selected value="">Switch Invoice</option>
-                    <?php
-                    //$sql = "SELECT DISTINCT SUBSTRING( invoice_no, CHARINDEX('-', invoice_no) + 1, CHARINDEX('-', invoice_no, CHARINDEX('-', invoice_no) + 1) - CHARINDEX('-', invoice_no) - 1) AS switch_invoice FROM m_outgoing_fsib WHERE ship_out_date BETWEEN CAST(CONCAT('2024', '-', '7', '-01') AS DATE) AND EOMONTH(CAST(CONCAT('2024', '-', '7', '-01') AS DATE));";
-
-                    ?>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <button type="button" class="btn btn-block btn-primary">Export Data</button>
             </div>
         </div>
     </div>
 </form>
+</div>
 <div class="container" id="OutgoingFsiJpReportContent">
 </div>
 
