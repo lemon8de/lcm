@@ -140,16 +140,16 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="outgoing_invoice.php" class="nav-link<?php echo ($bar_whois_active == "outgoing_invoice" ? ' active': '');?>">
+							<a href="outgoing_invoice.php" class="nav-link<?php echo ($bar_whois_active == "outgoing_invoice" ?  ' active': '');?>">
 							<i class="fas fa-money-check-alt"></i>&nbsp;<p>Invoice Data</p>
 							</a>
 						</li>
 					</ul>
 				</li>
-				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
+				<li class="nav-header" style="display:none;margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
-				<li class="nav-item">
-					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ? ' active': '');?>">
+				<li class="nav-item" style="display:none;">
+					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ?' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>
 				</li>
