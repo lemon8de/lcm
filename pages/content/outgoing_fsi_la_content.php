@@ -37,7 +37,7 @@
                 </select>
             </div>
             <div class="col-3">
-                <button type="button" class="btn btn-block btn-primary">Export Data</button>
+                <button type="button" class="btn btn-block btn-primary" onclick="export_button()">Export Data</button>
             </div>
         </div>
     </div>
@@ -70,6 +70,38 @@
         console.error('AJAX request failed:', textStatus, errorThrown);
         alert('An error occurred while processing your request. Please try again later.');
     }
+        });
+    }
+
+    function export_button() {
+        var formData = $('#OutgoingFsiLASearchForm').serialize();
+        //gather data, if show active only, month and year
+        $.ajax({
+            url: '../php_api/export_outgoing_fsi_la.php',
+            type: 'POST',
+            data: formData,
+            xhrFields: {
+                responseType: 'blob' // Set the response type to blob
+            },
+            success: function(data) {
+                // Create a link element
+                var link = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                link.href = url;
+                // Create a new Date object
+                const currentDate = new Date();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 01-12
+                const year = currentDate.getFullYear(); // 4-digit year
+                // Format as MM/YYYY
+                const formattedDate = `${month}/${year}`;
+                link.download = 'LCM-OUTGOING-FSI_LA[' + formattedDate +  '].csv'; // Set the file name
+                document.body.appendChild(link);
+                link.click(); // Simulate click to download
+                document.body.removeChild(link); // Remove the link
+            },
+            error: function() {
+                alert('Error exporting data.');
+            }
         });
     }
 </script>
