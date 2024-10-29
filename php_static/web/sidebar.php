@@ -146,7 +146,29 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-header" style="display:none;margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add']) ? ' active ' : ''?>">
+					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Monitoring<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					</a>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add']) ? ' style="display:block;"' : '';?>>
+						<li class="nav-item">
+							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
+							<i class="fas fa-plus"></i></i>&nbsp;<p>Add</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="" class="nav-link<?php echo ($bar_whois_active == "billing_monitoring_details" ? ' active': '');?>">
+							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="test_bldrop.php" class="nav-link<?php echo ($bar_whois_active == "" ? ' active': '');?>">
+							<i class="fas fa-fire-extinguisher"></i>&nbsp;<p>BL Drop Test</p>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
 				<li class="nav-item" style="display:none;">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ?' active': '');?>">
