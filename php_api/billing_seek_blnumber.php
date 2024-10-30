@@ -1,6 +1,9 @@
 <?php
     require 'db_connection.php';
     require 'billing_monitoring_computation/import_sea.php';
+    require 'billing_monitoring_computation/import_air.php';
+    require 'billing_monitoring_computation/export_sea.php';
+    require 'billing_monitoring_computation/export_air.php';
     $bl_numbers = $_GET['bl_numbers'];
 
     //figure out if these bl numbers is import air, import sea, export sea, export air
@@ -20,6 +23,7 @@
     $export_sea = [];
     $export_air = [];
     foreach ($bl_numbers as $bl_number) {
+        $bl_number = trim($bl_number);
         $stmt_is -> bindParam(":bl_number", $bl_number);
         $stmt_is -> execute();
         if ($data = $stmt_is -> fetch(PDO::FETCH_ASSOC)) {
@@ -82,5 +86,115 @@
             </div>
         HTML;
         $response_body['import_sea'] = $inner_html;
+    }
+
+    $inner_html = "";
+    if (!empty($import_air)) {
+        $mega = import_air_compute($conn, $import_air);
+        $render_data = import_air_table_render($conn, $mega);
+
+        $inner_html .= <<<HTML
+            <div class="card card-gray-dark card-outline collapsed collapsed-card">
+                <div class="card-header">
+                    <h3 class="card-title">IMPORT AIR</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <table class="table table-hover mb-4">
+                        <thead>
+                            <tr>
+                                <th>DETAIL OF CHARGE</th>
+                                {$render_data[0]}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$render_data[1]}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        HTML;
+        $response_body['import_air'] = $inner_html;
+    }
+
+    $inner_html = "";
+    if (!empty($export_sea)) {
+        $mega = export_sea_compute($conn, $export_sea);
+        $render_data = export_sea_table_render($conn, $mega);
+
+        $inner_html .= <<<HTML
+            <div class="card card-gray-dark card-outline collapsed collapsed-card">
+                <div class="card-header">
+                    <h3 class="card-title">EXPORT SEA</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <table class="table table-hover mb-4">
+                        <thead>
+                            <tr>
+                                <th>DETAIL OF CHARGE</th>
+                                {$render_data[0]}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$render_data[1]}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        HTML;
+        $response_body['export_sea'] = $inner_html;
+    }
+    $inner_html = "";
+    if (!empty($export_air)) {
+        $mega = export_air_compute($conn, $export_air);
+        $render_data = export_air_table_render($conn, $mega);
+
+        $inner_html .= <<<HTML
+            <div class="card card-gray-dark card-outline collapsed collapsed-card">
+                <div class="card-header">
+                    <h3 class="card-title">EXPORT AIR</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <table class="table table-hover mb-4">
+                        <thead>
+                            <tr>
+                                <th>DETAIL OF CHARGE</th>
+                                {$render_data[0]}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$render_data[1]}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        HTML;
+        $response_body['export_air'] = $inner_html;
     }
     echo json_encode($response_body);

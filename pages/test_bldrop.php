@@ -164,8 +164,18 @@
             },
             dataType: 'json',
             success: function(response) {
+                document.getElementById('billing_main_container').innerHTML = "";
                 if (response.import_sea) {
                     document.getElementById('billing_main_container').innerHTML = response.import_sea;
+                }
+                if (response.import_air) {
+                    document.getElementById('billing_main_container').innerHTML += response.import_air;
+                }
+                if (response.export_sea) {
+                    document.getElementById('billing_main_container').innerHTML += response.export_sea;
+                }
+                if (response.export_air) {
+                    document.getElementById('billing_main_container').innerHTML += response.export_air;
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
