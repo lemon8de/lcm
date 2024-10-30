@@ -19,33 +19,66 @@
     </div>
 </div>
 
-<div class="card container-fluid p-4">
-    <h3>Fill Information</h3>
-    <div class="row mb-2">
+<div class="container-fliud">
+    <div class="row">
         <div class="col-3">
-            <label>SHIPPING LINE</label>
-            <input type="text" class="form-control" name="shipping_line" required>
+            <div class="card p-2 d-flex flex-column">
+                <div>
+                    <label>SHIPPING LINE</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-info" onclick="make_any(this)">ANY</button>
+                        </div>
+                        <input type="text" class="form-control" name="shipping_line" required autocomplete="off">
+                    </div>
+                </div>
+                <div>
+                    <label>ORIGIN PORT</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-info" onclick="make_any(this)">ANY</button>
+                        </div>
+                        <input type="text" class="form-control" name="origin_port" required autocomplete="off">
+                    </div>
+                </div>
+                <div>
+                    <label>DESTINATION PORT</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-info" onclick="make_any(this)">ANY</button>
+                        </div>
+                        <input type="text" class="form-control" name="destination_port" required autocomplete="off">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-3">
-            <label>ORIGIN PORT</label>
-            <input type="text" class="form-control" name="origin_port" required>
+            <div class="card p-2">
+                <label>TYPE OF TRANSACTION</label>
+                <select class="form-control" name="type_transaction" onchange="load_details_of_charge(this.value)">
+                    <option value="" selected disabled required>Select an Option</option>
+                    <option>IMPORT SEA</option>
+                    <option>IMPORT AIR</option>
+                    <option>EXPORT SEA</option>
+                    <option>EXPORT AIR</option>
+                </select>
+            </div>
         </div>
-        <div class="col-3">
-            <label>DESTINATION PORT</label>
-            <input type="text" class="form-control" name="destination_port" required>
+        <div class="col-4">
+            <div class="card p-2">
+                <label>DETAIL OF CHARGE</label>
+                <select class="form-control" name="type_transaction" id="select_details_of_charge">
+                    <option value="" selected disabled required>WAITING FOR TYPE</option>
+                </select>
+            </div>
         </div>
-        <div class="col-3">
-            <label>TYPE OF TRANSACTION</label>
-            <select class="form-control" name="type_transaction">
-                <option value="" selected disabled required>Select an Option</option>
-                <option>IMPORT SEA</option>
-                <option>IMPORT AIR</option>
-                <option>EXPORT SEA</option>
-                <option>EXPORT AIR</option>
-            </select>
+        <div class="col-2 d-flex justify-content-center align-items-start">
+            <button type="button" class="btn btn-block btn-info">PULL DATA</button>
         </div>
     </div>
 </div>
+
+<div class="container-fluid card" style="min-height:70vh;"></div>
 
 <script>
     let forwarder_selected = "";
@@ -60,5 +93,32 @@
             }
         });
         console.log(forwarder_selected)
+    }
+
+    function load_details_of_charge(type) {
+        $.ajax({
+            type: 'GET', // or 'GET' depending on your needs
+            url: '../php_api/billing_monitoring_computation/load_details_of_charge.php',
+            data: {
+                'type_of_transaction' : type,
+            },
+            dataType: 'json',
+            success: function(response) {
+                document.getElementById('select_details_of_charge').innerHTML = response.select;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
+            }
+        });
+    }
+    
+    function make_any(button) {
+        const input = button.closest('.input-group').querySelector('input');
+        // Check if the input exists
+        if (input) {
+            // Set the value to 'ANY'
+            input.value = 'ANY';
+        }
     }
 </script>

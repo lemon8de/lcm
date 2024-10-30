@@ -15,13 +15,13 @@
                 $mini_mega_json['forwarder_name'] = $data['forwarder_name'];
             }
 
-            // Computation and fake data for now
+            //COMPUTATION, IMPORT SEA HAS 48 CHARGES TO COMPUTE
             $array_computation = array_fill(0, 48, 1);
             $mini_mega_json['data'] = $array_computation;
             $computed_mega_json[] = $mini_mega_json;
         }
         //the duck inside the chat generated this fuckall code that merges the mega json
-        //so in essence, the code above makes computation based on the shipmentdetailref, meaning it would repeat forwarder_name, this merges everything
+        //so in essence, the code above makes computation based on the shipmentdetailref (more specifically the bl_number), meaning it would naturally have repeating forwarder_name, this merges everything
         $unique_forwarders = array_reduce($computed_mega_json, function($carry, $item) {
             $forwarder_name = $item['forwarder_name'];
             // Check if the forwarder name already exists in the carry

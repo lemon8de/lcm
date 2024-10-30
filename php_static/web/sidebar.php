@@ -154,14 +154,14 @@
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
-							<i class="fas fa-plus"></i></i>&nbsp;<p>Add</p>
+							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Modify</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<a href="" class="nav-link<?php echo ($bar_whois_active == "billing_monitoring_details" ? ' active': '');?>">
 							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>
 							</a>
-						</li>
+						</li> -->
 						<li class="nav-item">
 							<a href="test_bldrop.php" class="nav-link<?php echo ($bar_whois_active == "" ? ' active': '');?>">
 							<i class="fas fa-fire-extinguisher"></i>&nbsp;<p>BL Drop Test</p>
