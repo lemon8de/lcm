@@ -1,7 +1,7 @@
 <?php
     require '../php_static/session_lookup.php';
     $directory = " / TESTING / BL DROP TEST";
-    $bar_whois_active = "";
+    $bar_whois_active = "bl_drop";
     require '../php_static/block_urlcreep.php';
     require '../php_api/db_connection.php';
 ?>
