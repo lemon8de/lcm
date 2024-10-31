@@ -1,6 +1,6 @@
 <?php
     function export_sea_compute($conn, $shipment_details_refs) {
-        $sql = "SELECT forwarder as forwarder_name from m_outgoing_container_details where outgoing_details_ref = :shipment_details_ref";
+        $sql = "SELECT bl_number as forwarder_name from m_outgoing_bl_details where outgoing_details_ref = :shipment_details_ref";
         $stmt = $conn -> prepare($sql);
 
         $computed_mega_json = [];

@@ -149,12 +149,12 @@
 				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop']) ? ' active ' : ''?>">
-					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Monitoring<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Preparation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop']) ? ' style="display:block;"' : '';?>>
 						<li class="nav-item">
 							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
-							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Modify</p>
+							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Rates</p>
 							</a>
 						</li>
 						<!-- <li class="nav-item">

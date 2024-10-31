@@ -1,6 +1,6 @@
 <?php
     function import_air_compute($conn, $shipment_details_refs) {
-        $sql = "SELECT forwarder from t_shipment_air_details where shipment_details_ref = :shipment_details_ref";
+        $sql = "SELECT forwarder as forwarder_name from t_shipment_air_details where shipment_details_ref = :shipment_details_ref";
         $stmt = $conn -> prepare($sql);
 
         $computed_mega_json = [];
@@ -12,7 +12,7 @@
     
             // The header
             if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $mini_mega_json['forwarder'] = $data['forwarder'];
+                $mini_mega_json['forwarder'] = $data['forwarder_name'];
             }
 
             //COMPUTATION, IMPORT AIR HAS 23 CHARGES TO COMPUTE

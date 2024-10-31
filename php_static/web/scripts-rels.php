@@ -8,6 +8,7 @@
 <script src="../static/js/popup_center.js"></script>
 <script src="../static/js/export_csv.js"></script>
 <script src="../static/js/serialize.js"></script>
+<script src="../plugins/chartjs/package/dist/chart.umd.js"></script>
 
 
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
