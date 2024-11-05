@@ -139,7 +139,7 @@
     //just need to get the right set of data from the db
     //match billing details ref, shipping line, origin_port, destination port, and forwarder
 
-    $sql = "SELECT top 10 computation_set, format(for_date, 'yyyy-MM') as for_date from m_billing_compute where billing_forwarder_details_ref = :billing_forwarder_details_ref and billing_details_ref = :billing_details_ref and shipping_line = :shipping_line and origin_port = :origin_port";
+    $sql = "SELECT top 10 computation_set, format(for_date, 'yyyy-MM') as for_date from m_billing_compute where billing_forwarder_details_ref = :billing_forwarder_details_ref and billing_details_ref = :billing_details_ref and shipping_line = :shipping_line and origin_port = :origin_port order by for_date, id";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref);
     $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
