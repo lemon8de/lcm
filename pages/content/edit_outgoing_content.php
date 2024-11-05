@@ -8,8 +8,7 @@
                 <input class="form-control" placeholder="CONTAINER NO." name="container_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
             <div class="col-2">
-                <select class="form-control" name="month" onchange="outgoing_search()">
-                    <option value="" selected disabled>Select Month</option>
+                <select class="form-control" name="month" onchange="outgoing_search()" id="active_month">
                     <option value="1">January</option>
                     <option value="2">February</option>
                     <option value="3">March</option>
@@ -23,6 +22,13 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
+                <script>
+                    // Get the current month (0-11)
+                    const currentMonth = new Date().getMonth();
+                    // Select the month in the dropdown
+                    const monthSelect = document.getElementById('active_month');
+                    monthSelect.selectedIndex = currentMonth;
+                </script>
             </div>
             <div class="col-2">
                 <select class="form-control" name="year" onchange="outgoing_search()">
@@ -117,6 +123,9 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        outgoing_search();
+    });
     function debounce(method, delay) {
         clearTimeout(method._tId);
         method._tId = setTimeout(function() {
