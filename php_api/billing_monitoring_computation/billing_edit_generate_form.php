@@ -96,7 +96,7 @@
             <div class="row mt-3">
                 <div class="col-6">
                     <label>Apply for Month</label>
-                    <select class="form-control">
+                    <select class="form-control" name="month">
                         <option value="" selected disabled>Select Month</option>
                         <option value="1">January</option>
                         <option value="2">February</option>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="col-6">
                     <label>For year</label>
-                    <select class="form-control">
+                    <select class="form-control" name="year">
                         {$year_select}
                     </select>
                 </div>
@@ -133,4 +133,27 @@
     }
     $response_body['inner_html'] = $inner_html;
     $response_body['info'] = $info;
+
+    //extra code for building that chart
+    //basically we need two arrays, labels and data from m_billing_compute
+    //just need to get the right set of data from the db
+    //match billing details ref, shipping line, origin_port, destination port, and forwarder
+
+    $sql = "SELECT top 10 computation_set, format(for_date, 'yyyy-MM') as for_date from m_billing_compute where billing_forwarder_details_ref = :billing_forwarder_details_ref and billing_details_ref = :billing_details_ref and shipping_line = :shipping_line and origin_port = :origin_port";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref);
+    $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
+    $stmt -> bindParam(":shipping_line", $shipping_line);
+    $stmt -> bindParam(":origin_port", $origin_port);
+    $stmt -> execute();
+
+    $labels = [];
+    $dataset = [];
+    while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        $labels[] = $data['for_date'];
+        $json = json_decode($data['computation_set']);
+        $dataset[] = $json -> data_set -> rate;
+    }
+    $response_body['labels'] = $labels;
+    $response_body['dataset'] = $dataset;
     echo json_encode($response_body);

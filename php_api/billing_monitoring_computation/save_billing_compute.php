@@ -6,6 +6,12 @@
     $origin_port = $_POST['origin_port'] != "" ? $_POST['origin_port'] : null;
     $destination_port = $_POST['destination_port'] != "" ? $_POST['destination_port'] : null;
     $basis = $_POST['basis'];
+    $month = $_POST['month'];
+    $year = $_POST['year'];
+
+    $for_date = new DateTime();
+    $for_date -> setDate($year, $month, 1);
+    $for_date = $for_date -> format('Y-m-d');
 
     //add more when the thing wants more things
     $rate = $_POST['rate'];
@@ -24,7 +30,7 @@
 
     if (!$skipped) { //ensures that only supported basis gets the update treatment
         $billing_compute_ref = uniqid('billing_m_', true);
-        $sql = "INSERT into m_billing_compute (billing_forwarder_details_ref, billing_details_ref, shipping_line, origin_port, destination_port, computation_set, billing_compute_ref) values (:billing_forwarder_details_ref, :billing_details_ref, :shipping_line, :origin_port, :destination_port, :computation_set, :billing_compute_ref)";
+        $sql = "INSERT into m_billing_compute (billing_forwarder_details_ref, billing_details_ref, shipping_line, origin_port, destination_port, computation_set, billing_compute_ref, for_date) values (:billing_forwarder_details_ref, :billing_details_ref, :shipping_line, :origin_port, :destination_port, :computation_set, :billing_compute_ref, :for_date)";
         $stmt = $conn -> prepare($sql);
         $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref);
         $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
@@ -33,6 +39,7 @@
         $stmt -> bindParam(":destination_port", $destination_port);
         $stmt -> bindParam(":computation_set", $computation_set);
         $stmt -> bindParam(":billing_compute_ref", $billing_compute_ref);
+        $stmt -> bindParam(":for_date", $for_date);
         $stmt -> execute();
     } else {
         exit();

@@ -135,13 +135,13 @@
             </form>
         </div>
         <div class="col-6 d-flex justify-content-center align-items-center"> <!-- Center the canvas -->
-            <canvas id="myChart" style="max-width: 100%; height: auto;display:none;"></canvas> <!-- Responsive canvas -->
+            <canvas id="myChart" style="max-width:100%;height:auto;"></canvas> <!-- Responsive canvas -->
         </div>
     </div>
 </div>
 <script>
   const ctx = document.getElementById('myChart');
-  new Chart(ctx, {
+  const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: [],
@@ -251,6 +251,9 @@
                 if (!response.exited) {
                     document.getElementById('MainEditContainer').innerHTML = response.info;
                     document.getElementById('GeneratedFormSubmit').innerHTML = response.inner_html;
+                    myChart.data.labels = response.labels;
+                    myChart.data.datasets[0].data = response.dataset;
+                    myChart.update();
                 } else {
                     Toast.fire({
 		                icon: "warning",

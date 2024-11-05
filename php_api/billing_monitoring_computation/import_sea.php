@@ -1,6 +1,6 @@
 <?php
     function import_sea_compute($conn, $shipment_details_refs) {
-        $sql_seek_bl = "SELECT bl_number, forwarder_name, origin_port, shipping_lines from m_shipment_sea_details where shipment_details_ref = :shipment_details_ref";
+        $sql_seek_bl = "SELECT bl_number, forwarder_name, origin_port, shipping_lines, actual_received_at_falp from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where a.shipment_details_ref = :shipment_details_ref";
         $stmt_seek_bl = $conn -> prepare($sql_seek_bl);
 
         //GET THE charge_group so we can generate a total
@@ -15,6 +15,7 @@
             forwarder_partner = :forwarder_partner and
             shipping_line = :shipping_line and
             (origin_port = :origin_port and destination_port is null)
+            and :actual_received_at_falp between a.for_date and eomonth(a.for_date)
             order by a.id desc";
         $stmt_get_computation = $conn -> prepare($sql_get_computation);
 
@@ -31,6 +32,7 @@
                 $bl_forwarder = $data['forwarder_name'];
                 $bl_origin = $data['origin_port'];
                 $bl_shipping_line = $data['shipping_lines'];
+                $actual_received_at_falp = $data['actual_received_at_falp'];
             }
             
             //i use the nextrowset so, this is required to requery
@@ -46,6 +48,7 @@
                     $stmt_get_computation -> bindParam(":forwarder_partner", $bl_forwarder);
                     $stmt_get_computation -> bindParam(":origin_port", $bl_origin);
                     $stmt_get_computation -> bindParam(":shipping_line", $bl_shipping_line);
+                    $stmt_get_computation -> bindParam(":actual_received_at_falp", $actual_received_at_falp);
                     $stmt_get_computation -> execute();
 
                     if ($compute_data = $stmt_get_computation -> fetch(PDO::FETCH_ASSOC)) {
