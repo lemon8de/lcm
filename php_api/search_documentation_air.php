@@ -112,6 +112,9 @@
             $edit_buttons = "";
         }
 
+        //swapping shipment status or required delivery
+        $status_or_date = isset($data['required_delivery']) ? "Required Delivery: " . $data['required_delivery'] : $data['shipment_status'];
+
         //main card
         $inner_html .= <<<HTML
             <div class="callout" style="border-left-color:white;">
@@ -146,7 +149,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            {$data['shipment_status']}
+                            {$status_or_date}
                         </div>
                     </div>
                     <div class="row">

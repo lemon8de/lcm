@@ -1,10 +1,10 @@
 <form id="OutgoingSearchForm">
-    <div class="container">
+    <div class="card container pt-2 mt-2">
         <div class="row mb-2">
-            <div class="col-3">
-                <input class="form-control" placeholder="INVOICE NO." name="invoice_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
+            <div class="col-2">
+                <input class="form-control" placeholder="CONT/INV/VESSEL" name="invoice_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
-            <div class="col-3">
+            <div class="col-3" style="display:none;">
                 <input class="form-control" placeholder="CONTAINER NO." name="container_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
             <div class="col-2">
@@ -39,7 +39,25 @@
             </div>
             <div class="col-2">
                 <select class="form-control" id="destination_select" name="destination_service_center" onchange="outgoing_search()">
-                    <option disabled value="" selected>Destination</option>
+                    <option value="" selected>Destination</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" id="destination_select" name="status" onchange="outgoing_search()">
+                    <option value="" selected>Status</option>
+                    <option>N/A</option>
+                    <option>FOR REQUEST</option>
+                    <option>RECEIVED</option>
+                    <option>ONGOING</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" id="destination_select" name="co_status" onchange="outgoing_search()">
+                    <option value="" selected>CO-Status</option>
+                    <option>N/A</option>
+                    <option>FOR REQUEST</option>
+                    <option>COMPLETE</option>
+                    <option>ONGOING</option>
                 </select>
             </div>
         </div>
@@ -48,19 +66,47 @@
 <div class="container">
     <div class="row mb-2">
         <div class="col-3">
-            <button class="btn btn-block btn-primary" onclick="edit_selected()">Edit Selected</button>
+            <button class="btn btn-primary" onclick="edit_selected()">Edit Vessel of Selected</button>
         </div>
     </div>
 </div>
-
-<div class="container-fluid" style="max-height: 80vh; overflow-y:auto;">
+<div class="card p-2 m-2 container-fluid" style="max-height: 80vh; overflow-y:auto;">
 <table class="table table-head-fixed text-nowrap table-hover">
     <thead>
         <tr style="border-bottom:1px solid black">
             <th><input type="checkbox" onchange="checkall(this)"></th>
             <th>INVOICE NO.</th>
-            <!-- <th>CONTAINER NO.</th> -->
+            <th>CONTAINER NO.</th>
             <th>DESTINATION (Service Center)</th>
+            <th>DESTINATION</th>
+            <th>CAR_MODEL</th>
+            <th>SHIP OUT DATE</th>
+            <th>NO PALLETS</th>
+            <th>NO CARTONS</th>
+            <th>PACK QTY</th>
+            <th>INVOICE AMOUNT</th>
+            <th>MODE OF SHIPMENT</th>
+            <th>VESSEL NAME</th>
+            <th>SHIPPING LINE</th>
+            <th>ETD MNL</th>
+            <th>ETA DESTINATION</th>
+            <th>SHIPPING TERMS</th>
+            <th>NET WEIGHT</th>
+            <th>GROSS WEIGHT</th>
+            <th>CBM</th>
+            <th>FALP IN/REUSE</th>
+            <th>STATUS OF CONTAINER</th>
+            <th>CONTAINER SIZE</th>
+            <th>FORWARDER</th>
+            <th>ED REFERENCE</th>
+            <th>SHIPPING SEAL</th>
+            <th>PEZA SEAL</th>
+            <th>FALP OUT DATE</th>
+            <th>FALP OUT TIME</th>
+            <th>TRUCKHEAD STATUS</th>
+            <th>BL_DATE</th>
+            <th>BL_NUMBER</th>
+            <th>IRREGULAR SHIPMENT</th>
             <th>STATUS</th>
             <th>CO-STATUS</th>
         </tr>

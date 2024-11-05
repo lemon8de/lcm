@@ -77,6 +77,14 @@
                 <span><strong>DESTINATION PORT: </strong>{$destination_port}</span>
             </div>
         HTML;
+        $current_year = date("Y");
+        $end_year = $current_year - 10;
+        $year_select = "";
+        for ($year = $current_year; $year >= $end_year; $year--) {
+            $year_select .= <<<HTML
+                <option value="{$year}">{$year}</option>
+            HTML;
+        }
         $inner_html .= <<<HTML
             <input type="text" class="form-control" style="display:none;" value="{$billing_forwarder_details_ref}" name="billing_forwarder_details_ref" readonly>
             <input type="text" class="form-control" style="display:none;" value="{$billing_details_ref}" name="billing_details_ref" readonly>
@@ -84,6 +92,33 @@
             <input type="text" class="form-control" style="display:none;" value="{$origin_port}" name="origin_port" readonly>
             <input type="text" class="form-control" style="display:none;" value="{$destination_port}" name="destination_port" readonly>
             <input type="text" class="form-control" style="display:none;" value="{$data['basis']}" name="basis" readonly>
+
+            <div class="row mt-3">
+                <div class="col-6">
+                    <label>Apply for Month</label>
+                    <select class="form-control">
+                        <option value="" selected disabled>Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label>For year</label>
+                    <select class="form-control">
+                        {$year_select}
+                    </select>
+                </div>
+            </div>
         HTML;
 
         if ($data['basis'] === "BL") {

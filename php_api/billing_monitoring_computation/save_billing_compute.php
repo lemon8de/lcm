@@ -22,7 +22,7 @@
         $computation_set = json_encode($computation_set);
     }
 
-    if (!$skipped) {
+    if (!$skipped) { //ensures that only supported basis gets the update treatment
         $billing_compute_ref = uniqid('billing_m_', true);
         $sql = "INSERT into m_billing_compute (billing_forwarder_details_ref, billing_details_ref, shipping_line, origin_port, destination_port, computation_set, billing_compute_ref) values (:billing_forwarder_details_ref, :billing_details_ref, :shipping_line, :origin_port, :destination_port, :computation_set, :billing_compute_ref)";
         $stmt = $conn -> prepare($sql);
@@ -35,5 +35,5 @@
         $stmt -> bindParam(":billing_compute_ref", $billing_compute_ref);
         $stmt -> execute();
     } else {
-
+        exit();
     }

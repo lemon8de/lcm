@@ -37,6 +37,8 @@
     $inner_html = "";
     $final_html = "";
     $count = 0;
+    $green_total_count = 0;
+    $gray_total_count = 0;
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $origin = $row['origin_port'];
         $q_eta_mnl = $row['eta_mnl']; //save this for the query below, the TBA change should be done for the displaying only
@@ -115,6 +117,8 @@
         $gray_l = $computation_result['POLYTAINER']['L'] == 0 ? 0 : ceil($computation_result['POLYTAINER']['L'] / 2754);
         $gray_xl = $computation_result['POLYTAINER']['XL'] == 0 ? 0 : ceil($computation_result['POLYTAINER']['XL'] / 2754);
         $total = $gray_m + $gray_l + $gray_xl + $computation_result['WIREHARNESS']['count'] + $computation_result['PLASTIC PALLET']['count'] + $computation_result['GREEN POLY']['count'];
+        $green_total_count += $computation_result['GREEN POLY']['count'];
+        $gray_total_count += $gray_m + $gray_l + $gray_xl;
         $inner_html .= <<<HTML
             <td>{$computation_result['GREEN POLY']['count']}</td>
             <td>{$computation_result['GREEN POLY']['M']}</td>
@@ -150,8 +154,11 @@
     $response_body = [];
     $response_body['final_html'] = $final_html;
     $response_body['counter'] = <<<HTML
-        <div class="bg-warning pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-            <h4 style="font-weight:700;line-height:1.5;">{$count}<span style="font-size:75%;font-weight:500;">&nbsp;Vessels</span></h4>
+        <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
+            <h4 style="font-weight:700;line-height:1.5;">{$green_total_count}<span style="font-size:75%;font-weight:500;">&nbsp;GREEN POLY</span></h4>
+        </div>
+        <div class="bg-secondary pl-4 pr-4 ml-2" style="border-radius:.350rem;padding:0rem .350rem">
+            <h4 style="font-weight:700;line-height:1.5;">{$gray_total_count}<span style="font-size:75%;font-weight:500;">&nbsp;GRAY POLY</span></h4>
         </div>
     HTML;
     echo json_encode($response_body);

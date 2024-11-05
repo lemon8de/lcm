@@ -10,19 +10,7 @@
                     <button type="button" id="exportButton" class="btn btn-block btn-primary">Export Data</button>
                 </div>
             </div>
-            <div class="d-flex" id="SummationContainer">
-                <!-- <div class="ml-1">
-                    <div class="bg-info pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                        <h4 style="font-weight:700;line-height:1.5;"><span style="font-size:75%;font-weight:500;">&nbsp;Total</span></h4>
-                    </div>
-                </div>
-                <div class="ml-1">
-                    <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                        <h4 style="font-weight:700;line-height:1.5;"><span style="font-size:75%;font-weight:500;">&nbsp;Received</span></h4>
-                    </div>
-                </div> -->
-                <div class="ml-1" id="PolytainerVesselSummation">
-                </div>
+            <div class="d-flex ml-1" id="PolytainerVesselSummation">
             </div>
         </div>
         <div class="row mb-3">

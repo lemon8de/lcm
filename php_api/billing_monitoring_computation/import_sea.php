@@ -63,7 +63,7 @@
                 }
                 //calculate the total here, per charge_group
                 //the total per each charge_group will be at its bottom
-                //avoid array_sum
+                //avoid being part of array sum by changing its datatype and failing is_numeric check
                 $array_computation[] = (string)$charge_group_temp_total . " ";
                 //breaks the true while loop
                 if ($stmt_details_of_charge -> nextRowset()) {

@@ -17,6 +17,11 @@
 ) as container_list, bl_number,
 a.*, b.*, c.*, d.*, e.*, f.*, g.* 
 from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE a.shipment_details_ref like 'sea%' and actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
+
+        $sql_counts = "SELECT SUM(case when a.classification = 'RAW MATERIAL' then 1 else 0 end) as raw_mats, SUM(case when a.classification = 'OTHERS' then 1 else 0 end) as others 
+from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref
+WHERE a.shipment_details_ref like 'sea%'  and actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE))";
+
     } else {
         $sql = "SELECT 
 (
@@ -24,6 +29,10 @@ from import_data as a left join m_shipment_sea_details as b on a.shipment_detail
 ) as container_list, bl_number,
 a.*, b.*, c.*, d.*, e.*, f.*, g.* 
 from import_data as a left join m_shipment_sea_details as b on a.shipment_details_ref = b.shipment_details_ref left join m_vessel_details as c on a.shipment_details_ref = c.shipment_details_ref left join m_delivery_plan as d on a.shipment_details_ref = d.shipment_details_ref left join m_completion_details as e on a.shipment_details_ref = e.shipment_details_ref left join m_polytainer_details as f on a.shipment_details_ref = f.shipment_details_ref left join m_mmsystem as g on a.shipment_details_ref = g.shipment_details_ref WHERE a.shipment_details_ref like 'sea%' and actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE)) ORDER BY shipping_invoice asc";
+
+        $sql_counts = "SELECT SUM(case when a.classification = 'RAW MATERIAL' then 1 else 0 end) as raw_mats, SUM(case when a.classification = 'OTHERS' then 1 else 0 end) as others 
+from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref
+WHERE a.shipment_details_ref like 'sea%' and actual_received_at_falp IS NULL OR actual_received_at_falp BETWEEN CAST(CONCAT(:start_year, '-', :start_month, '-01') AS DATE) AND EOMONTH(CAST(CONCAT(:start_year2, '-', :start_month2, '-01') AS DATE))";
     }
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':start_year', $start_year);
@@ -31,6 +40,13 @@ from import_data as a left join m_shipment_sea_details as b on a.shipment_detail
     $stmt -> bindParam(':start_month', $start_month);
     $stmt -> bindParam(':start_month2', $start_month);
     $stmt -> execute();
+
+    $stmt_counts = $conn -> prepare($sql_counts);
+    $stmt_counts -> bindParam(':start_year', $start_year);
+    $stmt_counts -> bindParam(':start_year2', $start_year);
+    $stmt_counts -> bindParam(':start_month', $start_month);
+    $stmt_counts -> bindParam(':start_month2', $start_month);
+    $stmt_counts -> execute();
 
     $return_body = [];
     $inner_html = "";
@@ -110,11 +126,19 @@ from import_data as a left join m_shipment_sea_details as b on a.shipment_detail
         HTML;
     }
     $return_body['inner_html'] = $inner_html;
+
+    if ($data = $stmt_counts -> fetch(PDO::FETCH_ASSOC)) {
     $return_body['counter'] = <<<HTML
         <div class="ml-1">
-            <div class="bg-success pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
-                <h4 style="font-weight:700;line-height:1.5;">{$count}<span style="font-size:75%;font-weight:500;">&nbsp;Invoices</span></h4>
+            <div class="bg-info pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
+                <h4 style="font-weight:700;line-height:1.5;">{$data['raw_mats']}<span style="font-size:75%;font-weight:500;">&nbsp;RAW MATERIALS</span></h4>
+            </div>
+        </div>
+        <div class="ml-1">
+            <div class="bg-secondary pl-4 pr-4" style="border-radius:.350rem;padding:0rem .350rem">
+                <h4 style="font-weight:700;line-height:1.5;">{$data['others']}<span style="font-size:75%;font-weight:500;">&nbsp;OTHERS</span></h4>
             </div>
         </div>
     HTML;
+    }
     echo json_encode($return_body);
