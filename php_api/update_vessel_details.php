@@ -4,6 +4,10 @@
     
     $shipment_details_ref = $_POST['shipment_details_ref'];
     $vessel_name = $_POST['vessel_name'];
+    $pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+    if (preg_match_all($pattern, $vessel_name, $matches)) {
+        $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
+    }
     $eta_mnl = $_POST['eta_mnl'] == "" ? null : $_POST['eta_mnl'];
     $ata_mnl = $_POST['ata_mnl'] == "" ? null : $_POST['ata_mnl'];
     $atb = $_POST['atb'] == "" ? null : $_POST['atb'];

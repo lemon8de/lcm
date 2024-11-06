@@ -23,7 +23,7 @@ if ($shipment) {
             </div>
             <div class="col-6">
                 <label>CONTAINER NO.</label>
-                <input value="{$shipment['container_no']}" type="text" class="form-control" name="container_no">
+                <input value="{$shipment['container_no']}" type="text" class="form-control" name="container_no" pattern=".{11}">
             </div>
         </div>
         <div class="row mb-2">
@@ -81,7 +81,24 @@ $stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
 $stmt -> execute();
 $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$sql = "SELECT vessel_name, string_agg(invoice_no, ', ') as invoices from m_outgoing_fsib as a left join m_outgoing_vessel_details as b on a.outgoing_details_ref = b.outgoing_details_ref where vessel_name = :vessel_name group by vessel_name";
+$stmt_vessel = $conn -> prepare($sql);
+
 if ($shipment) {
+    $vessel_name = $shipment['vessel_name'];
+    $stmt_vessel -> bindParam(":vessel_name", $vessel_name);
+    $stmt_vessel -> execute();
+    if ($data = $stmt_vessel -> fetch(PDO::FETCH_ASSOC)) {
+        $list_of_invoices = $data['invoices'];
+        $info_html = <<<HTML
+            <div class="container-fluid alert alert-info">
+                <i class="icon fas fa-info"></i>Changes will apply to invoices: {$list_of_invoices}
+            </div>
+        HTML;
+    } else {
+        $list_of_invoices = "";
+        $info_html = "";
+    }
     if ($shipment['etd_mnl'] != null) {
         $shipment['etd_mnl'] = substr($shipment['etd_mnl'], 0, 10);
     }
@@ -90,6 +107,9 @@ if ($shipment) {
     }
     $return_body['outgoing_vessel'] = <<<HTML
         <input readonly style="display:none;" value="{$outgoing_details_ref}" type="text" name="outgoing_details_ref">
+            <div id="VesselDetailsEditToolTipInfo" class="row mb-2">
+                {$info_html}
+            </div>
         <div class="row mb-2">
             <div class="col-6">
                 <label>MODE OF SHIPMENT</label>
@@ -97,23 +117,23 @@ if ($shipment) {
             </div>
             <div class="col-6">
                 <label>VESSEL NAME</label>
-                <input value="{$shipment['vessel_name']}" type="text" class="form-control" name="vessel_name">
+                <input value="{$shipment['vessel_name']}" type="text" class="form-control" name="vessel_name" onkeyup="find_similar_vessels(this)">
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-6">
                 <label>SHIPPING LINE</label>
-                <input value="{$shipment['shipping_line']}" type="text" class="form-control" name="shipping_line">
+                <input value="{$shipment['shipping_line']}" type="text" class="form-control" name="shipping_line" id="vessel_shipping_line">
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-6">
                 <label>ETD MNL</label>
-                <input value="{$shipment['etd_mnl']}" type="date" class="form-control" name="etd_mnl">
+                <input value="{$shipment['etd_mnl']}" type="date" class="form-control" name="etd_mnl" id="vessel_etd_mnl">
             </div>
             <div class="col-6">
                 <label>ETA DESTINATION</label>
-                <input value="{$shipment['eta_destination']}" type="date" class="form-control" name="eta_destination">
+                <input value="{$shipment['eta_destination']}" type="date" class="form-control" name="eta_destination" id="vessel_eta_destination">
             </div>
         </div>
         <div class="row mb-2 d-flex align-items-center">

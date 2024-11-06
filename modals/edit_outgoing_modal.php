@@ -115,4 +115,31 @@ function loaddata() {
             document.getElementById('co_status_select').disabled = true;
         }
     }
+    
+    function find_similar_vessels(input) {
+        console.log(input.value);
+        $.ajax({
+            url: '../php_api/outgoing_find_similar_vessels.php',
+            type: 'GET',
+            data: {
+                'vessel_name' : input.value,
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if (!response.exited) {
+                    document.getElementById("vessel_shipping_line").value = response.shipping_line;
+                    document.getElementById("vessel_etd_mnl").value = response.etd_mnl;
+                    document.getElementById("vessel_eta_destination").value = response.eta_destination;
+                    document.getElementById("VesselDetailsEditToolTipInfo").innerHTML = `
+                        <div class='container-fluid alert alert-info'>
+                            <i class='icon fas fa-info'></i>This invoice will share details with invoices: ${response.list_of_invoices}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById("VesselDetailsEditToolTipInfo").innerHTML = "";
+                }
+            }
+        });
+    }
 </script>
