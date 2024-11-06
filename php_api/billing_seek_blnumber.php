@@ -96,7 +96,7 @@
         $inner_html .= <<<HTML
             <div class="card card-gray-dark card-outline collapsed collapsed-card">
                 <div class="card-header">
-                    <h3 class="card-title">IMPORT AIR</h3>
+                    <h3 class="card-title">IMPORT AIR (disabled)</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-plus"></i>
@@ -133,7 +133,7 @@
         $inner_html .= <<<HTML
             <div class="card card-gray-dark card-outline collapsed collapsed-card">
                 <div class="card-header">
-                    <h3 class="card-title">EXPORT SEA</h3>
+                    <h3 class="card-title">EXPORT SEA (disabled)</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-plus"></i>
@@ -169,7 +169,7 @@
         $inner_html .= <<<HTML
             <div class="card card-gray-dark card-outline collapsed collapsed-card">
                 <div class="card-header">
-                    <h3 class="card-title">EXPORT AIR</h3>
+                    <h3 class="card-title">EXPORT AIR (disabled)</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-plus"></i>
