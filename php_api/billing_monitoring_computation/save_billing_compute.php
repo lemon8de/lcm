@@ -51,6 +51,20 @@
         $stmt -> bindParam(":billing_compute_ref", $billing_compute_ref);
         $stmt -> bindParam(":for_date", $for_date);
         $stmt -> execute();
+
+        $notification = [
+            "icon" => "success",
+            "text" => "Details logged",
+        ];
+        $return_body = [];
+        $return_body['notification'] = $notification;
+        echo json_encode($return_body);
     } else {
-        exit();
+        $notification = [
+            "icon" => "warning",
+            "text" => "If you see this, something is wrong",
+        ];
+        $return_body = [];
+        $return_body['notification'] = $notification;
+        echo json_encode($return_body);
     }

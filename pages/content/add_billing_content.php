@@ -280,6 +280,7 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
+                console.log(response);
                 if (response.notification) {
                     Toast.fire({
 		                icon: response.notification.icon,
