@@ -121,7 +121,7 @@
             </div>
         HTML;
 
-        if ($data['basis'] === "BL") {
+        if ($data['basis'] === "BL" || $data['basis'] === "CNTR") {
             $inner_html .= <<<HTML
                 <div class="mt-3">
                     <label>EDIT RATE</label>

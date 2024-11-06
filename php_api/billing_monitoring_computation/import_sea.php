@@ -1,13 +1,15 @@
 <?php
     function import_sea_compute($conn, $shipment_details_refs) {
-        $sql_seek_bl = "SELECT bl_number, forwarder_name, origin_port, shipping_lines, actual_received_at_falp from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where a.shipment_details_ref = :shipment_details_ref";
+        $sql_seek_bl = "SELECT bl_number, forwarder_name, origin_port, shipping_lines, actual_received_at_falp from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where a.shipment_details_ref = :shipment_details_ref;
+        
+        SELECT COUNT(*) as container_count FROM m_shipment_sea_details WHERE bl_number IN ( SELECT bl_number FROM m_shipment_sea_details where shipment_details_ref = :shipment_details_ref2)";
         $stmt_seek_bl = $conn -> prepare($sql_seek_bl);
 
         //GET THE charge_group so we can generate a total
         //TODO this will take in the billing_ref_details in the future to find the computation set
         $sql_details_of_charge = "SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'LOCAL CHARGES';
-            SELECT charge_group from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'ACCESSORIAL';
-            SELECT charge_group from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'REIMBURSEMENT'";
+            SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'ACCESSORIAL';
+            SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'REIMBURSEMENT'";
 
         $sql_get_computation = "SELECT top 1 computation_set from m_billing_compute as a
             left join m_billing_forwarder as b on a.billing_forwarder_details_ref = b.billing_forwarder_details_ref
@@ -24,6 +26,7 @@
             $mini_mega_json = [];
             // Get info and bind parameters
             $stmt_seek_bl ->bindParam(":shipment_details_ref", $shipment_detail_ref);
+            $stmt_seek_bl ->bindParam(":shipment_details_ref2", $shipment_detail_ref);
             $stmt_seek_bl ->execute();
             // The header
             if ($data = $stmt_seek_bl ->fetch(PDO::FETCH_ASSOC)) {
@@ -33,6 +36,12 @@
                 $bl_origin = $data['origin_port'];
                 $bl_shipping_line = $data['shipping_lines'];
                 $actual_received_at_falp = $data['actual_received_at_falp'];
+
+                if ($stmt_seek_bl->nextRowset()) { // Move to the next result set
+                    if ($data_container = $stmt_seek_bl->fetch(PDO::FETCH_ASSOC)) {
+                        $container_count = $data_container['container_count'];
+                    }
+                }
             }
             
             //i use the nextrowset so, this is required to requery
@@ -57,6 +66,10 @@
                         if ($compute_set -> basis === 'BL') {
                             $computed_value = $compute_set -> data_set -> rate;
                         }
+                        if ($compute_set -> basis === 'CNTR') {
+                            $computed_value = $container_count * $compute_set -> data_set -> rate;
+                        }
+
                     } else {
                         //get wildcard, probably not
                     }
