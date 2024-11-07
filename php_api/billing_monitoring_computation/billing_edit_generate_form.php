@@ -85,6 +85,36 @@
                 <option value="{$year}">{$year}</option>
             HTML;
         }
+
+        //preselected month
+        $currentMonthString = date('n'); // This is a string
+        $currentMonthInteger = (int)$currentMonthString;
+        $months = [
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December'
+        ];
+        $select_months = "";
+        foreach ($months as $value => $name) {
+            if ($value === $currentMonthInteger) {
+                $select_months .= <<<HTML
+                    <option value="{$value}" selected>{$name}</option>
+                HTML;
+            } else {
+                $select_months .= <<<HTML
+                    <option value="{$value}">{$name}</option>
+                HTML;
+            }
+        }
         $inner_html .= <<<HTML
             <input type="text" class="form-control" style="display:none;" value="{$billing_forwarder_details_ref}" name="billing_forwarder_details_ref" readonly>
             <input type="text" class="form-control" style="display:none;" value="{$billing_details_ref}" name="billing_details_ref" readonly>
@@ -97,19 +127,7 @@
                 <div class="col-6">
                     <label>Apply for Month</label>
                     <select class="form-control" name="month">
-                        <option value="" selected disabled>Select Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        {$select_months}
                     </select>
                 </div>
                 <div class="col-6">
@@ -139,7 +157,29 @@
     //just need to get the right set of data from the db
     //match billing details ref, shipping line, origin_port, destination port, and forwarder
 
-    $sql = "SELECT top 10 computation_set, format(for_date, 'yyyy-MM') as for_date from m_billing_compute where billing_forwarder_details_ref = :billing_forwarder_details_ref and billing_details_ref = :billing_details_ref and shipping_line = :shipping_line and origin_port = :origin_port order by for_date, id";
+    $sql = "WITH RankedRows AS (
+    SELECT 
+        computation_set, 
+        FORMAT(for_date, 'yyyy-MM') AS for_date,
+        ROW_NUMBER() OVER (PARTITION BY FORMAT(for_date, 'yyyy-MM') ORDER BY id DESC) AS rn
+    FROM 
+        m_billing_compute 
+    WHERE 
+        billing_forwarder_details_ref = :billing_forwarder_details_ref 
+        AND billing_details_ref = :billing_details_ref 
+        AND shipping_line = :shipping_line 
+        AND origin_port = :origin_port
+)
+SELECT 
+    computation_set, 
+    for_date 
+FROM 
+    RankedRows 
+WHERE 
+    rn = 1
+ORDER BY 
+    for_date
+OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY;";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref);
     $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
