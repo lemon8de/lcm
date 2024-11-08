@@ -47,7 +47,7 @@
                     $for_date = new DateTime();
                     $for_date -> setDate($current_year, $current_month, 1);
                     $for_date = $for_date -> format('Y-m-d');
-                    $sql = "SELECT jpy_php, usd_php, jpy_usd from t_billing_exchange where for_date = :for_date";
+                    $sql = "SELECT cast(round(jpy_php, 7) as nvarchar(50)) as jpy_php, cast(round(usd_php, 7) as nvarchar(50)) as usd_php, cast(round(jpy_usd, 7) as nvarchar(50)) as jpy_usd from t_billing_exchange where for_date = :for_date";
                     $stmt = $conn -> prepare($sql);
                     $stmt -> bindParam(":for_date", $for_date);
                     $stmt -> execute();
@@ -64,19 +64,19 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">JPY - PHP</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="input_jpy_php" name="jpy_php" value="<?php echo $val_jpy_php; ?>">
+                        <input type="number" step="0.0000001" class="form-control" id="input_jpy_php" name="jpy_php" value="<?php echo $val_jpy_php; ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">USD - PHP</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="input_usd_php" name="usd_php" value="<?php echo $val_jpy_php; ?>">
+                        <input type="number" step="0.0000001" class="form-control" id="input_usd_php" name="usd_php" value="<?php echo $val_usd_php; ?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">JPY - USD</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="input_jpy_usd" name="jpy_usd" value="<?php echo $val_jpy_usd; ?>">
+                        <input type="number" step="0.0000001" class="form-control" id="input_jpy_usd" name="jpy_usd" value="<?php echo $val_jpy_usd; ?>">
                     </div>
                 </div>
                 <div class="form-group row">

@@ -75,11 +75,14 @@
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>
+                                {$render_data[1]}
+                            </tr>
+                            <tr>
                                 {$render_data[0]}
                             </tr>
                         </thead>
                         <tbody>
-                            {$render_data[1]}
+                            {$render_data[2]}
                         </tbody>
                     </table>
                 </div>

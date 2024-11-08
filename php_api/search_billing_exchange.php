@@ -8,7 +8,7 @@
     $for_date -> setDate($year, $month, 1);
     $for_date = $for_date -> format('Y-m-d');
 
-    $sql = "SELECT jpy_php, usd_php, jpy_usd from t_billing_exchange where for_date = :for_date";
+    $sql = "SELECT cast(round(jpy_php, 7) as nvarchar(50)) as jpy_php, cast(round(usd_php, 7) as nvarchar(50)) as usd_php, cast(round(jpy_usd, 7) as nvarchar(50)) as jpy_usd from t_billing_exchange where for_date = :for_date";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":for_date", $for_date);
     $stmt -> execute();

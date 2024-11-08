@@ -7,12 +7,13 @@
 
         //GET THE charge_group so we can generate a total
         //TODO this will take in the billing_ref_details in the future to find the computation set
-        $sql_details_of_charge = "SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'LOCAL CHARGES';
-            SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'ACCESSORIAL';
-            SELECT charge_group, billing_details_ref from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'REIMBURSEMENT'";
+        $sql_details_of_charge = "SELECT charge_group, billing_details_ref, currency from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'LOCAL CHARGES';
+            SELECT charge_group, billing_details_ref, currency from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'ACCESSORIAL';
+            SELECT charge_group, billing_details_ref, currency from m_billing_information where type_of_transaction = 'IMPORT SEA' and charge_group = 'REIMBURSEMENT'";
 
-        $sql_get_computation = "SELECT top 1 computation_set from m_billing_compute as a
+        $sql_get_computation = "SELECT top 1 computation_set, jpy_php, usd_php, jpy_usd from m_billing_compute as a
             left join m_billing_forwarder as b on a.billing_forwarder_details_ref = b.billing_forwarder_details_ref
+            left join t_billing_exchange as c on a.for_date = c.for_date
             where billing_details_ref = :billing_details_ref and
             forwarder_partner = :forwarder_partner and
             shipping_line = :shipping_line and
@@ -46,12 +47,20 @@
             
             //i use the nextrowset so, this is required to requery
             $stmt_details_of_charge = $conn -> query($sql_details_of_charge);
-            $array_computation = [];
+            //$array_computation = [];
+            $array_computation_usd = [];
+            $array_computaiton_php = [];
+            $array_computation_jpy = [];
             while (true) {
-                $charge_group_temp_total = 0;
+                //$charge_group_temp_total = 0;
+
+                $charge_group_temp_total_usd = 0;
+                $charge_group_temp_total_php = 0;
+                $charge_group_temp_total_jpy = 0;
+
                 while ($data = $stmt_details_of_charge -> fetch(PDO::FETCH_ASSOC)) {
                     //zero unless a computation set is available
-                    $computed_value = 0;
+                    //$computed_value = 0;
 
                     $stmt_get_computation -> bindParam(":billing_details_ref", $data['billing_details_ref']);
                     $stmt_get_computation -> bindParam(":forwarder_partner", $bl_forwarder);
@@ -62,25 +71,64 @@
 
                     if ($compute_data = $stmt_get_computation -> fetch(PDO::FETCH_ASSOC)) {
                         $compute_set = json_decode($compute_data['computation_set']);
+                        $currency = $data['currency'];
 
-                        if ($compute_set -> basis === 'BL') {
-                            $computed_value = $compute_set -> data_set -> rate;
+                        switch ($compute_set->basis) {
+                            case 'BL':
+                                $computed_value = $compute_set->data_set->rate;
+                                break;
+                            case 'CNTR':
+                                $computed_value = $container_count * $compute_set->data_set->rate;
+                                break;
+                            default:
+                                // Optionally handle cases where basis is neither 'BL' nor 'CNTR'
+                                $computed_value = 0; // or some other default value
+                                break;
                         }
-                        if ($compute_set -> basis === 'CNTR') {
-                            $computed_value = $container_count * $compute_set -> data_set -> rate;
+                        //nov 8 we need 3 array computation now, for php usd and jpy and we also need three totals fuck me
+                        switch ($currency) {
+                            case 'USD':
+                                $computed_value_usd = $computed_value;
+                                $computed_value_php = $computed_value * $compute_data['usd_php'];
+                                $computed_value_jpy = $computed_value / $compute_data['jpy_usd'];
+                                break;
+                            case 'PHP':
+                                $computed_value_usd = $computed_value / $compute_data['usd_php'];
+                                $computed_value_php = $computed_value;
+                                $computed_value_jpy = $computed_value / $compute_data['jpy_php'];
+                                break;
+                            default:
+                                break;
                         }
-
                     } else {
-                        //get wildcard, probably not
+                        $computed_value_usd = 0;
+                        $computed_value_php = 0;
+                        $computed_value_jpy = 0;
                     }
 
-                    $array_computation[] = $computed_value;
-                    $charge_group_temp_total += $computed_value;
+                    //$array_computation[] = $computed_value;
+                    //$charge_group_temp_total += $computed_value;
+
+                    //nov 8 3 array computation
+                    $array_computation_usd[] = $computed_value_usd;
+                    $array_computation_php[] = $computed_value_php;
+                    $array_computation_jpy[] = $computed_value_jpy;
+
+                    $charge_group_temp_total_usd += $computed_value_usd;
+                    $charge_group_temp_total_php += $computed_value_php;
+                    $charge_group_temp_total_jpy += $computed_value_jpy;
+
                 }
                 //calculate the total here, per charge_group
                 //the total per each charge_group will be at its bottom
                 //avoid being part of array sum by changing its datatype and failing is_numeric check
-                $array_computation[] = '<strong>' . (string)$charge_group_temp_total . '</strong>';
+                //$array_computation[] = '<strong>' . round($charge_group_temp_total, 2) . '</strong>';
+
+                //nov 8 3 array computaiton
+                $array_computation_usd[] = '<strong>' . number_format($charge_group_temp_total_usd, 2) . '</strong>';
+                $array_computation_php[] = '<strong>' . number_format($charge_group_temp_total_php, 2) . '</strong>';
+                $array_computation_jpy[] = '<strong>' . number_format($charge_group_temp_total_jpy, 2) . '</strong>';
+
                 //breaks the true while loop
                 if ($stmt_details_of_charge -> nextRowset()) {
                     continue;
@@ -88,7 +136,8 @@
                     break;
                 }
             }
-            $mini_mega_json['data'] = $array_computation;
+            //$mini_mega_json['data'] = $array_computation;
+            $mini_mega_json['data'] = [$array_computation_usd, $array_computation_php, $array_computation_jpy];
             $computed_mega_json[] = $mini_mega_json;
         }
         return $computed_mega_json;
@@ -119,13 +168,20 @@
 
         $total = [];
         foreach($computed_mega_json as $bl_data) {
-            $total[] = array_sum(array_filter($bl_data['data'], 'is_numeric'));
+            //$total[] = array_sum(array_filter($bl_data['data'], 'is_numeric'));
+            $total[] = [
+                number_format(array_sum(array_filter($bl_data['data'][0], 'is_numeric')), 2),
+                number_format(array_sum(array_filter($bl_data['data'][1], 'is_numeric')), 2),
+                number_format(array_sum(array_filter($bl_data['data'][2], 'is_numeric')), 2)
+            ];
         }
 
         $total_bl_based = "";
         foreach($total as $value) {
             $total_bl_based .= <<<HTML
-                <td>{$value}</td>
+                <td>{$value[0]}</td>
+                <td>{$value[1]}</td>
+                <td>{$value[2]}</td>
             HTML;
         }
         $rows .= <<<HTML
@@ -137,8 +193,15 @@
         while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             $amt_bl_based = "";
             foreach($computed_mega_json as $bl_data) {
+
+                //the total count with strong tags gets caught here, fuck
+                $usd = is_numeric($bl_data['data'][0][$pointer]) ? number_format($bl_data['data'][0][$pointer], 2) : $bl_data['data'][0][$pointer];
+                $php = is_numeric($bl_data['data'][1][$pointer]) ? number_format($bl_data['data'][1][$pointer], 2) : $bl_data['data'][1][$pointer];
+                $jpy = is_numeric($bl_data['data'][2][$pointer]) ? number_format($bl_data['data'][2][$pointer], 2) : $bl_data['data'][2][$pointer];
                 $amt_bl_based .= <<<HTML
-                    <td>{$bl_data['data'][$pointer]}</td>
+                    <td>{$usd}</td>
+                    <td>{$php}</td>
+                    <td>{$jpy}</td>
                 HTML;
             }
             $rows .= <<<HTML
@@ -152,10 +215,19 @@
         }
 
         $headers = "";
+        $currency_header = <<<HTML
+            <th></th>
+        HTML;
         foreach ($computed_mega_json as $bl_data) {
             $headers .= <<<HTML
-                <th>{$bl_data['bl_number']}</th>
+                <th colspan="3" class="text-center">{$bl_data['bl_number']}</th>
+            HTML;
+
+            $currency_header .= <<<HTML
+                <th>USD</th>
+                <th>PHP</th>
+                <th>JPY</th>
             HTML;
         }
-        return [$headers, $rows];
+        return [$currency_header, $headers, $rows];
     }
