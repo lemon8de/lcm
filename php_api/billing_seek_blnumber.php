@@ -70,8 +70,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <table class="table table-hover mb-4">
+                    <div class="container table-responsive">
+                        <table class="table table-hover mb-4 text-nowrap">
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>
@@ -110,8 +110,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <table class="table table-hover mb-4">
+                <div class="container table-responsive">
+                    <table class="table table-hover mb-4 text-nowrap">
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>
@@ -147,8 +147,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <table class="table table-hover mb-4">
+                <div class="container table-responsive">
+                    <table class="table table-hover mb-4 text-nowrap">
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>
@@ -183,8 +183,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <table class="table table-hover mb-4">
+                    <div class="container table-responsive">
+                        <table class="table table-hover mb-4 text-nowrap">
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>

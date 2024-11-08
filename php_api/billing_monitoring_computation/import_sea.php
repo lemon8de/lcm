@@ -20,12 +20,12 @@
             (origin_port = :origin_port and destination_port is null)
             and :actual_received_at_falp between a.for_date and eomonth(a.for_date)
             order by a.id desc";
-        $stmt_get_computation = $conn -> prepare($sql_get_computation);
 
         $computed_mega_json = [];
         foreach ($shipment_details_refs as $shipment_detail_ref) {
             $mini_mega_json = [];
             // Get info and bind parameters
+            $stmt_seek_bl = $conn -> prepare($sql_seek_bl);
             $stmt_seek_bl ->bindParam(":shipment_details_ref", $shipment_detail_ref);
             $stmt_seek_bl ->bindParam(":shipment_details_ref2", $shipment_detail_ref);
             $stmt_seek_bl ->execute();
@@ -49,7 +49,7 @@
             $stmt_details_of_charge = $conn -> query($sql_details_of_charge);
             //$array_computation = [];
             $array_computation_usd = [];
-            $array_computaiton_php = [];
+            $array_computation_php = [];
             $array_computation_jpy = [];
             while (true) {
                 //$charge_group_temp_total = 0;
@@ -62,6 +62,7 @@
                     //zero unless a computation set is available
                     //$computed_value = 0;
 
+                    $stmt_get_computation = $conn -> prepare($sql_get_computation);
                     $stmt_get_computation -> bindParam(":billing_details_ref", $data['billing_details_ref']);
                     $stmt_get_computation -> bindParam(":forwarder_partner", $bl_forwarder);
                     $stmt_get_computation -> bindParam(":origin_port", $bl_origin);
