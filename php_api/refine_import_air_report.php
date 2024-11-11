@@ -43,6 +43,8 @@
                 <td>{$row['tentative_delivery_schedule']}</td>
                 <td>{$row['required_delivery']}</td>
                 <td>{$row['actual_date_of_delivery']}</td>
+                <td>{$row['time_received']}</td>
+                <td>{$row['received_by']}</td>
                 <td>{$row['shipper']}</td>
                 <td>{$row['port']}</td>
                 <td>{$row['shipping_invoice']}</td>

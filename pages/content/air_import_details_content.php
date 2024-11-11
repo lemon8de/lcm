@@ -87,6 +87,8 @@
                 <th>TENTATIVE DELIVERY SCHEDULE</th>
                 <th>REQUIRED DELIVERY</th>
                 <th>ACTUAL DATE OF DELIVERY</th>
+                <th>TIME RECEIVED</th>
+                <th>RECEIVED BY</th>
                 <th>SHIPPER</th>
                 <th>PORT</th>
                 <th>SHIPPING INVOICE</th>
