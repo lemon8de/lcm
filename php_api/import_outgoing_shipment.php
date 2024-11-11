@@ -1,16 +1,35 @@
 <?php 
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
-    $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    //$csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
+    $csvMimes = array('text/csv', 'application/csv');
 
     if (!empty($_FILES['outgoing_shipment_file']['name']) && in_array($_FILES['outgoing_shipment_file']['type'],$csvMimes)) {
         if (is_uploaded_file($_FILES['outgoing_shipment_file']['tmp_name'])) {
             //READ FILE
             $csvFile = fopen($_FILES['outgoing_shipment_file']['tmp_name'],'r');
             // SKIP FIRST LINE
-            fgetcsv($csvFile);
-            // PARSE
+            $headers = fgets($csvFile);
 
+            $headers = preg_replace('/[\x00-\x1F\x7F\xEF\xBB\xBF]/', '', $headers);
+            $expectedHeaders = " Invoice No. , Container No. ,Container Gr,TW No,Lot No,Product No, Pack Qty ,Polytainer name,Expected Departure Date,P/O No,Due Date, DESTINATION (SERVICE CENTER) ,Ship Out Date,B/L Date,Entry Date,Process date,Pack qty,Polytainer Qty,Unit Price, Invoice Amount ,Status";
+
+            // Trim any whitespace and compare with expected headers
+            if ($headers !== $expectedHeaders) {
+                //$notification = [
+                    //"icon" => "error",
+                    //"text" => "File is not an FSIB formatted csv",
+                //];
+                //$_SESSION['notification'] = json_encode($notification);
+                //header('location: ../pages/incoming_sea.php');
+                //header('location: ../pages/add_outgoing.php');
+                //exit();
+                var_dump($headers);
+                var_dump($expectedHeaders);
+                exit();
+            }
+
+            // PARSE
             $created = 0;
             $duplicate = 0;
             $last_invoice = "";
