@@ -215,6 +215,8 @@
                 $stmt_update_fsib -> bindParam(":invoice_no", $last_invoice);
                 $stmt_update_fsib -> bindParam(":mode_of_shipment", $mode_of_shipment);
                 $stmt_update_fsib -> bindParam(":outgoing_details_ref", $has_duplicate['outgoing_details_ref']);
+                $stmt_update_fsib -> bindParam(":bl_date", $bl_date);
+                $stmt_update_fsib -> bindParam(":outgoing_details_ref2", $has_duplicate['outgoing_details_ref']);
                 $stmt_update_fsib -> execute();
             } else {
                 $created++;
