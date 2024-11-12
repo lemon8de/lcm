@@ -179,7 +179,7 @@
 					</ul>
 				</li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
-				<li class="nav-item" style="display:none;">
+				<li class="nav-item">
 					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ?' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>

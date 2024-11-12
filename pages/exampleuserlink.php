@@ -21,17 +21,17 @@
             <div class="content-wrapper">
                 <div class="content-header">
                     <div class="card container-fluid">
-                        <table id="" class="table table-head-fixed table-hover mb-4">
+                        <table class="table table-head-fixed table-hover mb-2">
                             <thead class="text-nowrap">
                                 <tr style="border-bottom:1px solid black">
                                     <th>Username</th>
                                     <th>Password</th>
-                                    <th>Site Role</th>
-                                    <th>Editing Privileges</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Can Edit Data</th>
+                                    <th class="text-center">Make Admin</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="accountsBody">
                                 <?php 
                                     $sql = "SELECT * from m_user_accounts";
                                     $stmt = $conn -> prepare($sql);
@@ -43,28 +43,15 @@
                                     $s_roles = ["ADMIN", "GUEST", "EDITOR"];
                                     $e_roles = ["all", "none"];
                                     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-                                        $site_role_options = "";
-                                        foreach ($s_roles as $role) {
-                                            if ($data['site_role'] == $role) {
-                                                $selected = "selected";
-                                            } else {
-                                                $selected = null;
-                                            }
-                                            $site_role_options .= <<<HTML
-                                                <option {$selected}>{$role}</option>
-                                            HTML;
+                                        if ($data['editing_privileges'] == "all") {
+                                            $checked_edit = " checked";
+                                        } else {
+                                            $checked_edit = "";
                                         }
-
-                                        $editing_privileges_options = "";
-                                        foreach ($e_roles as $e_role) {
-                                            if ($data['editing_privileges'] == $e_role || !isset($data['editing_privileges'])) {
-                                                $selected = "selected";
-                                            } else {
-                                                $selected = null;
-                                            }
-                                            $editing_privileges_options .= <<<HTML
-                                                <option {$selected}>$e_role</option>
-                                            HTML;
+                                        if ($data['site_role'] == "ADMIN") {
+                                            $checked_admin = " checked";
+                                        } else {
+                                            $checked_admin = "";
                                         }
                                         echo <<<HTML
                                             <tr id="user-{$data['id']}">
@@ -74,30 +61,24 @@
                                                 <td>
                                                     <input type="text" name="password" class="form-control" onkeyup="update_user(this)" value="{$data['password']}">
                                                 </td>
-                                                <td>
-                                                    <select class="form-control" name="site_role" onchange="update_user(this)">
-                                                        {$site_role_options}
-                                                    </select>
+                                                <td class="text-center">
+                                                    <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="can_edit"{$checked_edit}>
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="is_admin"{$checked_admin}>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" name="editing_privileges" onchange="update_user(this)">
-                                                        {$editing_privileges_options}
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-block btn-danger">Delete</button>
+                                                    <i class="fas fa-times" style="font-size:150%;color:#6c757d;cursor:pointer;" onclick="delete_user(this)"></i>
                                                 </td>
                                             </tr>
                                         HTML;
                                     }
                                 ?>
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        <button class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Add user</button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-info mb-2" onclick="add_user()"><i class="fas fa-plus"></i>&nbsp;Add user</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,6 +89,7 @@
 
 <script>
     function update_user(element) {
+        element.classList.add('is-warning');
         var tr = $(element).closest('tr');
 
         // Get all <select> and <input> elements inside the nearest <tr>
@@ -121,7 +103,14 @@
         // Populate the data dictionary
         inputsAndSelects.each(function() {
             var key = $(this).attr('name') || $(this).attr('id'); // Use name or id as the key
-            var value = $(this).val(); // Get the value of the input/select
+            var value;
+
+            // Check if the element is a checkbox
+            if ($(this).is(':checkbox')) {
+                value = $(this).is(':checked'); // Get the checked state of the checkbox
+            } else {
+                value = $(this).val(); // Get the value of the input/select
+            }
 
             // Only add to the dictionary if the key is defined
             if (key) {
@@ -130,5 +119,56 @@
         });
         // Log the data dictionary
         console.log(dataDictionary);
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/update_user_details.php',
+            data: dataDictionary,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                element.classList.remove('is-warning');
+                element.classList.add('is-valid');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
+            }
+        });
+    }
+
+    function delete_user(element) {
+        var tr = $(element).closest('tr');
+        var dataDictionary = {
+            id: tr.attr('id')
+        };
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/update_user_delete.php',
+            data: dataDictionary,
+            dataType: 'json',
+            success: function(response) {
+                window.location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
+            }
+        });
+    }
+
+    function add_user() {
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/update_user_add.php',
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                document.getElementById('accountsBody').insertAdjacentHTML('afterend', response.inner_html);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
+            }
+        });
     }
 </script>
