@@ -160,6 +160,10 @@
         $jpy_php_percentage_change = (($jpy_php_new - $jpy_php_old) / $jpy_php_old) * 100;
         $usd_php_percentage_change = (($usd_php_new - $usd_php_old) / $usd_php_old) * 100;
         $jpy_usd_percentage_change = (($jpy_usd_new - $jpy_usd_old) / $jpy_usd_old) * 100;
+    } else {
+        $jpy_php_percentage_change = 0;
+        $usd_php_percentage_change = 0;
+        $jpy_usd_percentage_change = 0;
     }
 ?>
 
