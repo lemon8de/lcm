@@ -125,9 +125,22 @@
     }
 
     // Calculate the maximum values
-    $max_jpy_php = max($jpy_php_array);
-    $max_usd_php = max($usd_php_array);
-    $max_jpy_usd = max($jpy_usd_array);
+    if (!empty($jpy_php_array)) {
+        $max_jpy_php = max($jpy_php_array);
+    } else {
+        $max_jpy_php = 0;
+    }
+    if (!empty($usd_php_array)) {
+        $max_usd_php = max($usd_php_array);
+    } else {
+        $max_usd_php = 0;
+    }
+    
+    if (!empty($jpy_usd_array)) {
+        $max_jpy_usd = max($jpy_usd_array);
+    } else {
+        $max_jpy_usd = 0;
+    }
 
     // Calculate 50% more than the maximum values
     $max_jpy_php_50 = $max_jpy_php * 1.5;
