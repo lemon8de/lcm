@@ -53,6 +53,15 @@
                                         } else {
                                             $checked_admin = "";
                                         }
+                                        if ($_SESSION['username'] !== $data['username']) {
+                                            $delete = <<<HTML
+                                                <td>
+                                                    <i class="fas fa-times" style="font-size:150%;color:#6c757d;cursor:pointer;" onclick="delete_user(this)"></i>
+                                                </td>
+                                            HTML;
+                                        } else {
+                                            $delete = "";
+                                        }
                                         echo <<<HTML
                                             <tr id="user-{$data['id']}">
                                                 <td>
@@ -67,9 +76,7 @@
                                                 <td class="text-center">
                                                     <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="is_admin"{$checked_admin}>
                                                 </td>
-                                                <td>
-                                                    <i class="fas fa-times" style="font-size:150%;color:#6c757d;cursor:pointer;" onclick="delete_user(this)"></i>
-                                                </td>
+                                                {$delete}
                                             </tr>
                                         HTML;
                                     }
