@@ -112,14 +112,16 @@
 					<i class="fas fa-industry" style="margin-right:3px;"></i><i class="fas fa-arrow-right"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' style="display:block;"' : '';?>>
+						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
 						<li class="nav-item">
 							<a href="add_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "add_outgoing" ? ' active': '');?>">
 							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Outgoing</p>
 							</a>
 						</li>
+						<?php } ?>
 						<li class="nav-item">
 							<a href="edit_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "edit_outgoing" ? ' active': '');?>">
-							<i class="fas fa-file-alt"></i>&nbsp;<p>Edit Outgoing</p>
+							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>
 							</a>
 						</li>
 					</ul>
@@ -152,6 +154,7 @@
 					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Preparation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add']) ? ' style="display:block;"' : '';?>>
+						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
 						<li class="nav-item">
 							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
 							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Rates</p>
@@ -162,6 +165,7 @@
 							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Exchange Rates</p>
 							</a>
 						</li>
+						<?php } ?>
 						<!-- <li class="nav-item">
 							<a href="" class="nav-link<?php echo ($bar_whois_active == "billing_monitoring_details" ? ' active': '');?>">
 							<i class="fas fa-file-alt"></i>&nbsp;<p>Documentation</p>

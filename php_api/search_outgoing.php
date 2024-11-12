@@ -1,4 +1,5 @@
 <?php
+    require '../php_static/session_lookup.php';
     if (!isset($_GET['month'])) {
         echo json_encode(["exited" => true]);
         exit();
@@ -29,9 +30,16 @@
     $stmt -> bindParam(":StartMonth", $month);
     $stmt -> execute();
     $inner_html = "";
+
+    //nov 12 revision, the onlick is based on the editing privileges
+    if ($_SESSION['editing_privileges'] !== null) { 
+        $onclick = "loaddata.call(this)";
+    } else {
+        $onclick = "return false;";
+    }
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $inner_html .= <<<HTML
-            <tr id="{$data['outgoing_details_ref']}" onclick="loaddata.call(this)" class="modal-trigger" data-toggle="modal" data-target="#edit_outgoing_modal">
+            <tr id="{$data['outgoing_details_ref']}" onclick="{$onclick}" class="modal-trigger" data-toggle="modal" data-target="#edit_outgoing_modal">
                 <!-- <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td> -->
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>

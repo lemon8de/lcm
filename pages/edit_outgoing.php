@@ -26,9 +26,12 @@
                 </div>
             </div>
             <?php include '../php_static/web/footer.php'?>
-            <?php include '../modals/loading_modal.php'?>
-            <?php include '../modals/edit_outgoing_modal.php';?>
-            <?php include '../modals/edit_bulk_outgoing_modal.php';?>
+            <?php
+                if ($_SESSION['editing_privileges'] !== null) { 
+                    include '../modals/edit_outgoing_modal.php';
+                    include '../modals/edit_bulk_outgoing_modal.php';
+                }
+            ?>
         </div>
     </body>
     <?php include '../php_static/web/notification_handler.php';?>
