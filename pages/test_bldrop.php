@@ -184,4 +184,37 @@
             }
         });
     }
+    
+    function export_button(id) {
+        // Get the table element
+        const table = document.getElementById(id);
+        const rows = Array.from(table.rows);
+        const csvContent = rows.map(row => {
+            const cells = Array.from(row.cells).map(cell => {
+                // Wrap cell content in double quotes
+                const cellText = cell.innerText.replace(",", ''); // Escape double quotes
+                return `"${cellText}"`;
+            });
+            return cells.join(',');
+        }).join('\n');
+
+        // Create a new Date object
+        const currentDate = new Date();
+        const year = currentDate.getFullYear(); // 4-digit year
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // 01-12
+        const day = String(currentDate.getDate()).padStart(2, '0'); // 01-31
+        // Format as YYYY-MM-DD
+        const formattedDate = `${year}-${month}-${day}`;
+
+        // Create a blob and a link to download the CSV
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'LCM-BILLING_PREP-IMPORT-SEA[' + formattedDate + '].csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 </script>

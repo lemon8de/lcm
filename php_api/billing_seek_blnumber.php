@@ -61,6 +61,10 @@
                 <div class="card-header">
                     <h3 class="card-title">IMPORT SEA</h3>
                     <div class="card-tools">
+                        <button type="button" class="btn btn-info" onclick="export_button('table-importsea')">
+                            Export
+                        </button>
+
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-plus"></i>
                         </button>
@@ -71,7 +75,7 @@
                 </div>
                 <div class="card-body">
                     <div class="container table-responsive">
-                        <table class="table table-hover mb-4 text-nowrap">
+                        <table id="table-importsea" class="table table-hover mb-4 text-nowrap">
                         <thead>
                             <tr>
                                 <th>DETAIL OF CHARGE</th>
