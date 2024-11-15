@@ -96,7 +96,7 @@
         }
 
         //editing privileges
-        if ($_SESSION['editing_privileges'] != null) {
+        if ($_SESSION['editing_privileges'] == "INCOMING" || $_SESSION['editing_privileges'] == "ALL") {
             $edit_buttons = <<<HTML
                 <div class="row">
                     <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['hawb_awb']}" data-toggle="modal" data-target="#documentation_view_shipment_air_modal" onclick="edit_shipment_information(this)">

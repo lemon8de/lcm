@@ -2,10 +2,11 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<a href="#" class="brand-link">
 		<img src="../static/img/wip.png" alt="Logo" class="brand-image elevation-3">
-		<span class="brand-text font-weight-light">&nbsp;<?php echo $_SESSION['username']?></span>
+		<span class="brand-text">&nbsp;<?php echo $_SESSION['username']?></span><br>
+		<span class="brand-text font-weight-light text-right" style="font-size:70%">&emsp;&emsp;EDIT GROUP: <?php echo $_SESSION['editing_privileges']; ?></span>
 	</a>
 	<div class="sidebar">
-		<nav class="mt-2">
+		<nav class="mt-2" style="min-height:150vh;">
 			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
 					<a href="dashboard.php" class="nav-link<?php echo ($bar_whois_active == "userdashboard" ? ' active': '');?>">
@@ -18,7 +19,7 @@
 					<i class="fas fa-ship"></i></i><p>&nbsp;Sea Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_import_sea', 'edit_shipment_sea', 'add_shipment', 'shipment_documentation', 'incoming_sea']) ? ' style="display:block;"' : '';?>>
-						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
+						<?php if ($_SESSION['editing_privileges'] == 'INCOMING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
 						<li class="nav-item">
 							<a href="add_shipment_sea.php" / Update class="nav-link<?php echo ($bar_whois_active == "add_shipment" ? ' active': '');?>">
 							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Shipment</p>
@@ -75,7 +76,7 @@
 					<i class="fas fa-plane-departure"></i><p>&nbsp;Air Incoming Delivery<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['add_shipment_air', 'shipment_documentation_air']) ? ' style="display:block;"' : '';?>>
-						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
+						<?php if ($_SESSION['editing_privileges'] == 'INCOMING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
 						<li class="nav-item">
 							<a href="add_shipment_air.php" class="nav-link<?php echo ($bar_whois_active == "add_shipment_air" ? ' active': '');?>">
 							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Shipment</p>
@@ -112,7 +113,7 @@
 					<i class="fas fa-industry" style="margin-right:3px;"></i><i class="fas fa-arrow-right"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' style="display:block;"' : '';?>>
-						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
+					<?php if ($_SESSION['editing_privileges'] == 'OUTGOING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
 						<li class="nav-item">
 							<a href="add_outgoing.php" class="nav-link<?php echo ($bar_whois_active == "add_outgoing" ? ' active': '');?>">
 							<i class="fas fa-plus"></i></i>&nbsp;<p>Add / Update Outgoing</p>
@@ -154,7 +155,7 @@
 					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Preparation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add']) ? ' style="display:block;"' : '';?>>
-						<?php if ($_SESSION['editing_privileges'] !== null) { ?>
+					<?php if ($_SESSION['editing_privileges'] == 'BILLING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
 						<li class="nav-item">
 							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
 							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Rates</p>

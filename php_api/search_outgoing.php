@@ -32,14 +32,14 @@
     $inner_html = "";
 
     //nov 12 revision, the onlick is based on the editing privileges
-    if ($_SESSION['editing_privileges'] !== null) { 
-        $onclick = "loaddata.call(this)";
+    if ($_SESSION['editing_privileges'] == "OUTGOING" || $_SESSION['editing_privileges'] == "ALL") { 
+        $onclick = "onclick='loaddata.call(this)' class='modal-trigger' data-toggle='modal' data-target='#edit_outgoing_modal'";
     } else {
-        $onclick = "return false;";
+        $onclick = "";
     }
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $inner_html .= <<<HTML
-            <tr id="{$data['outgoing_details_ref']}" onclick="{$onclick}" class="modal-trigger" data-toggle="modal" data-target="#edit_outgoing_modal">
+            <tr id="{$data['outgoing_details_ref']}" {$onclick}>
                 <!-- <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td> -->
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>

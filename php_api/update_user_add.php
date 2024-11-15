@@ -4,7 +4,7 @@
     $username = 'lcm-user-' . $randomString;
     $password = 'lcm-password-' . $randomString;
     $site_role = "GUEST";
-    $editing_privileges = null;
+    $editing_privileges = "GUEST ONLY";
     $stmt = $conn->prepare("INSERT INTO m_user_accounts (username, password, site_role, editing_privileges) VALUES (:username, :password, :site_role, :editing_privileges)");
     // Bind parameters
     $stmt->bindParam(':username', $username);
@@ -18,6 +18,18 @@
     // Get the last inserted ID
     $id = $conn->lastInsertId();
 
+    $edit_groups = ['GUEST ONLY', 'INCOMING', 'OUTGOING', 'BILLING', 'ALL'];
+    $edit_group_options = "";
+    foreach ($edit_groups as $edit_group) {
+        if ("GUEST ONLY" == $edit_group) {
+            $selected = "selected";
+        } else {
+            $selected = "";
+        }
+        $edit_group_options .= <<<HTML
+            <option {$selected}>{$edit_group}</option>
+        HTML;
+    }
     $inner_html = <<<HTML
         <tr id="user-{$id}">
             <td>
@@ -27,7 +39,9 @@
                 <input type="text" name="password" class="form-control" onkeyup="update_user(this)" value="{$password}">
             </td>
             <td class="text-center">
-                <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="can_edit">
+                <select class="form-control" onchange="update_user(this)" name="editing_privileges">
+                    {$edit_group_options}
+                </select>
             </td>
             <td class="text-center">
                 <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="is_admin">

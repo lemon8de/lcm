@@ -3,19 +3,17 @@
     $id = $_POST['id'];
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $can_edit = $_POST['can_edit'];
+    $editing_privileges = $_POST['editing_privileges'];
     $is_admin = $_POST['is_admin'];
 
-    if ($can_edit === "true") {
-        $site_role = "EDITOR";
-        $editing_privileges = "all";
-    } else {
-        $site_role = "GUEST";
-        $editing_privileges = null;
-    }
-    if ($is_admin === "true") {
+    if ($is_admin == "true") {
         $site_role = "ADMIN";
+    } else if ($editing_privileges == "GUEST ONLY") {
+        $site_role = "GUEST";
+    } else {
+        $site_role = "EDITOR";
     }
+
     $id = str_replace('user-', '', $id);
     $sql = "UPDATE m_user_accounts set username = :username, password = :password, site_role = :site_role, editing_privileges = :editing_privileges where id = :id";
     $stmt = $conn -> prepare($sql);

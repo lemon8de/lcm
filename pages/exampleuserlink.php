@@ -26,8 +26,8 @@
                                 <tr style="border-bottom:1px solid black">
                                     <th>Username</th>
                                     <th>Password</th>
-                                    <th class="text-center">Can Edit Data</th>
-                                    <th class="text-center">Make Admin</th>
+                                    <th class="text-center">EDIT GROUP</th>
+                                    <th class="text-center">Account Management</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -62,6 +62,18 @@
                                         } else {
                                             $delete = "";
                                         }
+                                        $edit_groups = ['GUEST ONLY', 'INCOMING', 'OUTGOING', 'BILLING', 'ALL'];
+                                        $edit_group_options = "";
+                                        foreach ($edit_groups as $edit_group) {
+                                            if ($data['editing_privileges'] == $edit_group) {
+                                                $selected = "selected";
+                                            } else {
+                                                $selected = "";
+                                            }
+                                            $edit_group_options .= <<<HTML
+                                                <option {$selected}>{$edit_group}</option>
+                                            HTML;
+                                        }
                                         echo <<<HTML
                                             <tr id="user-{$data['id']}">
                                                 <td>
@@ -71,7 +83,9 @@
                                                     <input type="text" name="password" class="form-control" onkeyup="update_user(this)" value="{$data['password']}">
                                                 </td>
                                                 <td class="text-center">
-                                                    <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="can_edit"{$checked_edit}>
+                                                    <select class="form-control" onchange="update_user(this)" name="editing_privileges">
+                                                        {$edit_group_options}
+                                                    </select>
                                                 </td>
                                                 <td class="text-center">
                                                     <input class="form-check-input" type="checkbox" onchange="update_user(this)" name="is_admin"{$checked_admin}>

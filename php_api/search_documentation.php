@@ -205,7 +205,7 @@
         $shipment_status = implode(", ", $shipment_status);
         $shipment_status = str_replace(", ", "<br>", $shipment_status);
 
-        if ($_SESSION['editing_privileges'] != null) {
+        if ($_SESSION['editing_privileges'] == "INCOMING" || $_SESSION['editing_privileges'] == "ALL") {
             $edit_buttons = <<<HTML
                 <div class="row">
                     <a class="text-primary ml-3 mr-3 modal-trigger" style="text-decoration:none;cursor:pointer;" id="{$data['bl_number']}" data-toggle="modal" data-target="#documentation_view_shipment_sea_modal" onclick="edit_container_information(this)">
