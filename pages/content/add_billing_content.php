@@ -120,7 +120,7 @@
             </div>
         </div>
         <div class="col-2 d-flex justify-content-center align-items-start">
-            <button type="button" class="btn btn-block btn-info" onclick="generate_form()">GENERATE FORM</button>
+            <button type="button" class="btn btn-block btn-info" onclick="generate_form()" id="generate_form_button">GENERATE FORM</button>
         </div>
     </div>
 </div>
@@ -254,6 +254,15 @@
                     myChart.data.labels = response.labels;
                     myChart.data.datasets[0].data = response.dataset;
                     myChart.update();
+
+                    document.getElementById('select_details_of_charge').disabled = true;
+                    document.getElementById('new_charge_ck').disabled = true;
+                    document.getElementById('new_charge_input').disabled = true;
+                    document.getElementById('generate_form_button').disabled = true;
+
+                    document.getElementById('new_basis_select').disabled = true;
+                    document.getElementById('new_charge_group_select').disabled = true;
+                    document.getElementById('new_currency_select').disabled = true;
                 } else {
                     Toast.fire({
 		                icon: "warning",

@@ -27,7 +27,8 @@
         echo json_encode(['exited' => true]);
         exit();
     }
-
+    $response_body = [];
+    $inner_html = "";
     if ($wants_new === 'true') {
         //wants new means we don't have a log in
         //m_billing_information
@@ -53,6 +54,12 @@
         $stmt -> bindParam(":currency", $new_currency);
         $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
         $stmt -> execute();
+
+        $inner_html .= <<<HTML
+            <div class="col-12 alert alert-info mt-1" id="HistoricalAlert" onclick="window.location.reload();" style="cursor:pointer;">
+                <span style="font-weight:700; font-size:90%;"><i class="icon fas fa-info"></i>&nbsp; Refresh required to make more logs on this new charge. Click to refresh</span>
+            </div>
+        HTML;
     }
     //now actually proceed on getting that form
     //get the information from the details of charge, and render its form
@@ -61,8 +68,6 @@
     $stmt -> bindParam(":billing_details_ref", $billing_details_ref);
     $stmt -> execute();
 
-    $response_body = [];
-    $inner_html = "";
     $info = "";
     if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $info = <<<HTML
