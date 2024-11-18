@@ -1,7 +1,7 @@
 <?php
     require '../php_static/session_lookup.php';
     $directory = " / ADMIN / Account Management";
-    $bar_whois_active = "exampleuserlink";
+    $bar_whois_active = "account_management";
     require '../php_static/block_urlcreep.php';
     require '../php_api/db_connection.php';
 ?>

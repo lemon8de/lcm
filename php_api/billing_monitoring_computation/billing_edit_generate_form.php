@@ -148,7 +148,7 @@
             $inner_html .= <<<HTML
                 <div class="mt-3">
                     <label>EDIT RATE</label>
-                    <input type="number" class="form-control" name="rate" value="">
+                    <input type="number" class="form-control" name="rate" value="" required>
                 </div>
                 <button type="submit" class="btn btn-info mt-3 text-right">Update</button>
             HTML;

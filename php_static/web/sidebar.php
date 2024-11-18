@@ -173,7 +173,7 @@
 							</a>
 						</li> -->
 						<li class="nav-item">
-							<a href="test_bldrop.php" class="nav-link<?php echo ($bar_whois_active == "bl_drop" ? ' active': '');?>">
+							<a href="billing_preparation.php" class="nav-link<?php echo ($bar_whois_active == "bl_drop" ? ' active': '');?>">
 							<i class="fas fa-fire-extinguisher"></i>&nbsp;<p>BL Drop Test</p>
 							</a>
 						</li>
@@ -181,7 +181,7 @@
 				</li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
 				<li class="nav-item">
-					<a href="exampleuserlink.php" class="nav-link<?php echo ($bar_whois_active == "exampleuserlink" ?' active': '');?>">
+					<a href="account_management.php" class="nav-link<?php echo ($bar_whois_active == "account_management" ?' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>
 				</li>
