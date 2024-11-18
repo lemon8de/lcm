@@ -209,8 +209,8 @@
         HTML;
         while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             $amt_bl_based = "";
+            $discard_row = False;
             foreach($computed_mega_json as $bl_data) {
-
                 //the total count with strong tags gets caught here, fuck
                 $usd = is_numeric($bl_data['data'][0][$pointer]) ? number_format($bl_data['data'][0][$pointer], 2) : $bl_data['data'][0][$pointer];
                 $php = is_numeric($bl_data['data'][1][$pointer]) ? number_format($bl_data['data'][1][$pointer], 2) : $bl_data['data'][1][$pointer];
@@ -220,13 +220,18 @@
                     <td>{$php}</td>
                     <td>{$jpy}</td>
                 HTML;
+                if ($usd == "0.0") {
+                    $discard_row = True;
+                }
             }
-            $rows .= <<<HTML
-            <tr style="background-color:{$colors[$data['charge_group']]}">
-                <td>{$data['details_of_charge']}</td>
-                {$amt_bl_based}
-            </tr>
-            HTML;
+            if (!$discard_row) {
+                $rows .= <<<HTML
+                <tr style="background-color:{$colors[$data['charge_group']]}">
+                    <td>{$data['details_of_charge']}</td>
+                    {$amt_bl_based}
+                </tr>
+                HTML;
+            }
             //advance the pointer
             $pointer++;
         }
