@@ -76,14 +76,14 @@
                         $compute_set = json_decode($compute_data['computation_set']);
                         $currency = $data['currency'];
 
+                        $container_logged = 0;
+                        $container_total = 0;
                         switch ($compute_set->basis) {
                             case 'BL':
                                 $computed_value = $compute_set->data_set->rate;
                                 break;
                             case 'CNTR':
                                 $computed_value = 0;
-                                $container_logged = 0;
-                                $container_total = 0;
                                 foreach ($container_actual_received as $container_date) {
                                     $stmt_get_computation -> bindParam(":actual_received_at_falp", $container_date);
                                     $stmt_get_computation -> execute();
@@ -154,7 +154,12 @@
             }
             //$mini_mega_json['data'] = $array_computation;
             $mini_mega_json['data'] = [$array_computation_usd, $array_computation_php, $array_computation_jpy];
-            $mini_mega_json['bl_number'] .= " [" . $container_logged . "/" . $container_total . "]";
+            if (isset($container_logged)) {
+                $mini_mega_json['bl_number'] .= " [" . $container_logged . "/" . $container_total . "]";
+            } else {
+                $mini_mega_json['bl_number'] .= " [?/?]";
+            }
+
             $computed_mega_json[] = $mini_mega_json;
         }
         return $computed_mega_json;
@@ -209,7 +214,7 @@
         HTML;
         while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
             $amt_bl_based = "";
-            $discard_row = False;
+            $values_list = [];
             foreach($computed_mega_json as $bl_data) {
                 //the total count with strong tags gets caught here, fuck
                 $usd = is_numeric($bl_data['data'][0][$pointer]) ? number_format($bl_data['data'][0][$pointer], 2) : $bl_data['data'][0][$pointer];
@@ -220,11 +225,16 @@
                     <td>{$php}</td>
                     <td>{$jpy}</td>
                 HTML;
-                if ($usd == "0.0") {
-                    $discard_row = True;
+                $values_list[] = $usd;
+            }
+            $show = False;
+            foreach ($values_list as $value) {
+                if ($value !== "0.00") {
+                    $show = True;
+                    break;
                 }
             }
-            if (!$discard_row) {
+            if ($show) {
                 $rows .= <<<HTML
                 <tr style="background-color:{$colors[$data['charge_group']]}">
                     <td>{$data['details_of_charge']}</td>
