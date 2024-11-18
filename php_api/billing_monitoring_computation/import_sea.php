@@ -2,7 +2,8 @@
     function import_sea_compute($conn, $shipment_details_refs) {
         $sql_seek_bl = "SELECT bl_number, forwarder_name, origin_port, shipping_lines, actual_received_at_falp from m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref where a.shipment_details_ref = :shipment_details_ref;
         
-        SELECT COUNT(*) as container_count FROM m_shipment_sea_details WHERE bl_number IN ( SELECT bl_number FROM m_shipment_sea_details where shipment_details_ref = :shipment_details_ref2)";
+        SELECT container, actual_received_at_falp FROM m_shipment_sea_details as a left join m_completion_details as b on a.shipment_details_ref = b.shipment_details_ref WHERE bl_number IN ( SELECT bl_number FROM m_shipment_sea_details where shipment_details_ref = :shipment_details_ref2)";
+
         $stmt_seek_bl = $conn -> prepare($sql_seek_bl);
 
         //GET THE charge_group so we can generate a total
@@ -38,9 +39,10 @@
                 $bl_shipping_line = $data['shipping_lines'];
                 $actual_received_at_falp = $data['actual_received_at_falp'];
 
+                $container_actual_received = [];
                 if ($stmt_seek_bl->nextRowset()) { // Move to the next result set
-                    if ($data_container = $stmt_seek_bl->fetch(PDO::FETCH_ASSOC)) {
-                        $container_count = $data_container['container_count'];
+                    while ($data_container = $stmt_seek_bl -> fetch(PDO::FETCH_ASSOC)) {
+                        $container_actual_received[] = $data_container['actual_received_at_falp'];
                     }
                 }
             }
@@ -79,7 +81,20 @@
                                 $computed_value = $compute_set->data_set->rate;
                                 break;
                             case 'CNTR':
-                                $computed_value = $container_count * $compute_set->data_set->rate;
+                                $computed_value = 0;
+                                $container_logged = 0;
+                                $container_total = 0;
+                                foreach ($container_actual_received as $container_date) {
+                                    $stmt_get_computation -> bindParam(":actual_received_at_falp", $container_date);
+                                    $stmt_get_computation -> execute();
+                                    if ($compute_data_container = $stmt_get_computation -> fetch(PDO::FETCH_ASSOC)) {
+                                        $container_logged++;
+                                        $compute_set_container = json_decode($compute_data_container['computation_set']);
+                                        $computed_value += $compute_set_container -> data_set -> rate;
+                                    } 
+                                    $container_total++;
+                                }
+                                //$computed_value = $container_count * $compute_set->data_set->rate;
                                 break;
                             default:
                                 // Optionally handle cases where basis is neither 'BL' nor 'CNTR'
@@ -139,6 +154,7 @@
             }
             //$mini_mega_json['data'] = $array_computation;
             $mini_mega_json['data'] = [$array_computation_usd, $array_computation_php, $array_computation_jpy];
+            $mini_mega_json['bl_number'] .= " [" . $container_logged . "/" . $container_total . "]";
             $computed_mega_json[] = $mini_mega_json;
         }
         return $computed_mega_json;
