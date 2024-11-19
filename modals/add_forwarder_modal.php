@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="fileInput">File Input</label>
+                        <label for="fileInput">LOGO</label>
                         <input type="file" class="form-control-file" name="forwarder_logo" accept="image/*" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
