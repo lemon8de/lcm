@@ -150,12 +150,17 @@
 					</ul>
 				</li>
 				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
-				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add']) ? ' menu-is-opening menu-open' : ''?>">
-					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add']) ? ' active ' : ''?>">
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' active ' : ''?>">
 					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Preparation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add']) ? ' style="display:block;"' : '';?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' style="display:block;"' : '';?>>
 					<?php if ($_SESSION['editing_privileges'] == 'BILLING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
+						<li class="nav-item">
+							<a href="details_of_charge.php" class="nav-link<?php echo ($bar_whois_active == "bill_details_of_charge" ? ' active': '');?>">
+							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Delete Charges</p>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a href="add_billing.php" class="nav-link<?php echo ($bar_whois_active == "bill_monitoring_add" ? ' active': '');?>">
 							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Rates</p>
@@ -180,13 +185,14 @@
 					</ul>
 				</li>
 				<?php if ($_SESSION['site_role'] == "ADMIN") { ?>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item">
 					<a href="account_management.php" class="nav-link<?php echo ($bar_whois_active == "account_management" ?' active': '');?>">
 					<i class="fas fa-user-alt"></i>&nbsp;<p>Account Management</p>
 					</a>
 				</li>
-				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<?php } ?>
+				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item">
 					<a href="../php_api/logout_api.php" class="nav-link">
 					<i class="fas fa-sign-out-alt"></i>&nbsp;<p>Logout</p>

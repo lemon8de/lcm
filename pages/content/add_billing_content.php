@@ -255,14 +255,16 @@
                     myChart.data.datasets[0].data = response.dataset;
                     myChart.update();
 
-                    document.getElementById('select_details_of_charge').disabled = true;
-                    document.getElementById('new_charge_ck').disabled = true;
-                    document.getElementById('new_charge_input').disabled = true;
-                    document.getElementById('generate_form_button').disabled = true;
+                    if (response.new_generated) {
+                        document.getElementById('select_details_of_charge').disabled = true;
+                        document.getElementById('new_charge_ck').disabled = true;
+                        document.getElementById('new_charge_input').disabled = true;
+                        document.getElementById('generate_form_button').disabled = true;
 
-                    document.getElementById('new_basis_select').disabled = true;
-                    document.getElementById('new_charge_group_select').disabled = true;
-                    document.getElementById('new_currency_select').disabled = true;
+                        document.getElementById('new_basis_select').disabled = true;
+                        document.getElementById('new_charge_group_select').disabled = true;
+                        document.getElementById('new_currency_select').disabled = true;
+                    }
                 } else {
                     Toast.fire({
 		                icon: "warning",

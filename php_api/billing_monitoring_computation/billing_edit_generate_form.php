@@ -60,6 +60,7 @@
                 <span style="font-weight:700; font-size:90%;"><i class="icon fas fa-info"></i>&nbsp; Refresh required to make more logs on this new charge. Click to refresh</span>
             </div>
         HTML;
+        $response_body['new_generated'] = True;
     }
     //now actually proceed on getting that form
     //get the information from the details of charge, and render its form
