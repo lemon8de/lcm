@@ -2,7 +2,7 @@
     require 'db_connection.php';
     require '../php_static/session_lookup.php';
 
-    $billing_details_ref = $_POST['billing_forwarder_details_ref'];
+    $billing_forwarder_details_ref = $_POST['billing_forwarder_details_ref'];
 
     $sql = "DELETE from m_billing_forwarder where billing_forwarder_details_ref = :billing_forwarder_details_ref;
             DELETE from m_billing_compute where billing_forwarder_details_ref = :billing_forwarder_details_ref2;
@@ -10,7 +10,7 @@
 
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref);
-    $stmt -> bindParam(":billing_forwarder_details_ref", $billing_forwarder_details_ref2);
+    $stmt -> bindParam(":billing_forwarder_details_ref2", $billing_forwarder_details_ref);
     $stmt -> execute();
     $notification = [
         "icon" => "success",

@@ -26,6 +26,7 @@
                 </div>
             </div>
             <?php include '../php_static/web/footer.php'?>
+            <?php include '../modals/add_forwarder_modal.php'; ?>
         </div>
     </body>
     <?php include '../php_static/web/notification_handler.php';?>

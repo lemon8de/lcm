@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row mb-3">
         <div class="col-3">
-            <button class="btn btn-primary btn-block btn-file" onclick="fileexplorer()">
+            <button class="btn btn-primary btn-block btn-file" class="modal-trigger" data-toggle="modal" data-target="#add_forwarder">
                 <span><i class="fas fa-plus mr-2"></i>Add Forwarder</span>
             </button>
         </div>
