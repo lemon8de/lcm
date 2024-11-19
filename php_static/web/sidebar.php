@@ -163,7 +163,7 @@
 						</li>
 						<li class="nav-item">
 							<a href="edit_billing_forwarder.php" class="nav-link<?php echo ($bar_whois_active == "edit_billing_forwarder" ? ' active': '');?>">
-							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Modify Forwarders</p>
+							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Add / Delete Forwarders</p>
 							</a>
 						</li>
 						<li class="nav-item">
