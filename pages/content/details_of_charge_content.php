@@ -10,7 +10,7 @@
             <th>CURRENCY</th>
         </tr>
     </thead>
-    <tbody id="OutgoingSearchTableBody">
+    <tbody>
         <?php
             $sql = "SELECT type_of_transaction, charge_group, details_of_charge, basis, currency, billing_details_ref, (case when type_of_transaction = 'IMPORT SEA' then 1 when type_of_transaction = 'IMPORT AIR' then 2 when type_of_transaction = 'EXPORT SEA' then 3 when type_of_transaction = 'EXPORT AIR' then 4 else 0 end) as type_order, (case when charge_group = 'LOCAL CHARGES' then 1 when charge_group = 'ACCESSORIAL' then 2 when charge_group = 'REIMBURSEMENT' then 3 else 0 end) as charge_order from m_billing_information order by type_order asc, charge_order asc";
 

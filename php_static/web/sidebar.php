@@ -150,15 +150,20 @@
 					</ul>
 				</li>
 				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
-				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' menu-is-opening menu-open' : ''?>">
-					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' active ' : ''?>">
+				<li class="nav-item<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge', 'edit_billing_forwarder']) ? ' menu-is-opening menu-open' : ''?>">
+					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge', 'edit_billing_forwarder']) ? ' active ' : ''?>">
 					<i class="fas fa-wallet"></i>&nbsp;<p>Billing Preparation<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
-					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge']) ? ' style="display:block;"' : '';?>>
+					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['bill_monitoring_add', 'bl_drop', 'bill_currency_add', 'bill_details_of_charge', 'edit_billing_forwarder']) ? ' style="display:block;"' : '';?>>
 					<?php if ($_SESSION['editing_privileges'] == 'BILLING' || $_SESSION['editing_privileges'] == 'ALL') { ?>
 						<li class="nav-item">
 							<a href="details_of_charge.php" class="nav-link<?php echo ($bar_whois_active == "bill_details_of_charge" ? ' active': '');?>">
 							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Delete Charges</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="edit_billing_forwarder.php" class="nav-link<?php echo ($bar_whois_active == "edit_billing_forwarder" ? ' active': '');?>">
+							<i class="fas fa-pencil-alt"></i>&nbsp;<p>Modify Forwarders</p>
 							</a>
 						</li>
 						<li class="nav-item">
