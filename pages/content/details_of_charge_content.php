@@ -2,12 +2,12 @@
 <table class="table table-head-fixed text-nowrap table-hover">
     <thead>
         <tr style="border-bottom:1px solid black">
-            <th></th>
             <th>TYPE</th>
             <th>GROUP</th>
             <th>DETAILS</th>
             <th>BASIS</th>
             <th>CURRENCY</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -18,12 +18,12 @@
             while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
                 echo <<<HTML
                 <tr>
-                    <td><i id="{$data['billing_details_ref']}" class="fas fa-times" onclick="delete_charge(this)" style="cursor:pointer;"></i></td>
                     <td>{$data['type_of_transaction']}</td>
                     <td>{$data['charge_group']}</td>
                     <td>{$data['details_of_charge']}</td>
                     <td>{$data['basis']}</td>
                     <td>{$data['currency']}</td>
+                    <td><i id="{$data['billing_details_ref']}" class="fas fa-times" onclick="delete_charge(this)" style="cursor:pointer;"></i></td>
                 </tr>
                 HTML;
             }
