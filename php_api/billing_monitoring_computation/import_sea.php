@@ -76,13 +76,13 @@
                         $compute_set = json_decode($compute_data['computation_set']);
                         $currency = $data['currency'];
 
-                        $container_logged = 0;
-                        $container_total = 0;
                         switch ($compute_set->basis) {
                             case 'BL':
                                 $computed_value = $compute_set->data_set->rate;
                                 break;
                             case 'CNTR':
+                                $container_logged = 0;
+                                $container_total = 0;
                                 $computed_value = 0;
                                 foreach ($container_actual_received as $container_date) {
                                     $stmt_get_computation -> bindParam(":actual_received_at_falp", $container_date);
