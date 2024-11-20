@@ -24,6 +24,83 @@
     </div>
 </div>
 
+<div class="card container-fluid p-4">
+    <div class="row mb-2">
+        <span class="text-secondary">Rates Replication (Experimental)</span>
+        <span class="text-secondary">Lets you duplicate all of the rates from a set month to another month, essentially making a complete copy usable for the selected month calculation.</span>
+    </div>
+    <form method="POST" action="../php_api/duplicate_rates.php">
+    <div class="row">
+        <div class="col-2">
+            <label>From Month</label>
+            <select class="form-control" name="from_month" required>
+                <option value="" selected disabled>Select Month</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label>From Year</label>
+            <select class="form-control" name="from_year" required>
+                <?php
+                    $current_year = date("Y");
+                    $end_year = $current_year - 10;
+                    for ($year = $current_year; $year >= $end_year; $year--) {
+                        echo <<<HTML
+                            <option value="{$year}">{$year}</option>
+                        HTML;
+                    }
+                ?>
+            </select>
+        </div>
+        <div class="col-2">
+            <label>To Month</label>
+            <select class="form-control" name="to_month" required>
+                <option value="" selected disabled>Select Month</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label>To Year</label>
+            <select class="form-control" name="to_year" required>
+                <?php
+                    $current_year = date("Y");
+                    $end_year = $current_year - 10;
+                    for ($year = $current_year; $year >= $end_year; $year--) {
+                        echo <<<HTML
+                            <option value="{$year}">{$year}</option>
+                        HTML;
+                    }
+                ?>
+            </select>
+        </div>
+        <div class="d-flex col-4 justify-content-center align-items-center">
+            <button class="btn btn-primary" type="submit">Replicate Rates</button>
+        </div>
+    </div>
+    </form>
+</div>
 <div class="container-fliud">
     <div class="row">
         <div class="col-3">
