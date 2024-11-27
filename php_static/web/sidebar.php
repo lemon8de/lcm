@@ -1,9 +1,15 @@
 <!-- User Bar -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<a href="#" class="brand-link">
-		<img src="../static/img/wip.png" alt="Logo" class="brand-image elevation-3">
-		<span class="brand-text">&nbsp;<?php echo $_SESSION['username']?></span><br>
-		<span class="brand-text font-weight-light text-right" style="font-size:70%">&emsp;&emsp;EDIT GROUP: <?php echo $_SESSION['editing_privileges']; ?></span>
+		<div class="d-flex flex-column justify-content-start align-items-start">
+    		<div class="d-flex flex-row justify-content-center align-items-center"> <!-- Centering the logo -->
+        		<img src="../static/img/text_logo.png" style="width:75px;" alt="Logo">
+    		</div>
+    		<div class="text-left"> <!-- Added a new div for text alignment -->
+        		<span class="brand-text">u:&nbsp;<?php echo $_SESSION['username']?></span><br>
+        		<span class="brand-text font-weight-light" style="font-size:70%;">EDIT GROUP: <?php echo $_SESSION['editing_privileges']; ?></span>
+    		</div>
+		</div>
 	</a>
 	<div class="sidebar">
 		<nav class="mt-2" style="min-height:150vh;">
@@ -110,7 +116,7 @@
 				<li class="nav-header" style="margin:1px 0px; background-color:#727f8c;border-radius:0.450rem;padding:1px;"></li>
 				<li class="nav-item<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' menu-is-opening menu-open' : ''?>">
 					<a href="#" class="nav-link<?php echo in_array($bar_whois_active, ['edit_outgoing' ,'add_outgoing']) ? ' active ' : ''?>">
-					<i class="fas fa-industry" style="margin-right:3px;"></i><i class="fas fa-arrow-right"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
+					<i class="fas fa-industry" style="margin-right:3px;"></i>&nbsp;<p>Outgoing Shipment<i class="right fas fa-angle-left" style="color:#535c66;"></i></p>
 					</a>
 					<ul class="nav nav-treeview"<?php echo in_array($bar_whois_active, ['edit_outgoing', 'add_outgoing']) ? ' style="display:block;"' : '';?>>
 					<?php if ($_SESSION['editing_privileges'] == 'OUTGOING' || $_SESSION['editing_privileges'] == 'ALL') { ?>

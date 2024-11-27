@@ -18,9 +18,9 @@
 
 	<body class="hold-transition login-page">
 		<div class="login-box">
-			<div class="login-logo">
-				<img src="../static/img/wip.png" style="height:150px;">
-				<h2><b>Logistic Cost<br>Management</b></h2>
+			<div class="login-logo d-flex flex-column justify-content-center align-items-center">
+				<img src="../static/img/impex_logo_clear.png" style="height:150px;">
+				<h2 class="text-nowrap"><b>Logistic Cost Management</b></h2>
 			</div>
 			<!-- /.login-logo -->
 			<div class="card">
