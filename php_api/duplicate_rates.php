@@ -20,7 +20,7 @@
     $stmt_add_unique_id = $conn -> prepare($sql_add_unique_id);
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         if ($data['billing_compute_ref'] == null) {
-            $billing_compute_ref = uniqid("billing_m", true);
+            $billing_compute_ref = uniqid("billing_m_", true);
             $id = $data['id'];
             $stmt_add_unique_id -> bindParam(":billing_compute_ref", $billing_compute_ref);
             $stmt_add_unique_id -> bindParam(":id", $id);
