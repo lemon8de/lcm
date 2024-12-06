@@ -12,7 +12,7 @@
             $headers = fgets($csvFile);
 
             $headers = preg_replace('/[\x00-\x1F\x7F\xEF\xBB\xBF]/', '', $headers);
-            $expectedHeaders = " Invoice No. , Container No. ,Container Gr,TW No,Lot No,Product No, Pack Qty ,Polytainer name,Expected Departure Date,P/O No,Due Date, DESTINATION (SERVICE CENTER) ,Ship Out Date,B/L Date,Entry Date,Process date,Pack qty,Polytainer Qty,Unit Price, Invoice Amount ,Status";
+            $expectedHeaders = "Invoice No,Container No,Container Gr,TW No,Lot No,Product No,Pack Qty,Polytainer name,Expected Departure Date,P/O No,Due Date,Destination,Ship out date,B/L Date,Entry Date,Process date,Pack qty,Polytainer Qty,Unit Price,Amount,Status";
 
             // Trim any whitespace and compare with expected headers
             if ($headers !== $expectedHeaders) {
