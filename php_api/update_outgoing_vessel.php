@@ -5,7 +5,7 @@ require '../php_static/session_lookup.php';
 $outgoing_details_ref = $_POST['outgoing_details_ref'];
 $mode_of_shipment = $_POST['mode_of_shipment'] == "" ? null : $_POST['mode_of_shipment'];
 $vessel_name = $_POST['vessel_name'] == "" ? null : $_POST['vessel_name'];
-$pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+$pattern = '/(.*)(\s*V\.\s*)(0*)(.*)/';
 if (preg_match_all($pattern, $vessel_name, $matches)) {
     $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
 }

@@ -57,7 +57,7 @@
     //CALIDRIS    V.0134S
     //CALIDRISV.     134S
     //cases, too many spaces, no spaces, zero on the voyage number
-    $pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+    $pattern = '/(.*)(\s*V\.\s*)(0*)(.*)/';
     if (preg_match_all($pattern, $vessel_name, $matches)) {
         $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
     }

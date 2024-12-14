@@ -1,7 +1,7 @@
 <?php
     require 'db_connection.php';
     $vessel_name = $_GET['vessel_name'];
-    $pattern = '/(.*)(\s*V.\s*)(0*)(.*)/';
+    $pattern = '/(.*)(\s*V\.\s*)(0*)(.*)/';
     if (preg_match_all($pattern, $vessel_name, $matches)) {
         $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
     }
