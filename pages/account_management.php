@@ -44,7 +44,7 @@
                                     $e_roles = ["all", "none"];
                                     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
                                         if ($data['site_role'] == "ADMIN") {
-                                            $checked_admin = " checked disabled";
+                                            $checked_admin = " checked";
                                         } else {
                                             $checked_admin = "";
                                         }
@@ -56,6 +56,7 @@
                                             HTML;
                                         } else {
                                             $delete = "";
+                                            $checked_admin .= " disabled";
                                         }
                                         $edit_groups = ['GUEST ONLY', 'INCOMING', 'OUTGOING', 'BILLING', 'ALL'];
                                         $edit_group_options = "";
