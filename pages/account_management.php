@@ -43,13 +43,8 @@
                                     $s_roles = ["ADMIN", "GUEST", "EDITOR"];
                                     $e_roles = ["all", "none"];
                                     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-                                        if ($data['editing_privileges'] == "all") {
-                                            $checked_edit = " checked";
-                                        } else {
-                                            $checked_edit = "";
-                                        }
                                         if ($data['site_role'] == "ADMIN") {
-                                            $checked_admin = " checked";
+                                            $checked_admin = " checked disabled";
                                         } else {
                                             $checked_admin = "";
                                         }
