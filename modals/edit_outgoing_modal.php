@@ -82,6 +82,10 @@
 </form>
 
 <script>
+    $('#edit_outgoing_modal').on('hidden.bs.modal', function () {
+        // Your custom function here
+        outgoing_search();
+    });
 function loaddata() {
         var outgoing_details_ref = this.id;
 
