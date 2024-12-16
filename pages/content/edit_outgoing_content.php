@@ -1,13 +1,13 @@
 <form id="OutgoingSearchForm">
     <div class="card container pt-2 mt-2">
         <div class="row mb-2">
-            <div class="col-2">
+            <div class="col-3">
                 <input class="form-control" placeholder="CONT/INV/VESSEL" name="invoice_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
             <div class="col-3" style="display:none;">
                 <input class="form-control" placeholder="CONTAINER NO." name="container_no" onkeyup="debounce(outgoing_search, 350)" autocomplete="off">
             </div>
-            <div class="col-2">
+            <!-- <div class="col-2">
                 <select class="form-control" name="month" onchange="outgoing_search()" id="active_month">
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -42,13 +42,13 @@
                         }
                     ?>
                 </select>
-            </div>
-            <div class="col-2">
+            </div> -->
+            <div class="col-3">
                 <select class="form-control" id="destination_select" name="destination_service_center" onchange="outgoing_search()">
                     <option value="" selected>Destination</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" id="destination_select" name="status" onchange="outgoing_search()">
                     <option value="" selected>Status</option>
                     <option>N/A</option>
@@ -57,7 +57,7 @@
                     <option>ONGOING</option>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control" id="destination_select" name="co_status" onchange="outgoing_search()">
                     <option value="" selected>CO-Status</option>
                     <option>N/A</option>
@@ -65,6 +65,15 @@
                     <option>COMPLETE</option>
                     <option>ONGOING</option>
                 </select>
+            </div>
+            <div class="col-3 mt-2">
+                <?php
+                    $currentDate = date('Y-m-') . '01';
+                ?>
+                <input type="date" class="form-control" value="<?php echo $currentDate; ?>" name="date_from" onchange="outgoing_search()">
+            </div>
+            <div class="col-3 mt-2">
+                <input type="date" class="form-control" name="date_to" onchange="outgoing_search()">
             </div>
         </div>
     </div>

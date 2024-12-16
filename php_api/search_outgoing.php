@@ -1,15 +1,14 @@
 <?php
     require '../php_static/session_lookup.php';
-    if (!isset($_GET['month'])) {
+    if (!isset($_GET['date_from'])) {
         echo json_encode(["exited" => true]);
         exit();
     }
+
     require 'db_connection.php'; 
 
     $invoice_no = '%' . $_GET['invoice_no'] . '%';
     //$container_no = $_GET['container_no'];
-    $month = $_GET['month'];
-    $year = $_GET['year'];
 
     if (!isset($_GET['destination_service_center'])) {
         $destination_service_center = "";
@@ -20,14 +19,17 @@
     $status = $_GET['status'];
     $co_status = $_GET['co_status'];
 
-    $sql = "EXEC SearchOutgoing :SearchInput, :DestinationServiceCenter, :Status, :CoStatus, :StartYear, :StartMonth";
+    $datefrom = $_GET['date_from'] . ' 00:00:00';
+    $dateto = $_GET['date_to'] == "" ? null : $_GET['date_to'];
+
+    $sql = "EXEC SearchOutgoing :SearchInput, :DestinationServiceCenter, :Status, :CoStatus, :DateFrom, :DateTo";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":SearchInput", $invoice_no);
     $stmt -> bindParam(":DestinationServiceCenter", $destination_service_center);
     $stmt -> bindParam(":Status", $status);
     $stmt -> bindParam(":CoStatus", $co_status);
-    $stmt -> bindParam(":StartYear", $year);
-    $stmt -> bindParam(":StartMonth", $month);
+    $stmt -> bindParam(":DateFrom", $datefrom);
+    $stmt -> bindParam(":DateTo", $dateto);
     $stmt -> execute();
     $inner_html = "";
 
