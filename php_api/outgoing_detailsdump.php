@@ -38,7 +38,7 @@ if ($shipment) {
         </div>
         <div class="row mb-2">
             <div class="col-6">
-                <label>CAR_MODEL</label>
+                <label>CAR MODEL</label>
                 <input value="{$shipment['car_model']}" type="text" class="form-control" name="car_model">
             </div>
             <div class="col-6">

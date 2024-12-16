@@ -85,7 +85,7 @@
             <th>CONTAINER NO.</th>
             <th>DESTINATION (Service Center)</th>
             <th>DESTINATION</th>
-            <th>CAR_MODEL</th>
+            <th>CAR MODEL</th>
             <th>SHIP OUT DATE</th>
             <th>NO PALLETS</th>
             <th>NO CARTONS</th>
