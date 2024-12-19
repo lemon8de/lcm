@@ -3,7 +3,7 @@ require 'db_connection.php';
 $year = $_GET['year'];
 $month = $_GET['month'];
 $car_model = isset($_GET['car_model']) ? $_GET['car_model'] : null;
-$vessel_name = $_GET['vessel_name'] ?? null;
+$vessel_name = $_GET['vessel_name'] ?? '';
 
 $response_body = [];
 
