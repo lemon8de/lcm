@@ -84,6 +84,17 @@ $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 $sql = "SELECT vessel_name, string_agg(invoice_no, ', ') as invoices from m_outgoing_fsib as a left join m_outgoing_vessel_details as b on a.outgoing_details_ref = b.outgoing_details_ref where vessel_name = :vessel_name group by vessel_name";
 $stmt_vessel = $conn -> prepare($sql);
 
+//19 december make dropdown
+$sql = "SELECT * from m_shipping_lines";
+$stmt = $conn -> query($sql);
+$shipping_line_options = '';
+while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    $selected = $shipment['shipping_line'] == $data['shipping_lines'] ? 'selected' : '';
+    $shipping_line_options .= <<<HTML
+        <option {$selected}>{$data['shipping_lines']}</option>
+    HTML;
+}
+
 if ($shipment) {
     $vessel_name = $shipment['vessel_name'];
     $stmt_vessel -> bindParam(":vessel_name", $vessel_name);
@@ -123,7 +134,11 @@ if ($shipment) {
         <div class="row mb-2">
             <div class="col-6">
                 <label>SHIPPING LINE</label>
-                <input value="{$shipment['shipping_line']}" type="text" class="form-control" name="shipping_line" id="vessel_shipping_line">
+                <!-- <input value="{$shipment['shipping_line']}" type="text" class="form-control" name="shipping_line" id="vessel_shipping_line"> -->
+                <select class="form-control" name="shipping_line">
+                    <option value="" disabled selected>Shipping Line</option>
+                    {$shipping_line_options} 
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -150,6 +165,18 @@ $stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
 $stmt -> execute();
 $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
+//19 december turn these into select dropdowns
+$sql = "SELECT shipping_terms from m_shipping_terms order by id asc";
+$stmt = $conn -> query($sql);
+$shipping_terms_options = '';
+while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    $selected = $shipment['shipping_terms'] == $data['shipping_terms'] ? 'selected' : '';
+    $shipping_terms_options .= <<<HTML
+        <option {$selected}>{$data['shipping_terms']}</option>
+    HTML;
+}
+
+
 if ($shipment) {
     $shipment['gross_weight'] = round(floatval($shipment['gross_weight']), 4);
     $shipment['net_weight'] = round(floatval($shipment['net_weight']), 4);
@@ -160,7 +187,11 @@ if ($shipment) {
         <div class="row mb-2">
             <div class="col-6">
                 <label>SHIPPING TERMS</label>
-                <input value="{$shipment['shipping_terms']}" type="text" class="form-control" name="shipping_terms">
+                <!-- <input value="{$shipment['shipping_terms']}" type="text" class="form-control" name="shipping_terms"> -->
+                <select class="form-control" name="shipping_terms">
+                    <option value="" disabled selected>Shipping Term</option>
+                    {$shipping_terms_options} 
+                </select>
             </div>
             <div class="col-6">
                 <label>NET WEIGHT</label>
@@ -191,6 +222,17 @@ $stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
 $stmt -> execute();
 $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
+//19 december make dropdown
+$sql = "SELECT forwarder_partner from m_billing_forwarder order by id asc";
+$stmt = $conn -> query($sql);
+$forwarder_options = '';
+while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    $selected = $shipment['forwarder'] == $data['forwarder_partner'] ? 'selected' : '';
+    $forwarder_options .= <<<HTML
+        <option {$selected}>{$data['forwarder_partner']}</option>
+    HTML;
+}
+
 if ($shipment) {
     if ($shipment['falp_in_reuse'] != null) {
         $shipment['falp_in_reuse'] = substr($shipment['falp_in_reuse'], 0, 10);
@@ -214,7 +256,11 @@ if ($shipment) {
             </div>
             <div class="col-6">
                 <label>FORWARDER</label>
-                <input value="{$shipment['forwarder']}" type="text" class="form-control" name="forwarder">
+                <!-- <input value="{$shipment['forwarder']}" type="text" class="form-control" name="forwarder"> -->
+                <select class="form-control" name="forwarder">
+                    <option value="" disabled selected>Forwarder</option>
+                    {$forwarder_options} 
+                </select>
             </div>
         </div>
         <div class="row mb-2 d-flex align-items-center">

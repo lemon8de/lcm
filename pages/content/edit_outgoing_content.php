@@ -50,7 +50,7 @@
             </div>
             <div class="col-3">
                 <select class="form-control" id="destination_select" name="status" onchange="outgoing_search()">
-                    <option value="" selected>Status</option>
+                    <option value="" selected>Switch Invoice Status</option>
                     <option>N/A</option>
                     <option>FOR REQUEST</option>
                     <option>RECEIVED</option>

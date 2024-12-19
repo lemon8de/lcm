@@ -3,6 +3,7 @@ require 'db_connection.php';
 $year = $_GET['year'];
 $month = $_GET['month'];
 $car_model = isset($_GET['car_model']) ? $_GET['car_model'] : null;
+$vessel_name = $_GET['vessel_name'] ?? null;
 
 $response_body = [];
 
@@ -32,11 +33,12 @@ if ($car_model == null) {
         $car_model = "%" . $car_model . "%";
     }
 
-    $sql_data = "EXEC GetOutgoingFSI_LA :StartYear, :StartMonth, :CarModel"; //mssql server stored procedure
+    $sql_data = "EXEC GetOutgoingFSI_LA :StartYear, :StartMonth, :CarModel, :VesselName"; //mssql server stored procedure
     $stmt_data = $conn -> prepare($sql_data);
     $stmt_data -> bindParam(':StartYear', $year);
     $stmt_data -> bindParam(':StartMonth', $month);
     $stmt_data -> bindParam(':CarModel', $car_model);
+    $stmt_data -> bindParam(':VesselName', $vessel_name);
     $stmt_data -> execute();
 
     //now we got all relevant data, time to build the json 

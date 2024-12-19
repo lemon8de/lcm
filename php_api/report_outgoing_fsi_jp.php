@@ -3,6 +3,7 @@ require 'db_connection.php';
 $year = $_GET['year'];
 $month = $_GET['month'];
 $switch_invoice = isset($_GET['switch_invoice']) ? $_GET['switch_invoice'] : null;
+$vessel_name = $_GET['vessel_name'] ?? null;
 
 $response_body = [];
 
@@ -26,11 +27,12 @@ if ($switch_invoice == null) {
     //fix for bad like parameter, add the hypen
     $switch_invoice = "%-" . $switch_invoice . "-%";
 
-    $sql_data = "EXEC GetOutgoingFSI_JP :StartYear, :StartMonth, :SwitchInvoice"; //mssql server stored procedure
+    $sql_data = "EXEC GetOutgoingFSI_JP :StartYear, :StartMonth, :SwitchInvoice, :VesselName"; //mssql server stored procedure
     $stmt_data = $conn -> prepare($sql_data);
     $stmt_data -> bindParam(':StartYear', $year);
     $stmt_data -> bindParam(':StartMonth', $month);
     $stmt_data -> bindParam(':SwitchInvoice', $switch_invoice);
+    $stmt_data -> bindParam(':VesselName', $vessel_name);
     $stmt_data -> execute();
 
     //now we got all relevant data, time to build the json 

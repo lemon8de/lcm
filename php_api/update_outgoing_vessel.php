@@ -73,6 +73,7 @@ for ($i = 0; $i < count($compare_set_database_keys); $i++) {
 $placeholders = rtrim(str_repeat('?,', count($outgoing_details_refs)), ',');
 $sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, shipping_line = ?, etd_mnl = ?, eta_destination = ? WHERE outgoing_details_ref IN ($placeholders)";
 $stmt_update = $conn -> prepare($sql_update);
+$output_test = array_merge([$vessel_name, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs);
 $stmt_update->execute(array_merge([$vessel_name, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs));
 
 $conn = null;
