@@ -84,12 +84,28 @@
                 break;
         }
 
+        //19 december make dropdown
+        $sql = "SELECT forwarder_partner from m_billing_forwarder order by id asc";
+        $stmt = $conn -> query($sql);
+        $forwarder_options = '';
+        while ($data_forwarder = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+            $selected = $data['forwarder'] == $data_forwarder['forwarder_partner'] ? 'selected' : '';
+            $forwarder_options .= <<<HTML
+                <option {$selected}>{$data_forwarder['forwarder_partner']}</option>
+            HTML;
+        }
+
+
         $inner_html_shipment .= <<<HTML
             <input readonly style="display:none;" value="{$data['shipment_details_ref']}" type="text" name="shipment_details_ref">
             <div class="row mb-2">
                 <div class="col-6">
                     <label>FORWARDER</label>
-                    <input value="{$data['forwarder']}" type="text" class="form-control" name="forwarder">
+                    <!-- <input value="{$data['forwarder']}" type="text" class="form-control" name="forwarder"> -->
+                    <select class="form-control" name="forwarder">
+                        <option value="" disabled selected>Forwarder</option>
+                        {$forwarder_options} 
+                    </select>
                 </div>
                 <div class="col-6">
                     <label>ORIGIN</label>

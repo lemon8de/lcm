@@ -244,7 +244,7 @@
                 <div class="col-6">
                     <label>SHIPPING LINES</label>
                     <!-- <input type="text" class="form-control" value="{$shipment['shipping_lines']}" name="shipping_lines" required> -->
-                    <select class="form-control" name="shipping_line">
+                    <select class="form-control" name="shipping_lines">
                         <option value="" disabled selected>Shipping Line</option>
                         {$shipping_line_options} 
                     </select>
@@ -254,7 +254,7 @@
                 <div class="col-6">
                     <label>FORWARDER NAME</label>
                     <!-- <input type="text" class="form-control" value="{$shipment['forwarder_name']}" name="forwarder_name" required> -->
-                    <select class="form-control" name="forwarder">
+                    <select class="form-control" name="forwarder_name">
                         <option value="" disabled selected>Forwarder</option>
                         {$forwarder_options} 
                     </select>
