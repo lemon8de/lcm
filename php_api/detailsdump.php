@@ -217,18 +217,47 @@
             HTML;
         }
 
+        //19 december make dropdown
+        $sql = "SELECT * from m_shipping_lines";
+        $stmt = $conn -> query($sql);
+        $shipping_line_options = '';
+        while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+            $selected = $shipment['shipping_lines'] == $data['shipping_lines'] ? 'selected' : '';
+            $shipping_line_options .= <<<HTML
+                <option {$selected}>{$data['shipping_lines']}</option>
+            HTML;
+        }
+        //19 december make dropdown
+        $sql = "SELECT forwarder_partner from m_billing_forwarder order by id asc";
+        $stmt = $conn -> query($sql);
+        $forwarder_options = '';
+        while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+            $selected = $shipment['forwarder_name'] == $data['forwarder_partner'] ? 'selected' : '';
+            $forwarder_options .= <<<HTML
+                <option {$selected}>{$data['forwarder_partner']}</option>
+            HTML;
+        }
+
         $return_body['shipment'] .= <<<HTML
                     </select>
                 </div>
                 <div class="col-6">
                     <label>SHIPPING LINES</label>
-                    <input type="text" class="form-control" value="{$shipment['shipping_lines']}" name="shipping_lines" required>
+                    <!-- <input type="text" class="form-control" value="{$shipment['shipping_lines']}" name="shipping_lines" required> -->
+                    <select class="form-control" name="shipping_line">
+                        <option value="" disabled selected>Shipping Line</option>
+                        {$shipping_line_options} 
+                    </select>
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-6">
                     <label>FORWARDER NAME</label>
-                    <input type="text" class="form-control" value="{$shipment['forwarder_name']}" name="forwarder_name" required>
+                    <!-- <input type="text" class="form-control" value="{$shipment['forwarder_name']}" name="forwarder_name" required> -->
+                    <select class="form-control" name="forwarder">
+                        <option value="" disabled selected>Forwarder</option>
+                        {$forwarder_options} 
+                    </select>
                 </div>
                 <div class="col-6">
                     <label>ORIGIN PORT</label>
