@@ -15,7 +15,10 @@ if ($switch_invoice == null) {
     $stmt_switch_invoice -> bindParam(':StartMonth', $month);
     $stmt_switch_invoice -> execute();
 
-    $switch_invoice_select = '<option value="">Select Invoice</option>';
+    $switch_invoice_select = <<<HTML 
+        <option value="">Select Invoice</option>
+        <option value="ALL">All Invoice</option>
+    HTML;
     while ($data = $stmt_switch_invoice -> fetch(PDO::FETCH_ASSOC)) {
         $switch_invoice_select .= <<<HTML
             <option>{$data['switch_invoice']}</option>
