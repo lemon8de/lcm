@@ -26,6 +26,16 @@ if ($car_model == null) {
     }
     $response_body['car_model'] = $car_model_select;
     //get vessel this month here:
+
+    $stmt_car_model -> nextRowset();
+
+    $vessel_select = '<option value="">Select Vessel</option>';
+    while ($data = $stmt_car_model -> fetch(PDO::FETCH_ASSOC)) {
+        $vessel_select .= <<<HTML
+            <option>{$data['vessel_name']}</option>
+        HTML;
+    }
+    $response_body['vessel'] = $vessel_select;
 } else {
     //main table building is here, here we have month, year, and switch invoice available
     if ($car_model == "None") {
