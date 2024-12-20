@@ -37,17 +37,8 @@
                 </select>
             </div>
             <div class="col-3 mr-4">
-                <select class="form-control" name="vessel_name" onchange="outgoing_fsi_jp_search(false)" id="switch_invoice_select">
+                <select class="form-control" name="vessel_name" onchange="outgoing_fsi_jp_search(false)" id="vessel_name_select">
                     <option selected value="">Vessel</option>
-                    <?php 
-                        $sql = "SELECT DISTINCT vessel_name, etd_mnl from m_outgoing_vessel_details where vessel_name is not null order by etd_mnl desc";
-                        $stmt = $conn -> query($sql);
-                        while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-                            echo <<<HTML
-                                <option>{$data['vessel_name']}</option>
-                            HTML;
-                        }
-                    ?>
                 </select>
             </div>
             <div class="col-3">
@@ -75,6 +66,9 @@
             success: function(response) {
                 if (response.switch_invoice) {
                     document.getElementById('switch_invoice_select').innerHTML = response.switch_invoice;
+                }
+                if (response.vessel) {
+                    document.getElementById('vessel_name_select').innerHTML = response.vessel;
                 }
                 if (response.inner_html || response.inner_html == "") {
                     document.getElementById('OutgoingFsiJpReportContent').innerHTML = response.inner_html;

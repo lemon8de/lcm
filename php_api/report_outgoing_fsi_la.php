@@ -25,6 +25,7 @@ if ($car_model == null) {
         HTML;
     }
     $response_body['car_model'] = $car_model_select;
+    //get vessel this month here:
 } else {
     //main table building is here, here we have month, year, and switch invoice available
     if ($car_model == "None") {

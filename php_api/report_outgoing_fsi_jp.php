@@ -22,6 +22,18 @@ if ($switch_invoice == null) {
         HTML;
     }
     $response_body['switch_invoice'] = $switch_invoice_select;
+
+    $stmt_switch_invoice -> nextRowset();
+
+    $vessel_select = '<option value="">Select Vessel</option>';
+    while ($data = $stmt_switch_invoice -> fetch(PDO::FETCH_ASSOC)) {
+        $vessel_select .= <<<HTML
+            <option>{$data['vessel_name']}</option>
+        HTML;
+    }
+    $response_body['vessel'] = $vessel_select;
+
+    //get vessel this month here
 } else {
     //main table building is here, here we have month, year, and switch invoice available
     //fix for bad like parameter, add the hypen
