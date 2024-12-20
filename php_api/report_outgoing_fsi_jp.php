@@ -15,7 +15,7 @@ if ($switch_invoice == null) {
     $stmt_switch_invoice -> bindParam(':StartMonth', $month);
     $stmt_switch_invoice -> execute();
 
-    $switch_invoice_select = <<<HTML 
+    $switch_invoice_select = <<<HTML
         <option value="">Select Invoice</option>
         <option value="ALL">All Invoice</option>
     HTML;
