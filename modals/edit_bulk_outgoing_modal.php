@@ -3,6 +3,9 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-body container">
+        <div class='container-fluid alert alert-info'>
+            <i class='icon fas fa-info'></i>Editing all selected items.
+        </div>
         <div class="card card-secondary card-tabs">
           <div class="card-header p-0 pt-1">
               <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
@@ -341,6 +344,33 @@
 </form>
 
 <script>
+    $('#editb_outgoing_modal').on('hidden.bs.modal', function () {
+        // Your custom function here
+        outgoing_search();
+    });
+    $('#OutgoingFSIBFormb').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Serialize the form data
+        var formData = $(this).serialize();
+        var additionalData = $.param({ 'outgoing_details_ref': selectedIds });
+        var combinedData = formData + '&' + additionalData;
+        // Send the AJAX request
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/outgoing_bulk_edits/fsib.php', // Replace with your server endpoint
+            data: combinedData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+            },
+        });
+    });
+
     $('#OutgoingVesselFormb').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
         // Serialize the form data
