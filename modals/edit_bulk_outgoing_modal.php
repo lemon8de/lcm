@@ -347,6 +347,8 @@
     $('#editb_outgoing_modal').on('hidden.bs.modal', function () {
         // Your custom function here
         outgoing_search();
+        document.getElementById('OutgoingFSIBFormb').reset();
+        document.getElementById('OutgoingVesselFormb').reset();
     });
     $('#OutgoingFSIBFormb').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -372,6 +374,29 @@
     });
 
     $('#OutgoingVesselFormb').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Serialize the form data
+        var formData = $(this).serialize();
+        var additionalData = $.param({ 'outgoing_details_ref': selectedIds });
+        var combinedData = formData + '&' + additionalData;
+        // Send the AJAX request
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/outgoing_bulk_edits/vessel.php', // Replace with your server endpoint
+            data: combinedData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+            },
+        });
+    });
+
+    $('#OutgoingInvoiceDetailsFormb').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
         // Serialize the form data
         var formData = $(this).serialize();
