@@ -42,11 +42,10 @@
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         $inner_html .= <<<HTML
             <tr id="{$data['outgoing_details_ref']}" {$onclick}>
-                <!-- <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td> -->
+                <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td>
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>
                 <td>{$data['destination_service_center']}</td>
-
                 <td>{$data['destination']}</td>
                 <td>{$data['car_model']}</td>
                 <td>{$data['ship_out_date']}</td>

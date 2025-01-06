@@ -75,21 +75,19 @@
             <div class="col-3 mt-2">
                 <input type="date" class="form-control" name="date_to" onchange="outgoing_search()">
             </div>
+
+            <div class="col-3 mt-2">
+                <button type="button" class="btn btn-primary btn-block" onclick="edit_selected()">Edit Selected</button>
+            </div>
+
         </div>
     </div>
 </form>
-<!-- <div class="container">
-    <div class="row mb-2">
-        <div class="col-3">
-            <button class="btn btn-primary" onclick="edit_selected()">Edit Vessel of Selected</button>
-        </div>
-    </div>
-</div> -->
 <div class="card p-2 m-2 container-fluid" style="max-height: 80vh; overflow-y:auto;">
 <table class="table table-head-fixed text-nowrap table-hover">
     <thead>
         <tr style="border-bottom:1px solid black">
-            <!-- <th><input type="checkbox" onchange="checkall(this)"></th> -->
+            <th><input type="checkbox" onchange="checkall(this)"></th>
             <th>INVOICE NO.</th>
             <th>CONTAINER NO.</th>
             <th>DESTINATION (Service Center)</th>
