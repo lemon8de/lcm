@@ -19,7 +19,6 @@
         $data = $stmt_get -> fetch(PDO::FETCH_ASSOC);
 
         foreach($_POST as $key => $value) {
-            //more code
             if ($value !== "") {
                 $stmt_history -> bindParam(":shipment_details_ref", $id);
                 $stmt_history -> bindParam(":column_name", $key);
