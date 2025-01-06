@@ -76,10 +76,15 @@
                 <input type="date" class="form-control" name="date_to" onchange="outgoing_search()">
             </div>
 
+            <?php
+                if ($_SESSION['editing_privileges'] == 'OUTGOING' || $_SESSION['editing_privileges'] == 'ALL') {
+            ?> 
             <div class="col-3 mt-2">
                 <button type="button" class="btn btn-primary btn-block" onclick="edit_selected()">Edit Selected</button>
             </div>
-
+            <?php
+                }
+            ?>
         </div>
     </div>
 </form>

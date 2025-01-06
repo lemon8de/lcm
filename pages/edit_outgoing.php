@@ -27,7 +27,7 @@
             </div>
             <?php include '../php_static/web/footer.php'?>
             <?php
-                if ($_SESSION['editing_privileges'] !== null) { 
+                if ($_SESSION['editing_privileges'] == 'OUTGOING' || $_SESSION['editing_privileges'] == 'ALL') {
                     include '../modals/edit_outgoing_modal.php';
                     include '../modals/edit_bulk_outgoing_modal.php';
                 }
