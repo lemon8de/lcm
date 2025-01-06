@@ -355,6 +355,7 @@
         document.getElementById('OutgoingContLineUpFormb').reset();
         document.getElementById('OutgoingBLDetailsFormb').reset();
         document.getElementById('OutgoingRTVFormb').reset();
+        document.getElementById('OutgoingStatusFormb').reset();
     });
     $('#OutgoingFSIBFormb').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -527,6 +528,29 @@
         $.ajax({
             type: 'POST', // or 'GET' depending on your needs
             url: '../php_api/outgoing_bulk_edits/rtv.php', // Replace with your server endpoint
+            data: combinedData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+            },
+        });
+    });
+
+    $('#OutgoingStatusFormb').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Serialize the form data
+        var formData = $(this).serialize();
+        var additionalData = $.param({ 'outgoing_details_ref': selectedIds });
+        var combinedData = formData + '&' + additionalData;
+        // Send the AJAX request
+        $.ajax({
+            type: 'POST', // or 'GET' depending on your needs
+            url: '../php_api/outgoing_bulk_edits/status.php', // Replace with your server endpoint
             data: combinedData,
             dataType: 'json',
             success: function(response) {
