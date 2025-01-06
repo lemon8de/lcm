@@ -349,6 +349,7 @@
         outgoing_search();
         document.getElementById('OutgoingFSIBFormb').reset();
         document.getElementById('OutgoingVesselFormb').reset();
+        document.getElementById('OutgoingInvoiceDetailsFormb').reset();
     });
     $('#OutgoingFSIBFormb').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -405,7 +406,7 @@
         // Send the AJAX request
         $.ajax({
             type: 'POST', // or 'GET' depending on your needs
-            url: '../php_api/update_outgoing_vessel.php', // Replace with your server endpoint
+            url: '../php_api/outgoing_bulk_edits/invoice.php', // Replace with your server endpoint
             data: combinedData,
             dataType: 'json',
             success: function(response) {
