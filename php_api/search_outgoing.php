@@ -66,7 +66,7 @@
             $color = '';
         }
         $inner_html .= <<<HTML
-            <tr id="{$data['outgoing_details_ref']}" {$onclick} {$color}">
+            <tr id="{$data['outgoing_details_ref']}" {$onclick} {$color}>
                 <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td>
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>
