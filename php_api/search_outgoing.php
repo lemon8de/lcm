@@ -44,19 +44,19 @@
             switch ($data['co_status']) {
                 case 'N/A':
                     if ($data['bl_date'] == NULL || $data['bl_date'] = '' || $data['bl_number'] == NULL || $data['bl_number'] == "") {
-                        $color = 'style="background-color:#dc3545;color:white;"';
+                        $color = 'style="background-color:#ffcccc;"';
                     } else {
-                        $color = 'style="background-color:#28a745;color:white;"';
+                        $color = 'style="background-color:#ccffcc;"';
                     }
                     break;
                 case 'FOR REQUEST':
-                    $color = 'style="background-color:#dc3545;color:white;"';
+                    $color = 'style="background-color:#ffcccc;"';
                     break;
                 case 'COMPLETE':
-                    $color = 'style="background-color:#28a745;color:white;"';
+                    $color = 'style="background-color:#ccffcc;"';
                     break;
                 case 'ONGOING':
-                    $color = 'style="background-color:#007bff;color:white;"';
+                    $color = 'style="background-color:#ccccff;"';
                     break;
                 default:
                     $color = '';
