@@ -40,8 +40,33 @@
         $onclick = "";
     }
     while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        if ($data['co_status'] !== null) {
+            switch ($data['co_status']) {
+                case 'N/A':
+                    if ($data['bl_date'] == NULL || $data['bl_date'] = '' || $data['bl_number'] == NULL || $data['bl_number'] == "") {
+                        $color = 'style="background-color:#dc3545;color:white;"';
+                    } else {
+                        $color = 'style="background-color:#28a745;"';
+                    }
+                    break;
+                case 'FOR REQUEST':
+                    $color = 'style="background-color:#dc3545;color:white;"';
+                    break;
+                case 'COMPLETE':
+                    $color = 'style="background-color:#28a745;"';
+                    break;
+                case 'ONGOING':
+                    $color = 'style="background-color:#007bff;"';
+                    break;
+                default:
+                    $color = '';
+                    break;
+            }
+        } else {
+            $color = '';
+        }
         $inner_html .= <<<HTML
-            <tr id="{$data['outgoing_details_ref']}" {$onclick}>
+            <tr id="{$data['outgoing_details_ref']}" {$onclick} {$color}">
                 <td><input type="checkbox" class="row-checkbox" id="ck-{$data['outgoing_details_ref']}" onclick="event.stopPropagation();"></td>
                 <td>{$data['invoice_no']}</td>
                 <td>{$data['container_no']}</td>
