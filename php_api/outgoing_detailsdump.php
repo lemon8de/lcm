@@ -134,7 +134,7 @@ if ($shipment) {
         <div class="row mb-2">
             <div class="col-6">
                 <label>MODE OF SHIPMENT</label>
-                <select class="form-control" name="mode_of_shipment">
+                <select id="vessel_mode_of_shipment" class="form-control" name="mode_of_shipment">
                     {$modes_of_shipment_options} 
                 </select>
             </div>
@@ -147,7 +147,7 @@ if ($shipment) {
             <div class="col-6">
                 <label>SHIPPING LINE</label>
                 <!-- <input value="{$shipment['shipping_line']}" type="text" class="form-control" name="shipping_line" id="vessel_shipping_line"> -->
-                <select class="form-control" name="shipping_line">
+                <select id="vessel_shipping_line" class="form-control" name="shipping_line">
                     <option value="" disabled selected>Shipping Line</option>
                     {$shipping_line_options} 
                 </select>
