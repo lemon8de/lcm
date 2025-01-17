@@ -95,6 +95,16 @@ while ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     HTML;
 }
 
+//17 january make dropdown, mode of shipment
+$modes_shipment = ['SEA', 'AIR', 'TBA'];
+$modes_of_shipment_options = "";
+foreach ($modes_shipment as $type) {
+    $selected = $shipment['mode_of_shipment'] == $type ? 'selected' : '';
+    $modes_of_shipment_options .= <<<HTML
+        <option {$selected}>{$type}</option>
+    HTML;
+}
+
 if ($shipment) {
     $vessel_name = $shipment['vessel_name'];
     $stmt_vessel -> bindParam(":vessel_name", $vessel_name);
@@ -124,7 +134,9 @@ if ($shipment) {
         <div class="row mb-2">
             <div class="col-6">
                 <label>MODE OF SHIPMENT</label>
-                <input value="{$shipment['mode_of_shipment']}" type="text" class="form-control" name="mode_of_shipment">
+                <select class="form-control" name="mode_of_shipment">
+                    {$modes_of_shipment_options} 
+                </select>
             </div>
             <div class="col-6">
                 <label>VESSEL NAME</label>
