@@ -3,35 +3,12 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-body container">
+        <h4>FSIB</h4>
         <div class="card card-secondary card-tabs">
           <div class="card-header p-0 pt-1">
               <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                   <li class="nav-item">
-                      <a class="nav-link active" data-toggle="pill" href="#FSIBDiv" role="tab">FSIB</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#VesselDetailsDiv" role="tab">Vessel</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#InvoiceDetailsDiv" role="tab">Invoice</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#ContainerDetailsDiv" role="tab">Container</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#DispatchingDetailsDiv" role="tab">Dispatching</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#ContLineUpDiv" role="tab">Cont Line Up</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#BLDetailsDiv" role="tab">BL Details</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#RTVDiv" role="tab">RTV</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" data-toggle="pill" href="#StatusDiv" role="tab">Status</a>
+                      <a class="nav-link active" data-toggle="pill" href="#EditOutgoingForms" role="tab">Edit</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" data-toggle="pill" href="#HistoryTabDiv" role="tab">History</a>
@@ -40,32 +17,43 @@
             </div>  
             <div class="card-body">
                 <div class="tab-content" id="custom-tabs-one-tabContent">
-                    <div class="tab-pane fade active show" id="FSIBDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_fsib.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="VesselDetailsDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_vessel.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="InvoiceDetailsDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_invoice.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="ContainerDetailsDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_container.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="DispatchingDetailsDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_dispatch.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="ContLineUpDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_contlineup.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="BLDetailsDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_bl.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="RTVDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_rtv.php';?>
-                    </div>
-                    <div class="tab-pane fade" id="StatusDiv" role="tabpanel">
-                        <?php include '../php_static/content_tables/outgoing_status.php';?>
+                    <div class="tab-pane fade active show" id="EditOutgoingForms" role="tabpanel">
+                        <h4 class="font-weight-bold">FSIB</h4>
+                        <div id="FSIBDiv">
+                            <?php include '../php_static/content_tables/outgoing_fsib.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Vessel</h4>
+                        <div id="VesselDetailsDiv">
+                            <?php include '../php_static/content_tables/outgoing_vessel.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Invoice</h4>
+                        <div id="InvoiceDetailsDiv">
+                            <?php include '../php_static/content_tables/outgoing_invoice.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Container</h4>
+                        <div id="ContainerDetailsDiv">
+                            <?php include '../php_static/content_tables/outgoing_container.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Dispatching</h4>
+                        <div id="DispatchingDetailsDiv">
+                            <?php include '../php_static/content_tables/outgoing_dispatch.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Container Line Up</h4>
+                        <div id="ContLineUpDiv">
+                            <?php include '../php_static/content_tables/outgoing_contlineup.php';?>
+                        </div>
+                        <h4 class="font-weight-bold mb-0">BL</h4>
+                        <div id="BLDetailsDiv">
+                            <?php include '../php_static/content_tables/outgoing_bl.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">RTV</h4>
+                        <div id="RTVDiv">
+                            <?php include '../php_static/content_tables/outgoing_rtv.php';?>
+                        </div>
+                        <h4 class="font-weight-bold">Status / Co-Status</h4>
+                        <div id="StatusDiv">
+                            <?php include '../php_static/content_tables/outgoing_status.php';?>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
                         <div style="max-height: 300px; overflow-y: auto;">
@@ -143,6 +131,38 @@ function loaddata() {
                 } else {
                     document.getElementById("VesselDetailsEditToolTipInfo").innerHTML = "";
                 }
+            }
+        });
+    }
+
+    function check_bl_lock(item_id) {
+        $.ajax({
+            type: 'GET',
+            url: '../php_api/check_bl_lock.php',
+            data: {
+                "outgoing_details_ref" : item_id,
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.notification) {
+                    Toast.fire({
+		                icon: response.notification.icon,
+		                title: response.notification.text,
+	                })
+                }
+                if (response.locked == "lock") {
+                    document.getElementById('lock-bl_number').disabled = true;
+                    document.getElementById('lock-bl_date').disabled = true;
+                    document.getElementById('lock-bl_update').disabled = true;
+                } else {
+                    document.getElementById('lock-bl_number').disabled = false;
+                    document.getElementById('lock-bl_date').disabled = false;
+                    document.getElementById('lock-bl_update').disabled = false;
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+                alert("An error occurred while processing your request. Please try again later.");
             }
         });
     }
