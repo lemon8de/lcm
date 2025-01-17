@@ -346,6 +346,21 @@ $stmt -> bindValue(':outgoing_details_ref', $outgoing_details_ref);
 $stmt -> execute();
 $shipment = $stmt->fetch(PDO::FETCH_ASSOC);
 
+//on load lock of bl_details, though there should be an api that can requery this to recheck
+//because the modal won't update / unlock when you are just putting information at the same time
+$sql = "EXEC outgoing_LOCK_bl_input :OutgoingDetailsRef";
+$should_lock = $conn -> prepare($sql);
+$should_lock -> bindParam(":OutgoingDetailsRef", $outgoing_details_ref);
+$should_lock -> execute();
+if ($lock = $should_lock -> fetch(PDO::FETCH_ASSOC)) {
+    if ($lock['lock_bl'] == 'True') {
+        $lock_bl = "disabled";
+    } else {
+        $lock_bl = "";
+    }
+}
+
+
 if ($shipment) {
     if ($shipment['bl_date'] != null) {
         $shipment['bl_date'] = substr($shipment['bl_date'], 0, 10);
@@ -355,16 +370,19 @@ if ($shipment) {
         <div class="row mb-2">
             <div class="col-6">
                 <label>BL DATE</label>
-                <input value="{$shipment['bl_date']}" type="date" class="form-control" name="bl_date">
+                <input id="lock-bl_date" value="{$shipment['bl_date']}" type="date" class="form-control" name="bl_date" {$lock_bl}>
             </div>
             <div class="col-6">
                 <label>BL NUMBER</label>
-                <input value="{$shipment['bl_number']}" type="text" class="form-control" name="bl_number">
+                <input id="lock-bl_number" value="{$shipment['bl_number']}" type="text" class="form-control" name="bl_number" {$lock_bl}>
             </div>
         </div>
         <div class="row mb-2 d-flex align-items-center">
+            <div class="col-3">
+                <button type="button" class="text-nowrap btn btn-primary mr-3" onclick="check_bl_lock('{$outgoing_details_ref}')">Refresh Lock</button>
+            </div>
             <div class="col-3 ml-auto">
-                <button type="submit" class="btn bg-primary btn-block">Update</button>
+                <button id="lock-bl_update" type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
         </div>
     HTML;
