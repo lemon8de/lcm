@@ -131,7 +131,9 @@ function loaddata() {
                 if (!response.exited) {
                     document.getElementById("vessel_shipping_line").value = response.shipping_line;
                     document.getElementById("vessel_etd_mnl").value = response.etd_mnl;
-                    document.getElementById("vessel_eta_destination").value = response.eta_destination;
+                    //17 january outgoing vessel, eta update should not propagate, and add mode of shipment to the fetch mix
+                    //document.getElementById("vessel_eta_destination").value = response.eta_destination;
+                    document.getElementById("vessel_mode_of_shipment").value = response.mode_of_shipment;
                     document.getElementById("VesselDetailsEditToolTipInfo").innerHTML = `
                         <div class='container-fluid alert alert-info'>
                             <i class='icon fas fa-info'></i>This invoice will share details with invoices: ${response.list_of_invoices}
