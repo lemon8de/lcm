@@ -26,7 +26,7 @@ if ($vessel_name == "" && $shipping_line == "" && $etd_mnl == "" && $eta_destina
 }
 
 //check if the vessel name is changed so we know if we have to only make edits on this one alone or similar invoices
-$sql = "SELECT vessel_name, shipping_line, format(etd_mnl, 'yyyy-MM-dd') as etd_mnl, format(eta_destination, 'yyyy-MM-dd') as eta_destination from m_outgoing_vessel_details where outgoing_details_ref = :outgoing_details_ref";
+$sql = "SELECT vessel_name, mode_of_shipment, shipping_line, format(etd_mnl, 'yyyy-MM-dd') as etd_mnl, format(eta_destination, 'yyyy-MM-dd') as eta_destination from m_outgoing_vessel_details where outgoing_details_ref = :outgoing_details_ref";
 $stmt = $conn -> prepare($sql);
 $stmt -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
 $stmt -> execute();
@@ -47,7 +47,7 @@ if ($data_vessel = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 }
 
 //find what changed, and make m_change_history logs for all shipment_details_ref
-$compare_set_user = [$vessel_name, $shipping_line, $etd_mnl, $eta_destination];
+$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination];
 $compare_set_database_values = array_values($data_vessel);
 $compare_set_database_keys = array_keys($data_vessel);
 $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
@@ -71,10 +71,9 @@ for ($i = 0; $i < count($compare_set_database_keys); $i++) {
 
 //changes logged, now do the update set for real
 $placeholders = rtrim(str_repeat('?,', count($outgoing_details_refs)), ',');
-$sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, shipping_line = ?, etd_mnl = ?, eta_destination = ? WHERE outgoing_details_ref IN ($placeholders)";
+$sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, mode_of_shipment = ?, shipping_line = ?, etd_mnl = ?, eta_destination = ? WHERE outgoing_details_ref IN ($placeholders)";
 $stmt_update = $conn -> prepare($sql_update);
-$output_test = array_merge([$vessel_name, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs);
-$stmt_update->execute(array_merge([$vessel_name, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs));
+$stmt_update->execute(array_merge([$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs));
 
 $conn = null;
 //header('location: ../pages/incoming_sea.php');
