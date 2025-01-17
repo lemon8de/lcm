@@ -6,7 +6,7 @@
         $vessel_name = trim($matches[1][0]) . " " . trim($matches[2][0]) .  " " . trim($matches[4][0]);
     }
 
-    $sql = "SELECT top 1 shipping_line, format(etd_mnl, 'yyyy-MM-dd') as etd_mnl, format(eta_destination, 'yyyy-MM-dd') as eta_destination from m_outgoing_vessel_details where vessel_name = :vessel_name";
+    $sql = "SELECT top 1 shipping_line, mode_of_shipment, format(etd_mnl, 'yyyy-MM-dd') as etd_mnl, format(eta_destination, 'yyyy-MM-dd') as eta_destination from m_outgoing_vessel_details where vessel_name = :vessel_name";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(":vessel_name", $vessel_name);
     $stmt -> execute();
@@ -16,9 +16,13 @@
     $stmt_vessel -> bindParam(":vessel_name", $vessel_name);
     $stmt_vessel -> execute();
 
-    if ($data = $stmt -> fetch(PDO::FETCH_ASSOC && $linked_data = $stmt_vessel -> fetch(PDO::FETCH_ASSOC))) {
+    //what the fuck is this shit
+    //if ($data = $stmt -> fetch(PDO::FETCH_ASSOC && $linked_data = $stmt_vessel -> fetch(PDO::FETCH_ASSOC))) {
+    if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+        $linked_data = $stmt_vessel -> fetch(PDO::FETCH_ASSOC);
         $response_body = [
             'shipping_line' => $data['shipping_line'],
+            'mode_of_shipment' => $data['mode_of_shipment'],
             'etd_mnl' => $data['etd_mnl'],
             'eta_destination' => $data['eta_destination'],
             'list_of_invoices' => $linked_data['invoices']
