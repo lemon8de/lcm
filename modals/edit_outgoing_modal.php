@@ -22,38 +22,47 @@
                         <div id="FSIBDiv">
                             <?php include '../php_static/content_tables/outgoing_fsib.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Vessel</h4>
                         <div id="VesselDetailsDiv">
                             <?php include '../php_static/content_tables/outgoing_vessel.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Invoice</h4>
                         <div id="InvoiceDetailsDiv">
                             <?php include '../php_static/content_tables/outgoing_invoice.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Container</h4>
                         <div id="ContainerDetailsDiv">
                             <?php include '../php_static/content_tables/outgoing_container.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Dispatching</h4>
                         <div id="DispatchingDetailsDiv">
                             <?php include '../php_static/content_tables/outgoing_dispatch.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Container Line Up</h4>
                         <div id="ContLineUpDiv">
                             <?php include '../php_static/content_tables/outgoing_contlineup.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold mb-0">BL</h4>
                         <div id="BLDetailsDiv">
                             <?php include '../php_static/content_tables/outgoing_bl.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">RTV</h4>
                         <div id="RTVDiv">
                             <?php include '../php_static/content_tables/outgoing_rtv.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                         <h4 class="font-weight-bold">Status / Co-Status</h4>
                         <div id="StatusDiv">
                             <?php include '../php_static/content_tables/outgoing_status.php';?>
                         </div>
+                        <div style="height: 5px; background-color: #6c757d;"></div>
                     </div>
                     <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
                         <div style="max-height: 300px; overflow-y: auto;">
