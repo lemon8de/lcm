@@ -47,7 +47,9 @@ if ($data_vessel = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 }
 
 //find what changed, and make m_change_history logs for all shipment_details_ref
-$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination];
+//$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl ];
+//revision remove eta from mass updating
+$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl];
 $compare_set_database_values = array_values($data_vessel);
 $compare_set_database_keys = array_keys($data_vessel);
 $sql_history = "INSERT into m_change_history (shipment_details_ref, table_name, column_name, changed_from, changed_to, username) values (:shipment_details_ref, :table_name, :column_name, :changed_from, :changed_to, :username)";
@@ -56,7 +58,9 @@ $stmt_history -> bindParam(":username", $_SESSION['username']);
 $stmt_history -> bindValue(':table_name', 'm_outgoing_vessel_details');
 
 //so we now check for changes here
-for ($i = 0; $i < count($compare_set_database_keys); $i++) {
+//for ($i = 0; $i < count($compare_set_database_keys); $i++) {
+//revision since eta_destination now doesn't count but we still need that data, disgusting minus 1
+for ($i = 0; $i < count($compare_set_database_keys) - 1; $i++) {
     if ($compare_set_user[$i] !== $compare_set_database_values[$i]) {
         //another loop to make history logs for each and every container
         foreach($outgoing_details_refs as $container_shipment_details_ref) {
@@ -71,9 +75,28 @@ for ($i = 0; $i < count($compare_set_database_keys); $i++) {
 
 //changes logged, now do the update set for real
 $placeholders = rtrim(str_repeat('?,', count($outgoing_details_refs)), ',');
-$sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, mode_of_shipment = ?, shipping_line = ?, etd_mnl = ?, eta_destination = ? WHERE outgoing_details_ref IN ($placeholders)";
+//$sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, mode_of_shipment = ?, shipping_line = ?, etd_mnl = ?, eta_destination = ? WHERE outgoing_details_ref IN ($placeholders)";
+//revision remove eta from mass updating
+$sql_update = "UPDATE m_outgoing_vessel_details set vessel_name = ?, mode_of_shipment = ?, shipping_line = ?, etd_mnl = ? WHERE outgoing_details_ref IN ($placeholders)";
 $stmt_update = $conn -> prepare($sql_update);
-$stmt_update->execute(array_merge([$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs));
+//$stmt_update->execute(array_merge([$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination], $outgoing_details_refs));
+$stmt_update->execute(array_merge([$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl], $outgoing_details_refs));
+
+
+//revision have the system update eta destination on this single outgoing_details_ref only
+if ($data_vessel['eta_destination'] !== $eta_destination) {
+    $stmt_history -> bindValue(':shipment_details_ref', $outgoing_details_ref);
+    $stmt_history -> bindValue(':column_name', 'eta_destination');
+    $stmt_history -> bindValue(':changed_from', $data_vessel['eta_destination']);
+    $stmt_history -> bindValue(':changed_to', $eta_destination);
+    $stmt_history -> execute();
+
+    $sql = "UPDATE m_outgoing_vessel_details SET eta_destination = :eta_destination WHERE outgoing_details_ref = :outgoing_details_ref";
+    $stmt_single_update = $conn -> prepare($sql);
+    $stmt_single_update -> bindParam(":eta_destination", $eta_destination);
+    $stmt_single_update -> bindParam(":outgoing_details_ref", $outgoing_details_ref);
+    $stmt_single_update -> execute();
+}
 
 $conn = null;
 //header('location: ../pages/incoming_sea.php');
