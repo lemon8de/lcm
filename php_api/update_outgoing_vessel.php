@@ -47,7 +47,7 @@ if ($data_vessel = $stmt -> fetch(PDO::FETCH_ASSOC)) {
 }
 
 //find what changed, and make m_change_history logs for all shipment_details_ref
-//$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl ];
+//$compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl, $eta_destination];
 //revision remove eta from mass updating
 $compare_set_user = [$vessel_name, $mode_of_shipment, $shipping_line, $etd_mnl];
 $compare_set_database_values = array_values($data_vessel);
