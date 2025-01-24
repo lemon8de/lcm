@@ -83,7 +83,7 @@
         // Your custom function here
         outgoing_search();
     });
-function loaddata() {
+    function loaddata() {
         var outgoing_details_ref = this.id;
 
         $.ajax({
