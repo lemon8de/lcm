@@ -133,6 +133,12 @@
             $stmt_insert_shipment -> bindValue(':commodity', $commodity);
             $stmt_insert_shipment -> bindValue(':type_of_expense', $type_of_expense);
             $stmt_insert_shipment -> bindValue(':classification', $classification);
+
+            //revision use the type_of_shipment
+            if ($_POST['type_of_shipment'] == 'LCL') {
+                $shipping_lines = 'LCL';
+            }
+
             $stmt_insert_shipment -> bindValue(':shipping_lines', $shipping_lines);
             $stmt_insert_shipment -> bindValue(':forwarder_name', $forwarder_name);
             $stmt_insert_shipment -> bindValue(':origin_port', $origin_port);
