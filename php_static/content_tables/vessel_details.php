@@ -27,6 +27,7 @@ $(document).ready(function() {
 		                title: response.notification.text,
 	                })
                 }
+                get_container_details_api(null);
                 search_documentation(false);
             },
         });
