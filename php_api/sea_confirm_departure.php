@@ -47,16 +47,21 @@
 
         //find if a polytainer detail is valid polytainer, plastic pallet, wireharness
         //select commodity from table where ref = ref
-        $sql = "SELECT a.commodity, b.polytainer_detail from m_shipment_sea_details as a left join list_commodity as b on a.commodity = b.display_name where shipment_details_ref = :shipment_details_ref";
+        $sql = "SELECT a.commodity, b.polytainer_detail, b.display_name from m_shipment_sea_details as a left join list_commodity as b on a.commodity = b.display_name where shipment_details_ref = :shipment_details_ref";
         $stmt = $conn ->prepare($sql);
         $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
         $stmt -> execute();
 
         if ($result = $stmt->fetch(PDO::FETCH_ASSOC)) { //get away with the array lookup notice
             if($result['polytainer_detail']) {
-                $sql = "INSERT into m_polytainer_details (shipment_details_ref) values (:shipment_details_ref)";
+                $sql = "INSERT into m_polytainer_details (shipment_details_ref, polytainer_size) values (:shipment_details_ref, :polytainer_size)";
+                //get that L M XL after POLYTAINER
+                if (strpos($result['display_name'], 'POLYTAINER') !== false) {
+                    $polytainer_size = explode(' ', $result['display_name'])[1];
+                }
                 $stmt = $conn ->prepare($sql);
                 $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
+                $stmt -> bindValue(':polytainer_size', $polytainer_size);
                 $stmt -> execute();
             }
         }
