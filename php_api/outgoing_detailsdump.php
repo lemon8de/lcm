@@ -390,9 +390,9 @@ if ($shipment) {
             </div>
         </div>
         <div class="row mb-2 d-flex align-items-center">
-            <div class="col-3">
+            <!-- <div class="col-3">
                 <button type="button" class="text-nowrap btn btn-primary mr-3" onclick="check_bl_lock('{$outgoing_details_ref}')">Refresh Lock</button>
-            </div>
+            </div> -->
             <div class="col-3 ml-auto">
                 <button id="lock-bl_update" type="submit" class="btn bg-primary btn-block" {$lock_bl}>Update</button>
             </div>
