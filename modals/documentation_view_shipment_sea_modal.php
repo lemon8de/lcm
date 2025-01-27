@@ -93,6 +93,7 @@
 </div>
 
 <script>
+    var incoming_sea_edit_container_focus_code = null;
     function edit_container_focus(initiator) {
         container_tabs = document.querySelectorAll('.edit_container-tab');
         document.getElementById('display_container').innerHTML = initiator.textContent;
@@ -110,10 +111,15 @@
                 container.style.color = 'black';
             }
         });
+        incoming_sea_edit_container_focus_code = initiator.id;
         get_container_details_api(initiator.id);
     }
 
     function get_container_details_api(shipment_details_ref) {
+        //revision to let the update button on all form tables to reload the form
+        if (shipment_details_ref == null) {
+            shipment_details_ref = incoming_sea_edit_container_focus_code;
+        }
         $.ajax({
             url: '../php_api/detailsdump.php',
             type: 'GET',
