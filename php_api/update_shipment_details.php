@@ -32,7 +32,17 @@
         $classification = $result['classification'];
     }
     //now we can check, saves on api processing; if we can just stop right here it would be nice
-    $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status, shipment_status_percentage, destination_port, tsad_number, confirm_departure, polytainer_detail from m_shipment_sea_details left join list_commodity on commodity = display_name where shipment_details_ref = :shipment_details_ref";
+    // revision $has_polytainer is bad, need to actually check with a left join with m_polytainer_details
+    //$sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, shipping_lines, forwarder_name, origin_port, shipment_status, shipment_status_percentage, destination_port, tsad_number, confirm_departure, polytainer_detail from m_shipment_sea_details left join list_commodity on commodity = display_name where shipment_details_ref = :shipment_details_ref";
+    $sql = "SELECT bl_number, container, container_size, commercial_invoice, commodity, 
+        shipping_lines, forwarder_name, origin_port, shipment_status, 
+        shipment_status_percentage, destination_port, tsad_number, confirm_departure, 
+        CASE
+	        WHEN c.id IS NULL THEN 0 ELSE 1
+        END as polytainer_detail
+        from m_shipment_sea_details as a
+        left join list_commodity as b on commodity = display_name 
+        left join m_polytainer_details as c on a.shipment_details_ref = c.shipment_details_ref where a.shipment_details_ref = :shipment_details_ref";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':shipment_details_ref', $shipment_details_ref);
     $stmt -> execute();
