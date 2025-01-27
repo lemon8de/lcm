@@ -135,14 +135,12 @@
             }
         });
         // Log the data dictionary
-        console.log(dataDictionary);
         $.ajax({
             type: 'POST', // or 'GET' depending on your needs
             url: '../php_api/update_user_details.php',
             data: dataDictionary,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 element.classList.remove('is-warning');
                 element.classList.add('is-valid');
             },
@@ -179,7 +177,6 @@
             url: '../php_api/update_user_add.php',
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 document.getElementById('accountsBody').insertAdjacentHTML('afterend', response.inner_html);
             },
             error: function (jqXHR, textStatus, errorThrown) {

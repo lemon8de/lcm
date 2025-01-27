@@ -78,7 +78,6 @@
     }
 
     function seek_bl_number() {
-        console.log('seeking: ' + document.getElementById('billing_bl').value);
         $.ajax({
             type: 'GET', // or 'GET' depending on your needs
             url: '../php_api/billing_seek_blnumber.php',
@@ -153,7 +152,6 @@
         const list = document.getElementById('blnumber_list');
         const items = list.getElementsByTagName('li');
         const bl_list = Array.from(items).map(item => item.textContent);
-        console.log(bl_list);
 
         // Send the AJAX request
         $.ajax({

@@ -65,7 +65,6 @@
     });
     function search_polytainer_report() {
         var formData = $('#PolytainerReportSearchForm').serialize();
-        console.log(formData);
         $.ajax({
             type: 'GET',
             url: '../php_api/refine_polytainer_report.php',

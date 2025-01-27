@@ -120,7 +120,6 @@
             'year' : document.getElementById('active_year').value,
 
         }
-        console.log(import_data);
         $.ajax({
             url: '../php_api/export_import_data.php',
             type: 'POST',

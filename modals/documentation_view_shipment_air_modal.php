@@ -70,7 +70,7 @@
 <script>
     //detail dump
     function edit_shipment_information(initiator) {
-        console.log(initiator.id);
+        // console.log(initiator.id);
         document.getElementById('hawb_awb_display').innerHTML = initiator.id;
         $.ajax({
             url: '../php_api/air_shipment_details_dump.php',
@@ -80,7 +80,7 @@
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 document.getElementById('AirShipmentDetailsContent').innerHTML = response.inner_html_shipment;
                 document.getElementById('AirDeliveryDetailsContent').innerHTML = response.inner_html_delivery;
                 document.getElementById('HistoryContent').innerHTML = response.inner_html_history;

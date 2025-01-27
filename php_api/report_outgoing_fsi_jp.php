@@ -75,7 +75,7 @@ if ($switch_invoice == null) {
             array_push($table, $new_spot);
         }
     }
-    $response_body['debug'] = $table;
+    //$response_body['debug'] = $table;
     //the table json is complete, generate rendered tables here
     $inner_html = "";
     foreach ($table as $data) {

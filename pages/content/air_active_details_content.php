@@ -108,7 +108,6 @@
     }
     function search_active_report() {
         var formData = $('#ActiveReportSearchForm').serialize();
-        console.log(formData);
         $.ajax({
             type: 'GET',
             url: '../php_api/refine_active_air_report.php',

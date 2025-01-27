@@ -79,7 +79,6 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 document.getElementById('ImportReportContent').innerHTML = response.inner_html;
                 document.getElementById('SummationContainer').innerHTML = response.count;
             },

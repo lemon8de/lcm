@@ -251,8 +251,6 @@
                 forwarder_code_selected = initiator.getAttribute('data-fwdcode');
             }
         });
-        console.log(forwarder_selected)
-        console.log(forwarder_code_selected)
     }
 
     function load_details_of_charge(type) {
@@ -324,7 +322,6 @@
             data: data,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 if (!response.exited) {
                     document.getElementById('MainEditContainer').innerHTML = response.info;
                     document.getElementById('GeneratedFormSubmit').innerHTML = response.inner_html;
@@ -360,7 +357,6 @@
         event.preventDefault(); // Prevent the default form submission
         // Serialize the form data
         var formData = $(this).serialize();
-        console.log(formData);
         // Send the AJAX request
         $.ajax({
             type: 'POST', // or 'GET' depending on your needs
@@ -368,7 +364,6 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 if (response.notification) {
                     Toast.fire({
 		                icon: response.notification.icon,

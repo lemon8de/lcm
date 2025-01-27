@@ -64,7 +64,6 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log(response.debug);
                 if (response.switch_invoice) {
                     document.getElementById('switch_invoice_select').innerHTML = response.switch_invoice;
                 }

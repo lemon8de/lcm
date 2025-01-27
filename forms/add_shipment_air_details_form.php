@@ -113,7 +113,7 @@
         event.preventDefault(); // Prevent the default form submission
         // Serialize the form data
         var formData = $(this).serialize();
-        console.log(formData);
+        // console.log(formData);
 
         // Send the AJAX request
         $.ajax({

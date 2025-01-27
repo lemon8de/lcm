@@ -178,7 +178,6 @@
     }
     
     function load_shipment(initiator) {
-        console.log(initiator.id);
         $.ajax({
             url: '../php_api/get_documentation_shipment_air.php',
             type: 'GET',
