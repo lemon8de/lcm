@@ -151,6 +151,10 @@
         }
     }
 
+    //get that L M XL after POLYTAINER
+    if (strpos($commodity, 'POLYTAINER') !== false) {
+        $polytainer_size = explode(' ', $commodity)[1];
+    }
     //one last thing, we need wipe the polytainer details if it doesn't need one, or needs a new one
     if ($confirm_departure and ($has_polytainer and !$needs_polytainer)) {
         //delete polytainer detail
@@ -160,10 +164,18 @@
         $stmt_delete -> execute();
     } else if ($confirm_departure and (!$has_polytainer and $needs_polytainer)) {
         //insert into polytainer detail
-        $sql_insert = "INSERT into m_polytainer_details (shipment_details_ref) values (:shipment_details_ref)";
+        $sql_insert = "INSERT into m_polytainer_details (shipment_details_ref, polytainer_size) values (:shipment_details_ref, :polytainer_size)";
         $stmt_insert = $conn -> prepare($sql_insert);
         $stmt_insert -> bindParam(':shipment_details_ref', $shipment_details_ref);
+        $stmt_insert -> bindParam(':polytainer_size', $polytainer_size);
         $stmt_insert -> execute();
+    } else {
+        //try to update?? idk why the fuck not lol
+        $sql_update_polytainer = "UPDATE m_polytainer_details SET polytainer_size = :polytainer_size WHERE shipment_details_ref = :shipment_details_ref";
+        $stmt_update_polytainer = $conn -> prepare($sql_update_polytainer);
+        $stmt_update_polytainer -> bindParam(":polytainer_size", $polytainer_size);
+        $stmt_update_polytainer -> bindParam(":shipment_details_ref", $shipment_details_ref);
+        $stmt_update_polytainer -> execute();
     }
 
     $conn = null;
