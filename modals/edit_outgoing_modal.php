@@ -79,12 +79,19 @@
 </form>
 
 <script>
+    var outgoing_details_ref_focus = null;
     $('#edit_outgoing_modal').on('hidden.bs.modal', function () {
         // Your custom function here
         outgoing_search();
     });
-    function loaddata() {
-        var outgoing_details_ref = this.id;
+    function loaddata(auto_update = false) {
+        // auto update for clicking update button on all outgoing edit forms
+        if (auto_update) {
+            var outgoing_details_ref = outgoing_details_ref_focus;
+        } else {
+            var outgoing_details_ref = this.id;
+            outgoing_details_ref_focus = this.id;
+        }
 
         $.ajax({
             url: '../php_api/outgoing_detailsdump.php',
@@ -109,7 +116,6 @@
     }
 
     function check_co_status(initiator) {
-        console.log(initiator.value);
         if (initiator.value == "RECEIVED") {
             document.getElementById('co_status_select').disabled = false;
         } else {
@@ -118,7 +124,6 @@
     }
     
     function find_similar_vessels(input) {
-        console.log(input.value);
         $.ajax({
             url: '../php_api/outgoing_find_similar_vessels.php',
             type: 'GET',
@@ -127,7 +132,6 @@
             },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if (!response.exited) {
                     document.getElementById("vessel_shipping_line").value = response.shipping_line;
                     document.getElementById("vessel_etd_mnl").value = response.etd_mnl;
@@ -146,35 +150,36 @@
         });
     }
 
-    function check_bl_lock(item_id) {
-        $.ajax({
-            type: 'GET',
-            url: '../php_api/check_bl_lock.php',
-            data: {
-                "outgoing_details_ref" : item_id,
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.notification) {
-                    Toast.fire({
-		                icon: response.notification.icon,
-		                title: response.notification.text,
-	                })
-                }
-                if (response.locked == "lock") {
-                    document.getElementById('lock-bl_number').disabled = true;
-                    document.getElementById('lock-bl_date').disabled = true;
-                    document.getElementById('lock-bl_update').disabled = true;
-                } else {
-                    document.getElementById('lock-bl_number').disabled = false;
-                    document.getElementById('lock-bl_date').disabled = false;
-                    document.getElementById('lock-bl_update').disabled = false;
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
-                alert("An error occurred while processing your request. Please try again later.");
-            }
-        });
-    }
+    // auto updating form made this function obselete
+    // function check_bl_lock(item_id) {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '../php_api/check_bl_lock.php',
+    //         data: {
+    //             "outgoing_details_ref" : item_id,
+    //         },
+    //         dataType: 'json',
+    //         success: function(response) {
+    //             if (response.notification) {
+    //                 Toast.fire({
+	// 	                icon: response.notification.icon,
+	// 	                title: response.notification.text,
+	//                 })
+    //             }
+    //             if (response.locked == "lock") {
+    //                 document.getElementById('lock-bl_number').disabled = true;
+    //                 document.getElementById('lock-bl_date').disabled = true;
+    //                 document.getElementById('lock-bl_update').disabled = true;
+    //             } else {
+    //                 document.getElementById('lock-bl_number').disabled = false;
+    //                 document.getElementById('lock-bl_date').disabled = false;
+    //                 document.getElementById('lock-bl_update').disabled = false;
+    //             }
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.error("AJAX request failed: " + textStatus + ", " + errorThrown);
+    //             alert("An error occurred while processing your request. Please try again later.");
+    //         }
+    //     });
+    // }
 </script>
