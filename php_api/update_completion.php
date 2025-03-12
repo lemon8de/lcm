@@ -38,7 +38,21 @@
         }
     }
     //finally update the m_shipment_sea_details table
-    $sql = "UPDATE m_completion_details set date_port_out = :date_port_out, actual_received_at_falp = :actual_received_at_falp where shipment_details_ref = :shipment_details_ref";
+    $sql = "DECLARE @date_port_out DATETIME;
+            DECLARE @actual_received_at_falp DATETIME;
+
+            SET @date_port_out = :date_port_out;
+            SET @actual_received_at_falp = :actual_received_at_falp;
+
+            UPDATE m_completion_details 
+            SET date_port_out = CASE 
+                WHEN (date_port_out IS NULL AND (@date_port_out IS NULL AND @actual_received_at_falp IS NOT NULL)) 
+                THEN @actual_received_at_falp 
+                ELSE @date_port_out 
+            END,
+            actual_received_at_falp = @actual_received_at_falp 
+            WHERE shipment_details_ref = :shipment_details_ref;
+    ";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindValue(':date_port_out', $date_port_out);
     $stmt -> bindValue(':actual_received_at_falp', $actual_received_at_falp);
