@@ -66,11 +66,11 @@ if ($shipment) {
                 <input value="{$shipment['invoice_amount']}" type="number" class="form-control" name="invoice_amount">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -163,11 +163,11 @@ if ($shipment) {
                 <input value="{$shipment['eta_destination']}" type="date" class="form-control" name="eta_destination" id="vessel_eta_destination">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -220,11 +220,11 @@ if ($shipment) {
                 <input value="{$shipment['cbm']}" type="number" step="0.0001" class="form-control" name="cbm">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -275,11 +275,11 @@ if ($shipment) {
                 </select>
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -308,11 +308,11 @@ if ($shipment) {
                 <input value="{$shipment['peza_seal']}" type="text" class="form-control" name="peza_seal">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -344,11 +344,11 @@ if ($shipment) {
                 <input value="{$shipment['truckhead_status']}" type="text" class="form-control" name="truckhead_status">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -389,14 +389,14 @@ if ($shipment) {
                 <input id="lock-bl_number" value="{$shipment['bl_number']}" type="text" class="form-control" name="bl_number" {$lock_bl}>
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
-            <!-- <div class="col-3">
+        <!-- <div class="row mb-2 d-flex align-items-center">
+            <div class="col-3">
                 <button type="button" class="text-nowrap btn btn-primary mr-3" onclick="check_bl_lock('{$outgoing_details_ref}')">Refresh Lock</button>
-            </div> -->
+            </div>
             <div class="col-3 ml-auto">
                 <button id="lock-bl_update" type="submit" class="btn bg-primary btn-block" {$lock_bl}>Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -415,11 +415,11 @@ if ($shipment) {
                 <input value="{$shipment['irregular_shipment']}" type="text" class="form-control" name="irregular_shipment">
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 }
 
@@ -554,11 +554,11 @@ if ($data = $stmt -> fetch(PDO::FETCH_ASSOC)) {
                 </select>
             </div>
         </div>
-        <div class="row mb-2 d-flex align-items-center">
+        <!-- <div class="row mb-2 d-flex align-items-center">
             <div class="col-3 ml-auto">
                 <button type="submit" class="btn bg-primary btn-block">Update</button>
             </div>
-        </div>
+        </div> -->
     HTML;
 } else {
     $return_body['outgoing_status'] = <<<HTML

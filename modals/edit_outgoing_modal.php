@@ -63,6 +63,9 @@
                             <?php include '../php_static/content_tables/outgoing_status.php';?>
                         </div>
                         <div style="height: 5px; background-color: #6c757d;"></div>
+                        <div class="d-flex flex-row justify-content-center mt-3">
+                            <button class="btn btn-primary" onclick="outgoing_modal_form_submit_all()">Update ALL</button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="HistoryTabDiv" role="tabpanel">
                         <div style="max-height: 300px; overflow-y: auto;">
@@ -79,6 +82,18 @@
 </form>
 
 <script>
+    function outgoing_modal_form_submit_all() {
+        $('#OutgoingFSIBForm').submit();
+        $('#OutgoingVesselForm').submit();
+        $('#OutgoingInvoiceForm').submit();
+        $('#OutgoingContainerForm').submit();
+        $('#OutgoingDispatchForm').submit();
+        $('#OutgoingContLineUpForm').submit();
+        $('#OutgoingBLForm').submit();
+        $('#OutgoingRTVForm').submit();
+        $('#OutgoingStatusForm').submit();
+    }
+
     var outgoing_details_ref_focus = null;
     $('#edit_outgoing_modal').on('hidden.bs.modal', function () {
         // Your custom function here
